@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="space">4dp</dimen>
+    <dimen name="space2x">8dp</dimen>
+    <dimen name="space3x">12dp</dimen>
+    <dimen name="space4x">16dp</dimen>
+    <dimen name="space6x">24dp</dimen>
+    <dimen name="textSizeSub">12sp</dimen>
+    <dimen name="textSizeMain">14sp</dimen>
+    <dimen name="textSizeHeader">40sp</dimen>
+</resources>

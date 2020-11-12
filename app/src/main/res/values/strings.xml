@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">AAHomeWork</string>
+    <string name="btnBackText">Back</string>
+    <string name="hintStorylineText">Storyline</string>
+    <string name="hintCastText">Cast</string>
 </resources>

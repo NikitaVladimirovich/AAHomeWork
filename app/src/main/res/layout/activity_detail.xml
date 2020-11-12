@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?><!--TODO: fix 6 dp-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/darkBlue"
+    tools:context=".DetailActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="298dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/cover"
+            tools:ignore="ContentDescription" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="298dp"
+            android:background="@drawable/cover_mask"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideVerticalLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/space4x" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideVerticalRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/space4x" />
+
+        <ImageView
+            android:id="@+id/ivArrowBack"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="3dp"
+            app:layout_constraintBottom_toBottomOf="@id/tvBack"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
+            app:layout_constraintTop_toTopOf="@id/tvBack"
+            app:srcCompat="@drawable/ic_arrow_back"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tvBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space2x"
+            android:layout_marginTop="56dp"
+            android:alpha="0.5"
+            android:text="@string/btnBackText"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textSizeSub"
+            app:layout_constraintLeft_toRightOf="@+id/ivArrowBack"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvAgeLimit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="222dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textSizeSub"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="13+" />
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space2x"
+            android:textColor="@color/lightlightGray"
+            android:textSize="@dimen/textSizeHeader"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
+            app:layout_constraintRight_toLeftOf="@+id/guideVerticalRight"
+            app:layout_constraintTop_toBottomOf="@id/tvAgeLimit"
+            tools:text="Avengers\nEnd Game" />
+
+        <TextView
+            android:id="@+id/tvTag"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space"
+            android:textColor="@color/pink"
+            android:textSize="@dimen/textSizeMain"
+            app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
+            app:layout_constraintRight_toLeftOf="@+id/guideVerticalRight"
+            app:layout_constraintTop_toBottomOf="@+id/tvName"
+            tools:text="Action, Adventure, Fantasy" />
+
+        <androidx.appcompat.widget.AppCompatRatingBar
+            android:id="@+id/rbStars"
+            style="@style/RatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="12dp"
+            android:indeterminate="false"
+            android:isIndicator="true"
+            android:numStars="5"
+            app:layout_constraintBottom_toBottomOf="@+id/tvReviews"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
+            app:layout_constraintRight_toLeftOf="@+id/tvReviews"
+            app:layout_constraintTop_toTopOf="@+id/tvReviews"
+            tools:rating="2" />
+
+        <TextView
+            android:id="@+id/tvReviews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space2x"
+            android:layout_marginTop="@dimen/space"
+            android:textAllCaps="true"
+            android:textColor="@color/darkGray"
+            android:textSize="@dimen/textSizeMain"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@+id/rbStars"
+            app:layout_constraintRight_toLeftOf="@+id/guideVerticalRight"
+            app:layout_constraintTop_toBottomOf="@+id/tvTag"
+            tools:text="125 reviews" />
+
+        <TextView
+            android:id="@+id/tvStorylineHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space6x"
+            android:text="@string/hintStorylineText"
+            android:textColor="@color/lightlightGray"
+            android:textSize="@dimen/textSizeMain"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
+            app:layout_constraintRight_toLeftOf="@+id/guideVerticalRight"
+            app:layout_constraintTop_toBottomOf="@+id/tvReviews" />
+
+        <TextView
+            android:id="@+id/tvStoryline"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textSizeMain"
+            app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
+            app:layout_constraintRight_toLeftOf="@+id/guideVerticalRight"
+            android:alpha="0.75"
+            app:layout_constraintTop_toBottomOf="@+id/tvStorylineHeader"
+            tools:text="After the devastating events of Avengers: Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos\' actions and restore balance to the universe." />
+
+        <TextView
+            android:id="@+id/tvCast"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space6x"
+            android:text="@string/hintCastText"
+            android:textColor="@color/lightlightGray"
+            android:textSize="@dimen/textSizeMain"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
+            app:layout_constraintRight_toLeftOf="@+id/guideVerticalRight"
+            app:layout_constraintTop_toBottomOf="@+id/tvStoryline" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrierHorizontalCastBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="tvCast" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivCast1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/space"
+            android:layout_marginTop="@dimen/space2x"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/ivCast2"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@id/guideVerticalLeft"
+            app:layout_constraintTop_toBottomOf="@+id/barrierHorizontalCastBottom"
+            app:shapeAppearanceOverlay="@style/ImageView.Rounded.Appearance"
+            app:srcCompat="@drawable/cast1" />
+
+        <TextView
+            android:id="@+id/tvCast1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/lightGray"
+            android:textSize="@dimen/textSizeSub"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@+id/ivCast1"
+            app:layout_constraintRight_toRightOf="@+id/ivCast1"
+            app:layout_constraintTop_toBottomOf="@+id/ivCast1"
+            tools:text="Robert\nDowney Jr." />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivCast2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/space"
+            android:layout_marginStart="@dimen/space"
+            android:layout_marginTop="@dimen/space2x"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/ivCast3"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/ivCast1"
+            app:layout_constraintTop_toBottomOf="@+id/barrierHorizontalCastBottom"
+            app:shapeAppearanceOverlay="@style/ImageView.Rounded.Appearance"
+            app:srcCompat="@drawable/cast2" />
+
+        <TextView
+            android:id="@+id/tvCast2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/lightGray"
+            android:textSize="@dimen/textSizeSub"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@+id/ivCast2"
+            app:layout_constraintRight_toRightOf="@+id/ivCast2"
+            app:layout_constraintTop_toBottomOf="@+id/ivCast2"
+            tools:text="Chris\nEvans" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivCast3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/space"
+            android:layout_marginStart="@dimen/space"
+            android:layout_marginTop="@dimen/space2x"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/ivCast4"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/ivCast2"
+            app:layout_constraintTop_toBottomOf="@+id/barrierHorizontalCastBottom"
+            app:shapeAppearanceOverlay="@style/ImageView.Rounded.Appearance"
+            app:srcCompat="@drawable/cast3" />
+
+        <TextView
+            android:id="@+id/tvCast3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/lightGray"
+            android:textSize="@dimen/textSizeSub"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@+id/ivCast3"
+            app:layout_constraintRight_toRightOf="@+id/ivCast3"
+            app:layout_constraintTop_toBottomOf="@+id/ivCast3"
+            tools:text="Mark\nRuffalo" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivCast4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/space"
+            android:layout_marginTop="@dimen/space2x"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="@id/guideVerticalRight"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/ivCast3"
+            app:layout_constraintTop_toBottomOf="@+id/barrierHorizontalCastBottom"
+            app:shapeAppearanceOverlay="@style/ImageView.Rounded.Appearance"
+            app:srcCompat="@drawable/cast4" />
+
+        <TextView
+            android:id="@+id/tvCast4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/lightGray"
+            android:textSize="@dimen/textSizeSub"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@+id/ivCast4"
+            app:layout_constraintRight_toRightOf="@+id/ivCast4"
+            app:layout_constraintTop_toBottomOf="@+id/ivCast4"
+            tools:text="Chris\nHemsworth" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
