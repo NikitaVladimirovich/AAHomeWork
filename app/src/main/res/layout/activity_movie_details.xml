@@ -116,13 +116,13 @@
             android:indeterminate="false"
             android:isIndicator="true"
             android:numStars="5"
+            android:rating="3"
             app:layout_constraintBottom_toBottomOf="@+id/tvReviews"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
             app:layout_constraintRight_toLeftOf="@+id/tvReviews"
-            app:layout_constraintTop_toTopOf="@+id/tvReviews"
-            android:rating="3" />
+            app:layout_constraintTop_toTopOf="@+id/tvReviews" />
 
         <TextView
             android:id="@+id/tvReviews"
@@ -196,6 +196,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
+            app:barrierMargin="@dimen/space2x"
             app:constraint_referenced_ids="tvCast" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -203,10 +204,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginEnd="@dimen/space"
-            android:layout_marginTop="@dimen/space2x"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/ivCast2"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@id/guideVerticalLeft"
             app:layout_constraintTop_toBottomOf="@+id/barrierHorizontalCastBottom"
             app:shapeAppearanceOverlay="@style/ImageView.Rounded.Appearance"
@@ -231,10 +230,8 @@
             android:layout_height="0dp"
             android:layout_marginEnd="@dimen/space"
             android:layout_marginStart="@dimen/space"
-            android:layout_marginTop="@dimen/space2x"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/ivCast3"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/ivCast1"
             app:layout_constraintTop_toBottomOf="@+id/barrierHorizontalCastBottom"
             app:shapeAppearanceOverlay="@style/ImageView.Rounded.Appearance"
@@ -259,10 +256,8 @@
             android:layout_height="0dp"
             android:layout_marginEnd="@dimen/space"
             android:layout_marginStart="@dimen/space"
-            android:layout_marginTop="@dimen/space2x"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/ivCast4"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/ivCast2"
             app:layout_constraintTop_toBottomOf="@+id/barrierHorizontalCastBottom"
             app:shapeAppearanceOverlay="@style/ImageView.Rounded.Appearance"
@@ -286,10 +281,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/space"
-            android:layout_marginTop="@dimen/space2x"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="@id/guideVerticalRight"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/ivCast3"
             app:layout_constraintTop_toBottomOf="@+id/barrierHorizontalCastBottom"
             app:shapeAppearanceOverlay="@style/ImageView.Rounded.Appearance"
