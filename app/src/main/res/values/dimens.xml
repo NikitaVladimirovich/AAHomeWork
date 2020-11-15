@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="detailCoverHeight">298dp</dimen>
+    <dimen name="space">4dp</dimen>
+    <dimen name="space2x">8dp</dimen>
+    <dimen name="space3x">12dp</dimen>
+    <dimen name="space4x">16dp</dimen>
+    <dimen name="space6x">24dp</dimen>
+    <dimen name="textSizeSub">12sp</dimen>
+    <dimen name="textSizeMain">14sp</dimen>
+    <dimen name="textSizeHeader">40sp</dimen>
+    <dimen name="headerControlMarginTop">56dp</dimen>
+    <dimen name="dataMarginTop">222dp</dimen>
+</resources>
