@@ -26,4 +26,52 @@
         <item name="cornerSize">4dp</item>
     </style>
 
+    <style name="SubText" parent="">
+        <item name="android:textSize">@dimen/textSizeSub</item>
+    </style>
+
+    <style name="SubText.White.Normal" parent="SubText">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="SubText.LightGray.Bold" parent="SubText">
+        <item name="android:textColor">@color/lightGray</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="SubText.DarkGray.Bold" parent="SubText">
+        <item name="android:textColor">@color/darkGray</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="MainText" parent="">
+        <item name="android:textColor">@color/pink</item>
+        <item name="android:textSize">@dimen/textSizeMain</item>
+    </style>
+
+    <style name="MainText.Pink.Normal" parent="MainText">
+        <item name="android:textColor">@color/pink</item>
+    </style>
+
+    <style name="MainText.Pink.Bold" parent="MainText.Pink.Normal">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="MainText.White.Normal" parent="MainText">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="MainText.LightLightGray.Bold" parent="MainText">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/lightlightGray</item>
+    </style>
+
+    <style name="HeaderText.LightGray.Bold" parent="">
+        <item name="android:textColor">@color/lightGray</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing" tools:targetApi="lollipop">-0.01</item>
+        <item name="android:lineSpacingExtra">0sp</item>
+        <item name="android:textSize">@dimen/textSizeHeader</item>
+    </style>
+
 </resources>
