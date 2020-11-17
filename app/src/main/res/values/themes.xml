@@ -15,8 +15,10 @@
     </style>
 
 
-    <style name="RatingBar" parent="">
+    <style name="RatingBar" parent="@android:style/Widget.RatingBar.Small">
         <item name="android:progressDrawable">@drawable/custom_ratingbar</item>
+        <item name="android:minHeight">@dimen/space3x</item>
+        <item name="android:maxHeight">@dimen/space3x</item>
     </style>
 
     <style name="ImageView.Rounded.Appearance" parent="">
