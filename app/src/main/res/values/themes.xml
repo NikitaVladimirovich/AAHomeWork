@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.AAHomeWork" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.AAHomeWork" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -13,4 +13,65 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+
+    <style name="RatingBar" parent="@android:style/Widget.RatingBar.Small">
+        <item name="android:progressDrawable">@drawable/custom_ratingbar</item>
+        <item name="android:minHeight">@dimen/space3x</item>
+        <item name="android:maxHeight">@dimen/space3x</item>
+    </style>
+
+    <style name="ImageView.Rounded.Appearance" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">4dp</item>
+    </style>
+
+    <style name="SubText" parent="">
+        <item name="android:textSize">@dimen/textSizeSub</item>
+    </style>
+
+    <style name="SubText.White.Normal" parent="SubText">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="SubText.LightGray.Bold" parent="SubText">
+        <item name="android:textColor">@color/lightGray</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="SubText.DarkGray.Bold" parent="SubText">
+        <item name="android:textColor">@color/darkGray</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="MainText" parent="">
+        <item name="android:textColor">@color/pink</item>
+        <item name="android:textSize">@dimen/textSizeMain</item>
+    </style>
+
+    <style name="MainText.Pink.Normal" parent="MainText">
+        <item name="android:textColor">@color/pink</item>
+    </style>
+
+    <style name="MainText.Pink.Bold" parent="MainText.Pink.Normal">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="MainText.White.Normal" parent="MainText">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="MainText.LightLightGray.Bold" parent="MainText">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/lightlightGray</item>
+    </style>
+
+    <style name="HeaderText.LightGray.Bold" parent="">
+        <item name="android:textColor">@color/lightGray</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing" tools:targetApi="lollipop">-0.01</item>
+        <item name="android:lineSpacingExtra">0sp</item>
+        <item name="android:textSize">@dimen/textSizeHeader</item>
+    </style>
+
 </resources>
