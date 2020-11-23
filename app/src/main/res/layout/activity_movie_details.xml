@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/darkBlue"
+    android:fitsSystemWindows="false"
     tools:context=".MovieDetailsActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,6 +14,7 @@
         android:paddingBottom="@dimen/space4x">
 
         <ImageView
+            android:id="@+id/ivCover"
             android:layout_width="match_parent"
             android:layout_height="@dimen/detailCoverHeight"
             android:scaleType="centerCrop"
@@ -42,30 +44,18 @@
             android:orientation="vertical"
             app:layout_constraintGuide_end="@dimen/space4x" />
 
-        <ImageView
-            android:id="@+id/ivArrowBack"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="3dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="3dp"
-            app:layout_constraintBottom_toBottomOf="@id/tvBack"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
-            app:layout_constraintTop_toTopOf="@id/tvBack"
-            app:srcCompat="@drawable/ic_arrow_back"
-            tools:ignore="ContentDescription" />
-
         <TextView
             android:id="@+id/tvBack"
+            style="@style/SubText.White.Normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space2x"
             android:layout_marginTop="@dimen/headerControlMarginTop"
             android:alpha="0.5"
+            android:drawablePadding="@dimen/space2x"
             android:text="@string/btnBackText"
-            style="@style/SubText.White.Normal"
-            app:layout_constraintLeft_toRightOf="@+id/ivArrowBack"
+            app:drawableStartCompat="@drawable/ic_arrow_back"
+            app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -74,93 +64,94 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dataMarginTop"
-            android:text="13+"
-            app:layout_constraintDimensionRatio="1:1"
+            android:background="@drawable/age_limit_rectangle"
+            android:gravity="center"
             app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="13+" />
 
         <TextView
             android:id="@+id/tvName"
+            style="@style/HeaderText.LightGray.Bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space2x"
-            android:text="Avengers\nEnd Game"
-            style="@style/HeaderText.LightGray.Bold"
             app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
             app:layout_constraintRight_toLeftOf="@+id/guideVerticalRight"
-            app:layout_constraintTop_toBottomOf="@id/tvAgeLimit" />
+            app:layout_constraintTop_toBottomOf="@id/tvAgeLimit"
+            tools:text="Avengers\nEnd Game" />
 
         <TextView
-            android:id="@+id/tvTag"
+            android:id="@+id/tvTags"
+            style="@style/MainText.Pink.Normal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space"
-            android:text="Action, Adventure, Fantasy"
-            style="@style/MainText.Pink.Bold"
             app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
             app:layout_constraintRight_toLeftOf="@+id/guideVerticalRight"
-            app:layout_constraintTop_toBottomOf="@+id/tvName" />
+            app:layout_constraintTop_toBottomOf="@+id/tvName"
+            tools:text="Action, Adventure, Fantasy" />
 
         <androidx.appcompat.widget.AppCompatRatingBar
-            android:id="@+id/rbStars"
+            android:id="@+id/rbRating"
             style="@style/RatingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminate="false"
             android:isIndicator="true"
             android:numStars="5"
-            android:rating="3"
             app:layout_constraintBottom_toBottomOf="@+id/tvReviews"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
             app:layout_constraintRight_toLeftOf="@+id/tvReviews"
-            app:layout_constraintTop_toTopOf="@+id/tvReviews" />
+            app:layout_constraintTop_toTopOf="@+id/tvReviews"
+            tools:rating="3" />
 
         <TextView
             android:id="@+id/tvReviews"
+            style="@style/SubText.DarkGray.Bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space2x"
             android:layout_marginTop="@dimen/space"
-            android:text="125 reviews"
             android:textAllCaps="true"
-            style="@style/SubText.DarkGray.Bold"
-            app:layout_constraintLeft_toRightOf="@+id/rbStars"
+            app:layout_constraintLeft_toRightOf="@+id/rbRating"
             app:layout_constraintRight_toLeftOf="@+id/guideVerticalRight"
-            app:layout_constraintTop_toBottomOf="@+id/tvTag" />
+            app:layout_constraintTop_toBottomOf="@+id/tvTags"
+            tools:text="125 reviews" />
 
         <TextView
             android:id="@+id/tvStorylineHeader"
+            style="@style/MainText.LightLightGray.Bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space6x"
-            android:text="@string/hintStorylineText"
-            style="@style/MainText.Pink.Bold"
+            android:text="@string/storylineTitle"
             app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
             app:layout_constraintRight_toLeftOf="@+id/guideVerticalRight"
             app:layout_constraintTop_toBottomOf="@+id/tvReviews" />
 
         <TextView
             android:id="@+id/tvStoryline"
+            style="@style/MainText.White.Normal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space"
             android:alpha="0.75"
             android:lineSpacingExtra="4sp"
-            android:text="After the devastating events of Avengers: Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos\' actions and restore balance to the universe."
-            style="@style/MainText.White.Normal"
             app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
             app:layout_constraintRight_toLeftOf="@+id/guideVerticalRight"
-            app:layout_constraintTop_toBottomOf="@+id/tvStorylineHeader" />
+            app:layout_constraintTop_toBottomOf="@+id/tvStorylineHeader"
+            tools:text="After the devastating events of Avengers: Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos\' actions and restore balance to the universe." />
 
         <TextView
             android:id="@+id/tvCast"
+            style="@style/MainText.LightLightGray.Bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space6x"
-            android:text="@string/hintCastText"
-            style="@style/MainText.LightLightGray.Bold"
+            android:text="@string/castTitle"
             app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
             app:layout_constraintRight_toLeftOf="@+id/guideVerticalRight"
             app:layout_constraintTop_toBottomOf="@+id/tvStoryline" />
@@ -173,100 +164,18 @@
             app:barrierMargin="@dimen/space2x"
             app:constraint_referenced_ids="tvCast" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivCast1"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="@dimen/space"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/ivCast2"
-            app:layout_constraintStart_toStartOf="@id/guideVerticalLeft"
-            app:layout_constraintTop_toBottomOf="@+id/barrierHorizontalCastBottom"
-            app:shapeAppearanceOverlay="@style/ImageView.Rounded.Appearance"
-            app:srcCompat="@drawable/cast1" />
-
-        <TextView
-            android:id="@+id/tvCast1"
-            android:layout_width="0dp"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCast"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:text="Robert\nDowney Jr."
-            style="@style/SubText.LightGray.Bold"
-            app:layout_constraintLeft_toLeftOf="@+id/ivCast1"
-            app:layout_constraintRight_toRightOf="@+id/ivCast1"
-            app:layout_constraintTop_toBottomOf="@+id/ivCast1" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivCast2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="@dimen/space"
-            android:layout_marginStart="@dimen/space"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/ivCast3"
-            app:layout_constraintStart_toEndOf="@+id/ivCast1"
-            app:layout_constraintTop_toBottomOf="@+id/barrierHorizontalCastBottom"
-            app:shapeAppearanceOverlay="@style/ImageView.Rounded.Appearance"
-            app:srcCompat="@drawable/cast2" />
-
-        <TextView
-            android:id="@+id/tvCast2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:text="Chris\nEvans"
-            style="@style/SubText.LightGray.Bold"
-            app:layout_constraintLeft_toLeftOf="@+id/ivCast2"
-            app:layout_constraintRight_toRightOf="@+id/ivCast2"
-            app:layout_constraintTop_toBottomOf="@+id/ivCast2" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivCast3"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="@dimen/space"
-            android:layout_marginStart="@dimen/space"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/ivCast4"
-            app:layout_constraintStart_toEndOf="@+id/ivCast2"
-            app:layout_constraintTop_toBottomOf="@+id/barrierHorizontalCastBottom"
-            app:shapeAppearanceOverlay="@style/ImageView.Rounded.Appearance"
-            app:srcCompat="@drawable/cast3" />
-
-        <TextView
-            android:id="@+id/tvCast3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:text="Mark\nRuffalo"
-            style="@style/SubText.LightGray.Bold"
-            app:layout_constraintLeft_toLeftOf="@+id/ivCast3"
-            app:layout_constraintRight_toRightOf="@+id/ivCast3"
-            app:layout_constraintTop_toBottomOf="@+id/ivCast3" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivCast4"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="@dimen/space"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="@id/guideVerticalRight"
-            app:layout_constraintStart_toEndOf="@+id/ivCast3"
-            app:layout_constraintTop_toBottomOf="@+id/barrierHorizontalCastBottom"
-            app:shapeAppearanceOverlay="@style/ImageView.Rounded.Appearance"
-            app:srcCompat="@drawable/cast4" />
-
-        <TextView
-            android:id="@+id/tvCast4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:text="Chris\nHemsworth"
-            style="@style/SubText.LightGray.Bold"
-            app:layout_constraintLeft_toLeftOf="@+id/ivCast4"
-            app:layout_constraintRight_toRightOf="@+id/ivCast4"
-            app:layout_constraintTop_toBottomOf="@+id/ivCast4" />
-
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:paddingEnd="@dimen/space3x"
+            android:paddingStart="@dimen/space3x"
+            android:paddingTop="@dimen/space2x"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/tvCast"
+            app:spanCount="4"
+            tools:listitem="@layout/layout_cast_item" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </ScrollView>

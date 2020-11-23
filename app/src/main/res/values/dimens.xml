@@ -11,4 +11,5 @@
     <dimen name="textSizeHeader">40sp</dimen>
     <dimen name="headerControlMarginTop">56dp</dimen>
     <dimen name="dataMarginTop">222dp</dimen>
+    <dimen name="castPhotoSize">80dp</dimen>
 </resources>
