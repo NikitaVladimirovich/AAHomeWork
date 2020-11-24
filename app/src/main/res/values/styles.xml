@@ -3,25 +3,30 @@
 
     <style name="SubText" parent="">
         <item name="android:textSize">@dimen/textSizeSub</item>
+        <item name="fontFamily">sans-serif-light</item>
+        <item name="android:lineSpacingExtra">4sp</item>
     </style>
 
     <style name="SubText.White.Normal" parent="SubText">
         <item name="android:textColor">@color/white</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+    </style>
+
+    <style name="SubText.White.Bold" parent="SubText">
+        <item name="android:textColor">@color/white</item>
+        <item name="fontFamily">sans-serif-black</item>
     </style>
 
     <style name="SubText.LightGray.Bold" parent="SubText">
         <item name="android:textColor">@color/lightGray</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="SubText.DarkGray.Bold" parent="SubText">
-        <item name="android:textColor">@color/darkGray</item>
-        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">sans-serif-black</item>
+        <item name="android:lineSpacingExtra">2sp</item>
     </style>
 
     <style name="MainText" parent="">
-        <item name="android:textColor">@color/pink</item>
         <item name="android:textSize">@dimen/textSizeMain</item>
+        <item name="fontFamily">sans-serif-light</item>
+        <item name="android:lineSpacingExtra">4sp</item>
     </style>
 
     <style name="MainText.Pink.Normal" parent="MainText">
@@ -29,7 +34,12 @@
     </style>
 
     <style name="MainText.Pink.Bold" parent="MainText.Pink.Normal">
-        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">sans-serif-black</item>
+    </style>
+
+    <style name="MainText.DarkGray.Bold" parent="MainText">
+        <item name="android:textColor">@color/darkGray</item>
+        <item name="fontFamily">sans-serif-black</item>
     </style>
 
     <style name="MainText.White.Normal" parent="MainText">
@@ -37,15 +47,27 @@
     </style>
 
     <style name="MainText.LightLightGray.Bold" parent="MainText">
-        <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/lightlightGray</item>
+        <item name="fontFamily">sans-serif-black</item>
+        <item name="android:shadowColor">#80000000</item>
+        <item name="android:shadowDy">6</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowRadius">12</item>
     </style>
 
     <style name="HeaderText.LightGray.Bold" parent="">
+        <item name="fontFamily">sans-serif-black</item>
         <item name="android:textColor">@color/lightGray</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:letterSpacing" tools:targetApi="lollipop">-0.01</item>
         <item name="android:lineSpacingExtra">0sp</item>
+        <item name="android:shadowColor">#80000000</item>
+        <item name="android:shadowDy">6</item>
+        <item name="android:shadowRadius">12</item>
         <item name="android:textSize">@dimen/textSizeHeader</item>
+    </style>
+
+    <style name="RatingBar" parent="@style/Widget.AppCompat.RatingBar.Small">
+        <item name="android:progressTint">@color/filledStar</item>
+        <item name="android:progressBackgroundTint">@color/emptyStar</item>
     </style>
 </resources>

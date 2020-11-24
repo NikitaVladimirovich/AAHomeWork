@@ -49,7 +49,7 @@
             style="@style/SubText.White.Normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space2x"
+            android:layout_marginStart="@dimen/space0.5x"
             android:layout_marginTop="@dimen/headerControlMarginTop"
             android:alpha="0.5"
             android:drawablePadding="@dimen/space2x"
@@ -60,7 +60,7 @@
 
         <TextView
             android:id="@+id/tvAgeLimit"
-            style="@style/SubText.White.Normal"
+            style="@style/SubText.White.Bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dataMarginTop"
@@ -100,6 +100,7 @@
             android:indeterminate="false"
             android:isIndicator="true"
             android:numStars="5"
+            android:stepSize="1"
             app:layout_constraintBottom_toBottomOf="@+id/tvReviews"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintHorizontal_chainStyle="packed"
@@ -110,7 +111,7 @@
 
         <TextView
             android:id="@+id/tvReviews"
-            style="@style/SubText.DarkGray.Bold"
+            style="@style/MainText.DarkGray.Bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space2x"
@@ -139,7 +140,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space"
             android:alpha="0.75"
-            android:lineSpacingExtra="4sp"
             app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
             app:layout_constraintRight_toLeftOf="@+id/guideVerticalRight"
             app:layout_constraintTop_toBottomOf="@+id/tvStorylineHeader"

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="detailCoverHeight">298dp</dimen>
+    <dimen name="space0.5x">2dp</dimen>
     <dimen name="space">4dp</dimen>
     <dimen name="space2x">8dp</dimen>
     <dimen name="space3x">12dp</dimen>
