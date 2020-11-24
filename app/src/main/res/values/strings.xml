@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">AAHomeWork</string>
     <string name="btnBackText">Back</string>
-    <string name="hintStorylineText">Storyline</string>
-    <string name="hintCastText">Cast</string>
+    <string name="storylineTitle">Storyline</string>
+    <string name="castTitle">Cast</string>
+    <string name="reviewsFormat">%d reviews</string>
+    <string name="ageLimitFormat">%d+</string>
 </resources>
