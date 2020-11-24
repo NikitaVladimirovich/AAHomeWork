@@ -1,14 +1,22 @@
 package com.aacademy.homework
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        startActivity(Intent(this, MovieDetailsActivity::class.java))
-        finish()
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        if (savedInstanceState == null)
+            supportFragmentManager
+                .beginTransaction()
+                .add(R.id.flContainer, FragmentMoviesDetails(), "Tag")
+                .addToBackStack(null)
+                .commit()
     }
 }
