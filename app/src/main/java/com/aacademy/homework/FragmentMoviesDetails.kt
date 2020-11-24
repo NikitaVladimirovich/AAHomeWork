@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.aacademy.homework.data.local.MockRepository
+import com.aacademy.homework.data.local.model.Movie
 import com.bumptech.glide.Glide
 
 class FragmentMoviesDetails : Fragment() {
@@ -21,7 +21,7 @@ class FragmentMoviesDetails : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val movie = MockRepository.getMovie()
+        val movie = arguments?.get(MOVIE_ARGUMENT) as Movie
 
         val glide = Glide.with(this)
         glide.load(movie.coverPath).placeholder(R.drawable.orig).into(view.findViewById(R.id.ivCover))
@@ -45,5 +45,18 @@ class FragmentMoviesDetails : Fragment() {
         }
 
         castAdapter.actors = movie.cast
+    }
+
+    companion object {
+
+        private const val MOVIE_ARGUMENT = "MovieArgument"
+
+        fun newInstance(movie: Movie): FragmentMoviesDetails {
+            val args = Bundle()
+            args.putParcelable(MOVIE_ARGUMENT, movie)
+            val fragment = FragmentMoviesDetails()
+            fragment.arguments = args
+            return fragment
+        }
     }
 }
