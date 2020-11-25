@@ -106,8 +106,7 @@
         <item name="android:textSize">@dimen/textSizeHeader</item>
     </style>
 
-    <style name="RatingBar" parent="@style/Widget.AppCompat.RatingBar.Small">
-        <item name="android:progressTint">@color/filledStar</item>
-        <item name="android:progressBackgroundTint">@color/emptyStar</item>
+    <style name="RatingBar" parent="">
+        <item name="android:progressDrawable">@drawable/ratingbar_svg_selector</item>
     </style>
 </resources>

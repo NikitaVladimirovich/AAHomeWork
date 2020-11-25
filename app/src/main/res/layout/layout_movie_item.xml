@@ -92,15 +92,18 @@
             app:layout_constraintRight_toRightOf="@id/guideVerticalRight"
             tools:text="Action, Adventure, Fantasy" />
 
-        <androidx.appcompat.widget.AppCompatRatingBar
+        <com.aacademy.homework.RatingBarSvg
             android:id="@+id/rbRating"
             style="@style/RatingBar"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/space2x"
             android:indeterminate="false"
             android:isIndicator="true"
             android:numStars="5"
             android:stepSize="1"
+            app:drawableHeight="@dimen/space2x"
+            app:drawableWidth="@dimen/space2x"
+            app:innerPadding="@dimen/space0.5x"
             app:layout_constraintBottom_toBottomOf="@+id/tvReviews"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintHorizontal_chainStyle="packed"
