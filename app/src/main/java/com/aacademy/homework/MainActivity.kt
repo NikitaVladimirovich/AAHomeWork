@@ -3,7 +3,6 @@ package com.aacademy.homework
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
-import com.aacademy.homework.data.local.MockRepository
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,8 +15,7 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null)
             supportFragmentManager
                 .beginTransaction()
-                .add(R.id.flContainer, FragmentMoviesDetails.newInstance(MockRepository.getMovie()), "Tag")
-                .addToBackStack(null)
+                .add(R.id.flContainer, FragmentMoviesList.newInstance(), "Tag")
                 .commit()
     }
 }

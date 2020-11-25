@@ -13,6 +13,8 @@ data class Movie(
     val rating: Int,
     val reviews: Int,
     val storyline: String,
+    val min: Int,
+    val isLiked: Boolean,
     val cast: List<Actor>
 ) : Parcelable {
 
@@ -25,6 +27,8 @@ data class Movie(
         parcel.readInt(),
         parcel.readInt(),
         parcel.readString()!!,
+        parcel.readInt(),
+        parcel.readInt() != 0,
         parcel.createTypedArrayList(Actor)!!
     )
 
@@ -37,6 +41,8 @@ data class Movie(
         parcel.writeInt(rating)
         parcel.writeInt(reviews)
         parcel.writeString(storyline)
+        parcel.writeInt(min)
+        parcel.writeInt(if (isLiked) 1 else 0)
         parcel.writeTypedList(cast)
     }
 
