@@ -5,4 +5,5 @@
     <string name="castTitle">Cast</string>
     <string name="reviewsFormat">%d reviews</string>
     <string name="ageLimitFormat">%d+</string>
+    <string name="moviesList">Movies list</string>
 </resources>

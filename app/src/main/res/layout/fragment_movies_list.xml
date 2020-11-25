@@ -1,5 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/darkBlue"
+    android:fitsSystemWindows="false">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/MainText.White.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/space5x"
+            android:layout_marginStart="@dimen/space4x"
+            android:layout_marginTop="@dimen/headerControlMarginTop"
+            android:drawablePadding="@dimen/space2x"
+            android:gravity="center_vertical"
+            android:text="@string/moviesList"
+            app:drawableStartCompat="@drawable/ic_combined_shape" />
+
+        <androidx.recyclerview.widget.RecyclerView android:id="@+id/rvMovies"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/space4x"
+            android:paddingTop="@dimen/space8x"
+            android:paddingStart="@dimen/space1.5x"
+            android:paddingEnd="@dimen/space1.5x"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            tools:listitem="@layout/layout_movie_item" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
