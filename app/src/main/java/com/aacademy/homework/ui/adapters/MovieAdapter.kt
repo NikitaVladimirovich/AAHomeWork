@@ -31,7 +31,7 @@ class MovieAdapter(val glide: RequestManager, val resources: Resources, val clic
         set(value) = differ.submitList(value)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder = MovieViewHolder(
-        LayoutMovieItemBinding.inflate(LayoutInflater.from(parent.context))
+        LayoutMovieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     )
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {

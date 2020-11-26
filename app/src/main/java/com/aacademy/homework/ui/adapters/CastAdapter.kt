@@ -28,7 +28,7 @@ class CastAdapter(val glide: RequestManager) : RecyclerView.Adapter<CastViewHold
         set(value) = differ.submitList(value)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CastViewHolder =
-        CastViewHolder(LayoutCastItemBinding.inflate(LayoutInflater.from(parent.context)))
+        CastViewHolder(LayoutCastItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
     override fun onBindViewHolder(holder: CastViewHolder, position: Int) {
         holder.bind(actor = actors[position])

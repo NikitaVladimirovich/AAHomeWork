@@ -1,32 +1,21 @@
 package com.aacademy.homework.ui.fragments
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import com.aacademy.homework.R
 import com.aacademy.homework.R.integer
 import com.aacademy.homework.data.local.MockRepository
 import com.aacademy.homework.databinding.FragmentMoviesListBinding
 import com.aacademy.homework.ui.activities.MainActivity
 import com.aacademy.homework.ui.adapters.MovieAdapter
+import com.aacademy.homework.utils.viewBinding
 import com.bumptech.glide.Glide
 
-class FragmentMoviesList : Fragment() {
+class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
-    private var _binding: FragmentMoviesListBinding? = null
-    private val binding get() = _binding!!
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentMoviesListBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+    private val binding by viewBinding(FragmentMoviesListBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
