@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -57,7 +58,7 @@ class MovieAdapter(val glide: RequestManager, val resources: Resources, val clic
         private val tags = itemView.findViewById<TextView>(id.tvTags)
         private val reviews = itemView.findViewById<TextView>(id.tvReviews)
         private val min = itemView.findViewById<TextView>(id.tvMin)
-        private val like = itemView.findViewById<ImageView>(id.ivLike)
+        private val like = itemView.findViewById<AppCompatCheckBox>(id.cbLike)
         private val rating = itemView.findViewById<RatingBarSvg>(id.rbRating)
 
         fun bind(movie: Movie) {
@@ -68,7 +69,8 @@ class MovieAdapter(val glide: RequestManager, val resources: Resources, val clic
             reviews.text = resources.getString(string.reviewsFormat).format(movie.reviews)
             rating.rating = movie.rating.toFloat()
             min.text = resources.getString(string.minFormat).format(movie.min)
-            like.setImageResource(if (movie.isLiked) drawable.ic_like_filled else drawable.ic_like_empty)
+            like.isSelected = movie.isLiked
+            like.setOnCheckedChangeListener { _, isChecked -> movie.isLiked = isChecked }
             itemView.setOnClickListener { clickListener(movie) }
         }
     }

@@ -107,6 +107,10 @@
     </style>
 
     <style name="RatingBar" parent="">
-        <item name="android:progressDrawable">@drawable/ratingbar_svg_selector</item>
+        <item name="android:progressDrawable">@drawable/ratingbar_selector</item>
+    </style>
+
+    <style name="LikeCheckBox" parent="">
+        <item name="android:button">@drawable/checkbox_selector</item>
     </style>
 </resources>

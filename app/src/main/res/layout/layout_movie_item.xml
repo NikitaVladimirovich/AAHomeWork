@@ -61,15 +61,14 @@
             android:background="@drawable/cover_mask"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/ivLike"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/cbLike"
+            android:layout_width="16dp"
+            android:layout_height="14dp"
             android:layout_marginTop="@dimen/space"
+            style="@style/LikeCheckBox"
             app:layout_constraintEnd_toEndOf="@id/guideVerticalRight"
-            app:layout_constraintTop_toTopOf="@id/guideHorizontalTop"
-            app:srcCompat="@drawable/ic_like_filled"
-            tools:ignore="ContentDescription" />
+            app:layout_constraintTop_toTopOf="@id/guideHorizontalTop"/>
 
         <TextView
             android:id="@+id/tvAgeLimit"

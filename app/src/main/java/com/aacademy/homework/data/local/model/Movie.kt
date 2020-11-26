@@ -14,7 +14,7 @@ data class Movie(
     val reviews: Int,
     val storyline: String,
     val min: Int,
-    val isLiked: Boolean,
+    var isLiked: Boolean,
     val cast: List<Actor>
 ) : Parcelable {
 
