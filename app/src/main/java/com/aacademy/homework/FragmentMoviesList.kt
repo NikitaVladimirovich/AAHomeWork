@@ -22,7 +22,8 @@ class FragmentMoviesList : Fragment() {
         val movieAdapter = MovieAdapter(Glide.with(this), resources)
         val rvMovies = view.findViewById<RecyclerView>(R.id.rvMovies)
         rvMovies.apply {
-            layoutManager = GridLayoutManager(context, 2)
+            layoutManager = GridLayoutManager(context, resources.getInteger(R.integer.moviesSpanCount))
+            setHasFixedSize(true)
             adapter = movieAdapter
         }
 

@@ -32,7 +32,7 @@
             android:paddingStart="@dimen/space1.5x"
             android:paddingEnd="@dimen/space1.5x"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2"
+            app:spanCount="@integer/moviesSpanCount"
             tools:listitem="@layout/layout_movie_item" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

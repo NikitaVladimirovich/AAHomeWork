@@ -41,6 +41,7 @@ class FragmentMoviesDetails : Fragment() {
                 LinearLayoutManager.HORIZONTAL,
                 false
             )
+            setHasFixedSize(true)
             adapter = castAdapter
         }
 
