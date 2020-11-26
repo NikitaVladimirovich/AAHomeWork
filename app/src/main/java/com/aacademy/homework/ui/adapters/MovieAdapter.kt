@@ -18,7 +18,7 @@ import com.aacademy.homework.ui.adapters.MovieAdapter.MovieViewHolder
 import com.aacademy.homework.ui.views.RatingBarSvg
 import com.bumptech.glide.RequestManager
 
-class MovieAdapter(val glide: RequestManager, val resources: Resources) :
+class MovieAdapter(val glide: RequestManager, val resources: Resources, val clickListener: (Movie) -> Unit) :
     RecyclerView.Adapter<MovieViewHolder>() {
 
     private val diffCallback = object : DiffUtil.ItemCallback<Movie>() {
@@ -69,6 +69,7 @@ class MovieAdapter(val glide: RequestManager, val resources: Resources) :
             rating.rating = movie.rating.toFloat()
             min.text = resources.getString(string.minFormat).format(movie.min)
             like.setImageResource(if (movie.isLiked) drawable.ic_like_filled else drawable.ic_like_empty)
+            itemView.setOnClickListener { clickListener(movie) }
         }
     }
 }
