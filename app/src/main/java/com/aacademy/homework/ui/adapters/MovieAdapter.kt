@@ -1,4 +1,4 @@
-package com.aacademy.homework
+package com.aacademy.homework.ui.adapters
 
 import android.content.res.Resources
 import android.view.LayoutInflater
@@ -9,11 +9,17 @@ import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.aacademy.homework.R.drawable
+import com.aacademy.homework.R.id
+import com.aacademy.homework.R.layout
+import com.aacademy.homework.R.string
 import com.aacademy.homework.data.local.model.Movie
+import com.aacademy.homework.ui.adapters.MovieAdapter.MovieViewHolder
+import com.aacademy.homework.ui.views.RatingBarSvg
 import com.bumptech.glide.RequestManager
 
 class MovieAdapter(val glide: RequestManager, val resources: Resources) :
-    RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
+    RecyclerView.Adapter<MovieViewHolder>() {
 
     private val diffCallback = object : DiffUtil.ItemCallback<Movie>() {
         override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean =
@@ -31,7 +37,7 @@ class MovieAdapter(val glide: RequestManager, val resources: Resources) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder = MovieViewHolder(
         LayoutInflater.from(parent.context).inflate(
-            R.layout.layout_movie_item,
+            layout.layout_movie_item,
             parent,
             false
         )
@@ -45,24 +51,24 @@ class MovieAdapter(val glide: RequestManager, val resources: Resources) :
 
     inner class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val name = itemView.findViewById<TextView>(R.id.tvName)
-        private val cover = itemView.findViewById<ImageView>(R.id.ivCover)
-        private val ageLimit = itemView.findViewById<TextView>(R.id.tvAgeLimit)
-        private val tags = itemView.findViewById<TextView>(R.id.tvTags)
-        private val reviews = itemView.findViewById<TextView>(R.id.tvReviews)
-        private val min = itemView.findViewById<TextView>(R.id.tvMin)
-        private val like = itemView.findViewById<ImageView>(R.id.ivLike)
-        private val rating = itemView.findViewById<RatingBarSvg>(R.id.rbRating)
+        private val name = itemView.findViewById<TextView>(id.tvName)
+        private val cover = itemView.findViewById<ImageView>(id.ivCover)
+        private val ageLimit = itemView.findViewById<TextView>(id.tvAgeLimit)
+        private val tags = itemView.findViewById<TextView>(id.tvTags)
+        private val reviews = itemView.findViewById<TextView>(id.tvReviews)
+        private val min = itemView.findViewById<TextView>(id.tvMin)
+        private val like = itemView.findViewById<ImageView>(id.ivLike)
+        private val rating = itemView.findViewById<RatingBarSvg>(id.rbRating)
 
         fun bind(movie: Movie) {
             name.text = movie.title
-            glide.load(movie.coverPath).placeholder(R.drawable.orig).into(cover)
-            ageLimit.text = resources.getString(R.string.ageLimitFormat).format(movie.ageLimit)
+            glide.load(movie.coverPath).placeholder(drawable.orig).into(cover)
+            ageLimit.text = resources.getString(string.ageLimitFormat).format(movie.ageLimit)
             tags.text = movie.tags.joinToString(", ")
-            reviews.text = resources.getString(R.string.reviewsFormat).format(movie.reviews)
+            reviews.text = resources.getString(string.reviewsFormat).format(movie.reviews)
             rating.rating = movie.rating.toFloat()
-            min.text = resources.getString(R.string.minFormat).format(movie.min)
-            like.setImageResource(if (movie.isLiked) R.drawable.ic_like_filled else R.drawable.ic_like_empty)
+            min.text = resources.getString(string.minFormat).format(movie.min)
+            like.setImageResource(if (movie.isLiked) drawable.ic_like_filled else drawable.ic_like_empty)
         }
     }
 }

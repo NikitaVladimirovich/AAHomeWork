@@ -1,4 +1,4 @@
-package com.aacademy.homework
+package com.aacademy.homework.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,13 +7,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.aacademy.homework.ui.adapters.MovieAdapter
+import com.aacademy.homework.R
+import com.aacademy.homework.R.integer
+import com.aacademy.homework.R.layout
 import com.aacademy.homework.data.local.MockRepository
 import com.bumptech.glide.Glide
 
 class FragmentMoviesList : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_movies_list, container, false)
+        return inflater.inflate(layout.fragment_movies_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -22,7 +26,7 @@ class FragmentMoviesList : Fragment() {
         val movieAdapter = MovieAdapter(Glide.with(this), resources)
         val rvMovies = view.findViewById<RecyclerView>(R.id.rvMovies)
         rvMovies.apply {
-            layoutManager = GridLayoutManager(context, resources.getInteger(R.integer.moviesSpanCount))
+            layoutManager = GridLayoutManager(context, resources.getInteger(integer.moviesSpanCount))
             setHasFixedSize(true)
             adapter = movieAdapter
         }

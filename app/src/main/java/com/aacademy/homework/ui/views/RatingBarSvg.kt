@@ -1,4 +1,4 @@
-package com.aacademy.homework
+package com.aacademy.homework.ui.views
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -22,6 +22,8 @@ import androidx.core.view.marginBottom
 import androidx.core.view.marginEnd
 import androidx.core.view.marginStart
 import androidx.core.view.marginTop
+import com.aacademy.homework.R.attr
+import com.aacademy.homework.R.styleable
 
 /**
  * Custom RatingBar with vector drawable support.
@@ -36,7 +38,7 @@ import androidx.core.view.marginTop
 class RatingBarSvg @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = R.attr.ratingBarStyle,
+    defStyleAttr: Int = attr.ratingBarStyle,
     var innerPadding: Int = 2,
     var drawableHeight: Int = 0,
     var drawableWidth: Int = 0,
@@ -59,13 +61,13 @@ class RatingBarSvg @JvmOverloads constructor(
      *  Remove this function if you aren't using attr.xml
      */
     private fun getSettingsFromAttr(attrs: AttributeSet) {
-        context.obtainStyledAttributes(attrs, R.styleable.RatingBarSvg).run {
+        context.obtainStyledAttributes(attrs, styleable.RatingBarSvg).run {
             innerPadding =
-                getDimension(R.styleable.RatingBarSvg_innerPadding, innerPadding.toFloat()).toInt()
-            drawableHeight = getDimension(R.styleable.RatingBarSvg_drawableHeight, 0f).toInt()
-            drawableWidth = getDimension(R.styleable.RatingBarSvg_drawableWidth, 0f).toInt()
+                getDimension(styleable.RatingBarSvg_innerPadding, innerPadding.toFloat()).toInt()
+            drawableHeight = getDimension(styleable.RatingBarSvg_drawableHeight, 0f).toInt()
+            drawableWidth = getDimension(styleable.RatingBarSvg_drawableWidth, 0f).toInt()
             isCompensatingMarginActive =
-                getBoolean(R.styleable.RatingBarSvg_isCompensatingMarginActive, true)
+                getBoolean(styleable.RatingBarSvg_isCompensatingMarginActive, true)
             recycle()
         }
     }

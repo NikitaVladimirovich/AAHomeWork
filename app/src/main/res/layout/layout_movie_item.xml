@@ -93,7 +93,7 @@
             app:layout_constraintRight_toRightOf="@id/guideVerticalRight"
             tools:text="Action, Adventure, Fantasy" />
 
-        <com.aacademy.homework.RatingBarSvg
+        <com.aacademy.homework.ui.views.RatingBarSvg
             android:id="@+id/rbRating"
             style="@style/RatingBar"
             android:layout_width="wrap_content"
