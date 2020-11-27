@@ -6,4 +6,7 @@
         <attr name="drawableWidth" format="dimension" />
         <attr name="isCompensatingMarginActive" format="boolean" />
     </declare-styleable>
+    <declare-styleable name="AutofitRecyclerView">
+        <attr name="minItemWidth" format="dimension" />
+    </declare-styleable>
 </resources>

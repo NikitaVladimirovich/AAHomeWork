@@ -57,9 +57,6 @@ class RatingBarSvg @JvmOverloads constructor(
         progressDrawable = drawable
     }
 
-    /**
-     *  Remove this function if you aren't using attr.xml
-     */
     private fun getSettingsFromAttr(attrs: AttributeSet) {
         context.obtainStyledAttributes(attrs, styleable.RatingBarSvg).run {
             innerPadding =

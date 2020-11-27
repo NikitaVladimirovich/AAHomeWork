@@ -18,4 +18,5 @@
     <dimen name="dataMarginTop">222dp</dimen>
     <dimen name="castPhotoSize">80dp</dimen>
     <dimen name="cardCoverHeight">260dp</dimen>
+    <dimen name="minMovieItemWidth">187dp</dimen>
 </resources>

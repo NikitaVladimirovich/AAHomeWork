@@ -22,17 +22,17 @@
             android:text="@string/moviesList"
             app:drawableStartCompat="@drawable/ic_combined_shape" />
 
-        <androidx.recyclerview.widget.RecyclerView android:id="@+id/rvMovies"
+        <com.aacademy.homework.ui.views.AutofitRecyclerView android:id="@+id/rvMovies"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             android:paddingBottom="@dimen/space4x"
-            android:paddingTop="@dimen/space8x"
-            android:paddingStart="@dimen/space1.5x"
             android:paddingEnd="@dimen/space1.5x"
+            android:paddingStart="@dimen/space1.5x"
+            android:paddingTop="@dimen/space8x"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="@integer/moviesSpanCount"
+            app:minItemWidth="@dimen/minMovieItemWidth"
             tools:listitem="@layout/layout_movie_item" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
