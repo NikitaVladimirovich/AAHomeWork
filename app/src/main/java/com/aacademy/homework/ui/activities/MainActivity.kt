@@ -3,6 +3,7 @@ package com.aacademy.homework.ui.activities
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
+import com.aacademy.homework.R.anim
 import com.aacademy.homework.R.id
 import com.aacademy.homework.R.layout
 import com.aacademy.homework.data.local.model.Movie
@@ -27,6 +28,12 @@ class MainActivity : AppCompatActivity() {
     fun openMovieDetail(movie: Movie) {
         supportFragmentManager
             .beginTransaction()
+            .setCustomAnimations(
+                anim.fade_in,
+                anim.fade_out,
+                anim.fade_in,
+                anim.fade_out
+            )
             .add(id.flContainer, FragmentMoviesDetails.newInstance(movie), FRAGMENT_TAG)
             .addToBackStack(null)
             .commit()
