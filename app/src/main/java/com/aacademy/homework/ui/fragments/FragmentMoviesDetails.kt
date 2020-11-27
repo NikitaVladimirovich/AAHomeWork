@@ -44,6 +44,8 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
         }
 
         castAdapter.actors = movie.cast
+
+        binding.tvBack.setOnClickListener { activity?.onBackPressed() }
     }
 
     companion object {
