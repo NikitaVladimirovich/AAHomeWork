@@ -31,8 +31,8 @@
             android:paddingEnd="@dimen/space1.5x"
             android:paddingStart="@dimen/space1.5x"
             android:paddingTop="@dimen/space8x"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:minItemWidth="@dimen/minMovieItemWidth"
+            tools:itemCount="1"
             tools:listitem="@layout/layout_movie_item" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

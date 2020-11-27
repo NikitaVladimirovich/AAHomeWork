@@ -5,7 +5,6 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aacademy.homework.R
-import com.aacademy.homework.R.drawable
 import com.aacademy.homework.R.string
 import com.aacademy.homework.data.local.model.Movie
 import com.aacademy.homework.databinding.FragmentMoviesDetailsBinding
@@ -23,7 +22,7 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
         val movie = arguments?.get(MOVIE_ARGUMENT) as Movie
 
         val glide = Glide.with(this)
-        glide.load(movie.coverPath).placeholder(drawable.orig).into(binding.ivCover)
+        glide.load(movie.coverPath).into(binding.ivCover)
 
         binding.tvName.text = movie.title
         binding.tvAgeLimit.text = getString(string.ageLimitFormat).format(movie.ageLimit)

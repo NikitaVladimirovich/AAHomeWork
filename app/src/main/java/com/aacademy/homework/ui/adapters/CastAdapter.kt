@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.aacademy.homework.R.mipmap
 import com.aacademy.homework.data.local.model.Actor
 import com.aacademy.homework.databinding.LayoutCastItemBinding
 import com.aacademy.homework.ui.adapters.CastAdapter.CastViewHolder
@@ -40,7 +39,7 @@ class CastAdapter(val glide: RequestManager) : RecyclerView.Adapter<CastViewHold
 
         fun bind(actor: Actor) {
             binding.tvNameCast.text = "${actor.firstName} ${actor.lastName}"
-            glide.load(actor.photoPath).placeholder(mipmap.ic_launcher).into(binding.ivPhotoCast)
+            glide.load(actor.photoPath).into(binding.ivPhotoCast)
         }
     }
 }

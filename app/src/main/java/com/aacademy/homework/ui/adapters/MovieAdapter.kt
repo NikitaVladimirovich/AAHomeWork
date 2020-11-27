@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.aacademy.homework.R.drawable
 import com.aacademy.homework.R.string
 import com.aacademy.homework.data.local.model.Movie
 import com.aacademy.homework.databinding.LayoutMovieItemBinding
@@ -44,7 +43,7 @@ class MovieAdapter(val glide: RequestManager, val resources: Resources, val clic
 
         fun bind(movie: Movie) {
             binding.tvName.text = movie.title
-            glide.load(movie.coverPath).placeholder(drawable.orig).into(binding.ivCover)
+            glide.load(movie.coverPath).into(binding.ivCover)
             binding.tvAgeLimit.text = resources.getString(string.ageLimitFormat).format(movie.ageLimit)
             binding.tvTags.text = movie.tags.joinToString(", ")
             binding.tvReviews.text = resources.getString(string.reviewsFormat).format(movie.reviews)

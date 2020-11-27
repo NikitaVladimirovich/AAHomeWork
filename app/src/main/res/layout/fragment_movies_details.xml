@@ -19,7 +19,7 @@
             android:scaleType="centerCrop"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/orig"
+            tools:srcCompat="@drawable/orig"
             tools:ignore="ContentDescription" />
 
         <View
