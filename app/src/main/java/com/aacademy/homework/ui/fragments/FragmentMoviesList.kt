@@ -1,10 +1,13 @@
 package com.aacademy.homework.ui.fragments
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.room.Room
 import com.aacademy.homework.R
-import com.aacademy.homework.data.local.MockRepository
+import com.aacademy.homework.data.local.dao.AppDatabase
 import com.aacademy.homework.databinding.FragmentMoviesListBinding
 import com.aacademy.homework.ui.activities.MainActivity
 import com.aacademy.homework.ui.adapters.MovieAdapter
@@ -26,7 +29,15 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
             adapter = movieAdapter
         }
 
-        movieAdapter.movies = MockRepository.getMovies()
+        //TODO : only for test!!! need Rx or Coroutines
+        Thread {
+            val movies = Room.databaseBuilder(context!!, AppDatabase::class.java, "sqlite.db")
+                .createFromAsset("sqlite.db")
+                .build().movieDao().getAllMovies()
+            Handler(Looper.getMainLooper()).post {
+                movieAdapter.moviePreviews = movies
+            }
+        }.start()
     }
 
     companion object {

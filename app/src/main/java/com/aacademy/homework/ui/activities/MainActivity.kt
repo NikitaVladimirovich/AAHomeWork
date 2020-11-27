@@ -6,7 +6,6 @@ import androidx.core.view.WindowCompat
 import com.aacademy.homework.R.anim
 import com.aacademy.homework.R.id
 import com.aacademy.homework.R.layout
-import com.aacademy.homework.data.local.model.Movie
 import com.aacademy.homework.ui.fragments.FragmentMoviesDetails
 import com.aacademy.homework.ui.fragments.FragmentMoviesList
 
@@ -25,7 +24,7 @@ class MainActivity : AppCompatActivity() {
                 .commit()
     }
 
-    fun openMovieDetail(movie: Movie) {
+    fun openMovieDetail(movieId: Int) {
         supportFragmentManager
             .beginTransaction()
             .setCustomAnimations(
@@ -34,7 +33,7 @@ class MainActivity : AppCompatActivity() {
                 anim.fade_in,
                 anim.fade_out
             )
-            .add(id.flContainer, FragmentMoviesDetails.newInstance(movie), FRAGMENT_TAG)
+            .add(id.flContainer, FragmentMoviesDetails.newInstance(movieId), FRAGMENT_TAG)
             .addToBackStack(null)
             .commit()
     }

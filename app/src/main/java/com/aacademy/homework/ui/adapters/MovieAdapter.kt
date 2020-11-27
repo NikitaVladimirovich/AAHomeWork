@@ -7,25 +7,25 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.aacademy.homework.R.string
-import com.aacademy.homework.data.local.model.Movie
+import com.aacademy.homework.data.local.model.MoviePreviewWithTags
 import com.aacademy.homework.databinding.LayoutMovieItemBinding
 import com.aacademy.homework.ui.adapters.MovieAdapter.MovieViewHolder
 import com.bumptech.glide.RequestManager
 
-class MovieAdapter(val glide: RequestManager, val resources: Resources, val clickListener: (Movie) -> Unit) :
+class MovieAdapter(val glide: RequestManager, val resources: Resources, val clickListener: (Int) -> Unit) :
     RecyclerView.Adapter<MovieViewHolder>() {
 
-    private val diffCallback = object : DiffUtil.ItemCallback<Movie>() {
-        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean =
-            oldItem.id == newItem.id
+    private val diffCallback = object : DiffUtil.ItemCallback<MoviePreviewWithTags>() {
+        override fun areItemsTheSame(oldItem: MoviePreviewWithTags, newItem: MoviePreviewWithTags): Boolean =
+            oldItem.moviePreview.id == newItem.moviePreview.id
 
-        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean =
+        override fun areContentsTheSame(oldItem: MoviePreviewWithTags, newItem: MoviePreviewWithTags): Boolean =
             oldItem.hashCode() == newItem.hashCode()
     }
 
     private val differ = AsyncListDiffer(this, diffCallback)
 
-    var movies: List<Movie>
+    var moviePreviews: List<MoviePreviewWithTags>
         get() = differ.currentList
         set(value) = differ.submitList(value)
 
@@ -34,24 +34,28 @@ class MovieAdapter(val glide: RequestManager, val resources: Resources, val clic
     )
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.bind(movie = movies[position])
+        holder.bind(moviePreview = moviePreviews[position])
     }
 
-    override fun getItemCount(): Int = movies.size
+    override fun getItemCount(): Int = moviePreviews.size
 
     inner class MovieViewHolder(private val binding: LayoutMovieItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(movie: Movie) {
-            binding.tvName.text = movie.title
-            glide.load(movie.coverPath).into(binding.ivCover)
-            binding.tvAgeLimit.text = resources.getString(string.ageLimitFormat).format(movie.ageLimit)
-            binding.tvTags.text = movie.tags.joinToString(", ")
-            binding.tvReviews.text = resources.getString(string.reviewsFormat).format(movie.reviews)
-            binding.rbRating.rating = movie.rating.toFloat()
-            binding.tvMin.text = resources.getString(string.minFormat).format(movie.min)
-            binding.cbLike.isSelected = movie.isLiked
-            binding.cbLike.setOnCheckedChangeListener { _, isChecked -> movie.isLiked = isChecked }
-            binding.root.setOnClickListener { clickListener(movie) }
+        fun bind(moviePreview: MoviePreviewWithTags) {
+            binding.tvName.text = moviePreview.moviePreview.title
+            glide.load(moviePreview.moviePreview.coverPath).into(binding.ivCover)
+            binding.tvAgeLimit.text =
+                resources.getString(string.ageLimitFormat).format(moviePreview.moviePreview.ageLimit)
+            binding.tvTags.text = moviePreview.tags.joinToString(", ") { it.name }
+            binding.tvReviews.text =
+                resources.getString(string.reviewsFormat).format(moviePreview.moviePreview.reviews)
+            binding.rbRating.rating = moviePreview.moviePreview.rating.toFloat()
+            binding.tvMin.text = resources.getString(string.minFormat).format(moviePreview.moviePreview.min)
+            binding.cbLike.isSelected = moviePreview.moviePreview.isLiked
+            binding.cbLike.setOnCheckedChangeListener { _, isChecked ->
+                moviePreview.moviePreview.isLiked = isChecked
+            }
+            binding.root.setOnClickListener { clickListener(moviePreview.moviePreview.id) }
         }
     }
 }
