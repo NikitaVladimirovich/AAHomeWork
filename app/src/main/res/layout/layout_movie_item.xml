@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/space1.5x"
+    app:cardBackgroundColor="@color/darkBlue"
+    app:cardCornerRadius="@dimen/space2x"
+    app:cardElevation="@dimen/space6x"
+    app:strokeColor="@color/cardStroke"
+    app:strokeWidth="1dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/movie_card_bg" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideVerticalLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/space2x" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideVerticalRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/space2x" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideHorizontalTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="@dimen/space2x" />
+
+        <ImageView
+            android:id="@+id/ivCover"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/cardCoverHeight"
+            android:scaleType="centerCrop"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription"
+            tools:srcCompat="@drawable/orig" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/cardCoverHeight"
+            android:background="@drawable/cover_mask"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/cbLike"
+            android:layout_width="16dp"
+            android:layout_height="14dp"
+            android:layout_marginTop="@dimen/space"
+            style="@style/LikeCheckBox"
+            app:layout_constraintEnd_toEndOf="@id/guideVerticalRight"
+            app:layout_constraintTop_toTopOf="@id/guideHorizontalTop"/>
+
+        <TextView
+            android:id="@+id/tvAgeLimit"
+            style="@style/SubText.White.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/age_limit_rectangle"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="@id/guideVerticalLeft"
+            app:layout_constraintTop_toTopOf="@id/guideHorizontalTop"
+            tools:text="13+" />
+
+        <TextView
+            android:id="@+id/tvTags"
+            style="@style/CardText.Pink.Normal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space0.5x"
+            app:layout_constraintBottom_toTopOf="@+id/tvReviews"
+            app:layout_constraintLeft_toLeftOf="@id/guideVerticalLeft"
+            app:layout_constraintRight_toRightOf="@id/guideVerticalRight"
+            tools:text="Action, Adventure, Fantasy" />
+
+        <com.aacademy.homework.ui.views.RatingBarSvg
+            android:id="@+id/rbRating"
+            style="@style/RatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/space2x"
+            android:indeterminate="false"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:stepSize="1"
+            app:drawableHeight="@dimen/space2x"
+            app:drawableWidth="@dimen/space2x"
+            app:innerPadding="@dimen/space0.5x"
+            app:layout_constraintBottom_toBottomOf="@+id/tvReviews"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="@id/guideVerticalLeft"
+            app:layout_constraintRight_toLeftOf="@+id/tvReviews"
+            app:layout_constraintTop_toTopOf="@+id/tvReviews"
+            tools:rating="3" />
+
+        <TextView
+            android:id="@+id/tvReviews"
+            style="@style/CardText.DarkGray.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="12dp"
+            android:layout_marginBottom="@dimen/space2x"
+            android:layout_marginStart="@dimen/space2x"
+            android:layout_marginTop="@dimen/space"
+            android:textAllCaps="true"
+            app:layout_constraintBottom_toBottomOf="@+id/ivCover"
+            app:layout_constraintLeft_toRightOf="@+id/rbRating"
+            app:layout_constraintRight_toRightOf="@id/guideVerticalRight"
+            tools:text="125 reviews" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/space2x"
+            app:layout_constraintTop_toBottomOf="@+id/ivCover">
+
+            <TextView
+                android:id="@+id/tvName"
+                style="@style/MainText.LightLightGray.Bold"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/space5x"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:lines="1"
+                tools:text="Avengers: End Game" />
+
+            <TextView
+                android:id="@+id/tvMin"
+                style="@style/CardText.DarkDarkGray.Bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAllCaps="true"
+                tools:text="137 MIN" />
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

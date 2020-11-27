@@ -1,10 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+    <style name="CardText" parent="">
+        <item name="android:textSize">@dimen/textSizeCard</item>
+        <item name="fontFamily">sans-serif-light</item>
+        <item name="android:lineSpacingExtra">3sp</item>
+    </style>
+
+    <style name="CardText.Pink.Normal" parent="CardText">
+        <item name="android:textColor">@color/pink</item>
+    </style>
+
+    <style name="CardText.Bold" parent="CardText">
+        <item name="fontFamily">sans-serif-black</item>
+    </style>
+
+    <style name="CardText.DarkGray.Bold" parent="CardText.Bold">
+        <item name="android:textColor">@color/darkGray</item>
+    </style>
+
+    <style name="CardText.DarkDarkGray.Bold" parent="CardText.Bold">
+        <item name="android:textColor">@color/darkDarkGray</item>
+    </style>
+
     <style name="SubText" parent="">
         <item name="android:textSize">@dimen/textSizeSub</item>
         <item name="fontFamily">sans-serif-light</item>
         <item name="android:lineSpacingExtra">4sp</item>
+    </style>
+
+    <style name="SubText.Bold" parent="SubText">
+        <item name="fontFamily">sans-serif-black</item>
     </style>
 
     <style name="SubText.White.Normal" parent="SubText">
@@ -12,14 +38,22 @@
         <item name="android:lineSpacingExtra">2sp</item>
     </style>
 
-    <style name="SubText.White.Bold" parent="SubText">
-        <item name="android:textColor">@color/white</item>
-        <item name="fontFamily">sans-serif-black</item>
+    <style name="SubText.Pink.Normal" parent="SubText">
+        <item name="android:textColor">@color/pink</item>
+        <item name="android:lineSpacingExtra">2sp</item>
     </style>
 
-    <style name="SubText.LightGray.Bold" parent="SubText">
+    <style name="SubText.White.Bold" parent="SubText.Bold">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="SubText.LightGray.Bold" parent="SubText.Bold">
         <item name="android:textColor">@color/lightGray</item>
-        <item name="fontFamily">sans-serif-black</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+    </style>
+
+    <style name="SubText.DarkDarkGray.Bold" parent="SubText.Bold">
+        <item name="android:textColor">@color/darkGray</item>
         <item name="android:lineSpacingExtra">2sp</item>
     </style>
 
@@ -29,26 +63,32 @@
         <item name="android:lineSpacingExtra">4sp</item>
     </style>
 
+    <style name="MainText.Bold" parent="MainText">
+        <item name="fontFamily">sans-serif-black</item>
+    </style>
+
     <style name="MainText.Pink.Normal" parent="MainText">
         <item name="android:textColor">@color/pink</item>
     </style>
 
-    <style name="MainText.Pink.Bold" parent="MainText.Pink.Normal">
-        <item name="fontFamily">sans-serif-black</item>
+    <style name="MainText.Pink.Bold" parent="MainText.Bold">
+        <item name="android:textColor">@color/pink</item>
     </style>
 
-    <style name="MainText.DarkGray.Bold" parent="MainText">
+    <style name="MainText.DarkGray.Bold" parent="MainText.Bold">
         <item name="android:textColor">@color/darkGray</item>
-        <item name="fontFamily">sans-serif-black</item>
     </style>
 
     <style name="MainText.White.Normal" parent="MainText">
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="MainText.LightLightGray.Bold" parent="MainText">
+    <style name="MainText.White.Bold" parent="MainText.Bold">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="MainText.LightLightGray.Bold" parent="MainText.Bold">
         <item name="android:textColor">@color/lightlightGray</item>
-        <item name="fontFamily">sans-serif-black</item>
         <item name="android:shadowColor">#80000000</item>
         <item name="android:shadowDy">6</item>
         <item name="android:shadowDx">0</item>
@@ -66,8 +106,20 @@
         <item name="android:textSize">@dimen/textSizeHeader</item>
     </style>
 
-    <style name="RatingBar" parent="@style/Widget.AppCompat.RatingBar.Small">
-        <item name="android:progressTint">@color/filledStar</item>
-        <item name="android:progressBackgroundTint">@color/emptyStar</item>
+    <style name="RatingBar" parent="">
+        <item name="android:progressDrawable">@drawable/ratingbar_selector</item>
     </style>
+
+    <style name="LikeCheckBox" parent="">
+        <item name="android:button">@drawable/checkbox_selector</item>
+    </style>
+
+    <style name="ImageView.Rounded.Appearance" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">4dp</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat" />
 </resources>

@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/darkBlue"
-    android:fitsSystemWindows="false"
-    tools:context=".MovieDetailsActivity">
+    android:fitsSystemWindows="false">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -20,8 +19,8 @@
             android:scaleType="centerCrop"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/orig"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription"
+            tools:srcCompat="@drawable/orig" />
 
         <View
             android:layout_width="match_parent"
@@ -44,19 +43,29 @@
             android:orientation="vertical"
             app:layout_constraintGuide_end="@dimen/space4x" />
 
-        <TextView
-            android:id="@+id/tvBack"
-            style="@style/SubText.White.Normal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space0.5x"
-            android:layout_marginTop="@dimen/headerControlMarginTop"
-            android:alpha="0.5"
-            android:drawablePadding="@dimen/space2x"
-            android:text="@string/btnBackText"
-            app:drawableStartCompat="@drawable/ic_arrow_back"
-            app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_marginTop="@dimen/space10x"
+            android:theme="@style/AppTheme.PopupOverlay"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <TextView
+                android:id="@+id/tvBack"
+                style="@style/SubText.White.Normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.5"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:drawablePadding="@dimen/space2x"
+                android:focusable="true"
+                android:text="@string/btnBackText"
+                app:drawableStartCompat="@drawable/ic_arrow_back" />
+        </androidx.appcompat.widget.Toolbar>
 
         <TextView
             android:id="@+id/tvAgeLimit"
@@ -92,15 +101,18 @@
             app:layout_constraintTop_toBottomOf="@+id/tvName"
             tools:text="Action, Adventure, Fantasy" />
 
-        <androidx.appcompat.widget.AppCompatRatingBar
+        <com.aacademy.homework.ui.views.RatingBarSvg
             android:id="@+id/rbRating"
             style="@style/RatingBar"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/space3x"
             android:indeterminate="false"
             android:isIndicator="true"
             android:numStars="5"
             android:stepSize="1"
+            app:drawableHeight="@dimen/space3x"
+            app:drawableWidth="@dimen/space3x"
+            app:innerPadding="@dimen/space"
             app:layout_constraintBottom_toBottomOf="@+id/tvReviews"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintHorizontal_chainStyle="packed"
