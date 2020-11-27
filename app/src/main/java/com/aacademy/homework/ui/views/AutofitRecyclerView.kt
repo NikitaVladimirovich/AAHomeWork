@@ -31,7 +31,7 @@ class AutofitRecyclerView @JvmOverloads constructor(
 
     private fun init(attrs: AttributeSet) {
         context.obtainStyledAttributes(attrs, styleable.AutofitRecyclerView).run {
-            minItemWidth = getDimensionPixelSize(R.styleable.AutofitRecyclerView_minItemWidth, 0)
+            minItemWidth = getDimensionPixelSize(styleable.AutofitRecyclerView_minItemWidth, 0)
             recycle()
         }
         manager = GridLayoutManager(context, 1)
