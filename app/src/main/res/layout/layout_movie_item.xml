@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/space1.5x"
-    app:cardBackgroundColor="@android:color/transparent"
+    app:cardBackgroundColor="@color/darkBlue"
     app:cardCornerRadius="@dimen/space2x"
     app:cardElevation="@dimen/space6x"
     app:strokeColor="@color/cardStroke"
@@ -18,7 +18,7 @@
         <ImageView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
