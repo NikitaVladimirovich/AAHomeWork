@@ -113,4 +113,13 @@
     <style name="LikeCheckBox" parent="">
         <item name="android:button">@drawable/checkbox_selector</item>
     </style>
+
+    <style name="ImageView.Rounded.Appearance" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">4dp</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat" />
 </resources>

@@ -7,26 +7,34 @@
     android:fitsSystemWindows="false"
     android:orientation="vertical">
 
-    <TextView
-        style="@style/MainText.White.Bold"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/space5x"
-        android:layout_marginStart="@dimen/space4x"
-        android:layout_marginTop="@dimen/headerControlMarginTop"
-        android:drawablePadding="@dimen/space2x"
-        android:gravity="center_vertical"
-        android:text="@string/moviesList"
-        app:drawableStartCompat="@drawable/ic_combined_shape" />
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="@dimen/space10x"
+        android:theme="@style/AppTheme.PopupOverlay"
+        app:popupTheme="@style/AppTheme.PopupOverlay">
+
+        <TextView
+            style="@style/MainText.White.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/space5x"
+            android:layout_marginStart="@dimen/space4x"
+            android:drawablePadding="@dimen/space2x"
+            android:gravity="center_vertical"
+            android:text="@string/moviesList"
+            app:drawableStartCompat="@drawable/ic_combined_shape" />
+    </androidx.appcompat.widget.Toolbar>
 
     <com.aacademy.homework.ui.views.AutofitRecyclerView android:id="@+id/rvMovies"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingBottom="@dimen/space4x"
+        android:paddingBottom="@dimen/space5x"
         android:paddingEnd="@dimen/space1.5x"
         android:paddingStart="@dimen/space1.5x"
-        android:paddingTop="@dimen/space8x"
+        android:paddingTop="@dimen/space3x"
         app:minItemWidth="@dimen/minMovieItemWidth"
         tools:itemCount="1"
         tools:listitem="@layout/layout_movie_item" />

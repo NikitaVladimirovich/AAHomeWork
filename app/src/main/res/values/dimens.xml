@@ -10,6 +10,7 @@
     <dimen name="space5x">20dp</dimen>
     <dimen name="space6x">24dp</dimen>
     <dimen name="space8x">32dp</dimen>
+    <dimen name="space10x">40dp</dimen>
     <dimen name="textSizeCard">8sp</dimen>
     <dimen name="textSizeSub">12sp</dimen>
     <dimen name="textSizeMain">14sp</dimen>
