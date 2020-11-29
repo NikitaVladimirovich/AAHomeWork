@@ -8,6 +8,7 @@ import com.aacademy.homework.R
 import com.aacademy.homework.R.string
 import com.aacademy.homework.data.local.model.Movie
 import com.aacademy.homework.databinding.FragmentMoviesDetailsBinding
+import com.aacademy.homework.ui.activities.MainActivity
 import com.aacademy.homework.ui.adapters.CastAdapter
 import com.aacademy.homework.utils.viewBinding
 import com.bumptech.glide.Glide
@@ -24,7 +25,16 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
         val glide = Glide.with(this)
         glide.load(movie.coverPath).into(binding.ivCover)
 
-        binding.tvName.text = movie.title
+
+        (activity as MainActivity?)?.let {
+            it.setSupportActionBar(binding.toolbar)
+            it.supportActionBar?.apply {
+                setDisplayHomeAsUpEnabled(true)
+                setDisplayShowHomeEnabled(true)
+            }
+        }
+
+        binding.collapsingToolbar.title = movie.title
         binding.tvAgeLimit.text = getString(string.ageLimitFormat).format(movie.ageLimit)
         binding.tvTags.text = movie.tags.joinToString(", ")
         binding.tvReviews.text = getString(string.reviewsFormat).format(movie.reviews)
@@ -43,8 +53,6 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
         }
 
         castAdapter.actors = movie.cast
-
-        binding.tvBack.setOnClickListener { activity?.onBackPressed() }
     }
 
     companion object {
