@@ -10,10 +10,11 @@ import com.aacademy.homework.R.string
 import com.aacademy.homework.data.local.model.Movie
 import com.aacademy.homework.databinding.LayoutMovieItemBinding
 import com.aacademy.homework.ui.adapters.MovieAdapter.MovieViewHolder
+import com.aacademy.homework.utils.DragManageAdapter.OnItemSwapped
 import com.bumptech.glide.RequestManager
 
 class MovieAdapter(val glide: RequestManager, val resources: Resources, val clickListener: (Movie) -> Unit) :
-    RecyclerView.Adapter<MovieViewHolder>() {
+    RecyclerView.Adapter<MovieViewHolder>(), OnItemSwapped {
 
     private val diffCallback = object : DiffUtil.ItemCallback<Movie>() {
         override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean =
@@ -38,6 +39,21 @@ class MovieAdapter(val glide: RequestManager, val resources: Resources, val clic
     }
 
     override fun getItemCount(): Int = movies.size
+
+    override fun swapItems(fromPosition: Int, toPosition: Int) {
+        val newMovies = movies.toMutableList()
+        if (fromPosition < toPosition) {
+            for (i in fromPosition until toPosition) {
+                newMovies[i] = newMovies[i + 1].also { newMovies[i + 1] = newMovies[i] }
+            }
+        } else {
+            for (i in fromPosition downTo (toPosition + 1)) {
+                newMovies[i] = newMovies[i - 1].also { newMovies[i - 1] = newMovies[i] }
+            }
+        }
+
+        movies = newMovies
+    }
 
     inner class MovieViewHolder(private val binding: LayoutMovieItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
