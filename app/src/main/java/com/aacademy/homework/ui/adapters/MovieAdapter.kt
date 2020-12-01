@@ -58,6 +58,18 @@ class MovieAdapter(val glide: RequestManager, val resources: Resources, val clic
         movies = newMovies
     }
 
+    fun insertItem(movie: Movie) {
+        val newMovies = movies.toMutableList()
+        newMovies.add(movie)
+        movies = newMovies
+    }
+
+    fun removeLastItem() {
+        val newMovies = movies.toMutableList()
+        newMovies.removeLast()
+        movies = newMovies
+    }
+
     inner class MovieViewHolder(private val binding: LayoutMovieItemBinding) : LikeViewHolder(binding) {
 
         fun bind(movie: Movie) {
@@ -71,7 +83,7 @@ class MovieAdapter(val glide: RequestManager, val resources: Resources, val clic
             binding.cbLike.isSelected = movie.isLiked
             binding.cbLike.setOnCheckedChangeListener { _, isChecked ->
                 movie.isLiked = isChecked
-                if (isChecked) notifyItemChanged(adapterPosition, ACTION_LIKE_IMAGE_DOUBLE_CLICKED);
+                if (isChecked) notifyItemChanged(adapterPosition, ACTION_LIKE_IMAGE_DOUBLE_CLICKED)
             }
             binding.root.setOnClickListener { clickListener(movie) }
         }

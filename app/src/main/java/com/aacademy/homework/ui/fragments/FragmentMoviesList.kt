@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.aacademy.homework.R
 import com.aacademy.homework.data.local.MockRepository
+import com.aacademy.homework.data.local.MockRepository.getRandomMovie
 import com.aacademy.homework.databinding.FragmentMoviesListBinding
 import com.aacademy.homework.ui.activities.MainActivity
 import com.aacademy.homework.ui.adapters.MovieAdapter
@@ -34,6 +35,9 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
         // Setup DragAndDrop
         ItemTouchHelper(DragManageAdapter(movieAdapter)).attachToRecyclerView(binding.rvMovies)
+
+        binding.add.setOnClickListener { (binding.rvMovies.adapter as MovieAdapter).insertItem(getRandomMovie()) }
+        binding.remove.setOnClickListener { (binding.rvMovies.adapter as MovieAdapter).removeLastItem() }
     }
 
     companion object {

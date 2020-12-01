@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/darkBlue"
-    android:fitsSystemWindows="false"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
@@ -24,6 +24,18 @@
             android:gravity="center_vertical"
             android:text="@string/moviesList"
             app:drawableStartCompat="@drawable/ic_combined_shape" />
+
+        <ImageButton
+            android:id="@+id/add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/ic_input_add" />
+
+        <ImageButton
+            android:id="@+id/remove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/ic_delete" />
     </androidx.appcompat.widget.Toolbar>
 
     <com.aacademy.homework.ui.views.AutofitRecyclerView android:id="@+id/rvMovies"

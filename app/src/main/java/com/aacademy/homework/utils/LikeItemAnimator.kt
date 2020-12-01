@@ -76,6 +76,40 @@ class LikeItemAnimator : DefaultItemAnimator() {
         animatorSet.start()
     }
 
+    override fun animateRemove(holder: ViewHolder): Boolean {
+        val animatorSet = AnimatorSet()
+        val scaleBackground: ObjectAnimator = ObjectAnimator.ofPropertyValuesHolder(
+            holder.itemView, PropertyValuesHolder.ofFloat("y", holder.itemView.y, holder.itemView.y + 150.0f)
+        )
+        scaleBackground.interpolator = DECELERATE_INTERPOLATOR
+        scaleBackground.duration = 600
+        val fadeBackground: ObjectAnimator = ObjectAnimator.ofPropertyValuesHolder(
+            holder.itemView, PropertyValuesHolder.ofFloat("alpha", 1.0f, 0.0f)
+        )
+        fadeBackground.interpolator = DECELERATE_INTERPOLATOR
+        fadeBackground.duration = 600
+        animatorSet.playTogether(scaleBackground, fadeBackground)
+        animatorSet.start()
+        return true
+    }
+
+    override fun animateAdd(holder: ViewHolder): Boolean {
+        val animatorSet = AnimatorSet()
+        val scaleBackground: ObjectAnimator = ObjectAnimator.ofPropertyValuesHolder(
+            holder.itemView, PropertyValuesHolder.ofFloat("y", holder.itemView.y + 150.0f, holder.itemView.y)
+        )
+        scaleBackground.interpolator = DECELERATE_INTERPOLATOR
+        scaleBackground.duration = 600
+        val fadeBackground: ObjectAnimator = ObjectAnimator.ofPropertyValuesHolder(
+            holder.itemView, PropertyValuesHolder.ofFloat("alpha", 0.0f, 1.0f)
+        )
+        fadeBackground.interpolator = DECELERATE_INTERPOLATOR
+        fadeBackground.duration = 600
+        animatorSet.playTogether(scaleBackground, fadeBackground)
+        animatorSet.start()
+        return true
+    }
+
     class CharacterItemHolderInfo(var updateAction: String?) : ItemHolderInfo()
 
     abstract class LikeViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {

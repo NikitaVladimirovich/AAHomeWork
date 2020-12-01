@@ -2,6 +2,8 @@ package com.aacademy.homework.data.local
 
 import com.aacademy.homework.data.local.model.Actor
 import com.aacademy.homework.data.local.model.Movie
+import java.util.Date
+import kotlin.random.Random
 
 object MockRepository {
 
@@ -97,4 +99,21 @@ object MockRepository {
             )
         )
     ).toMutableList()
+
+    fun getRandomMovie(): Movie {
+        val id = Random(Date().time).nextInt(0, Int.MAX_VALUE)
+        return Movie(
+            id,
+            "Film $id",
+            "",
+            id % 21,
+            listOf("Tag1", "Tag2", "Tag3"),
+            id % 6,
+            id,
+            "",
+            id % 200,
+            false,
+            emptyList()
+        )
+    }
 }
