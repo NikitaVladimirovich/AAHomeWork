@@ -12,7 +12,7 @@
         android:layout_width="@dimen/castPhotoSize"
         android:layout_height="@dimen/castPhotoSize"
         app:shapeAppearanceOverlay="@style/ImageView.Rounded.Appearance"
-        tools:srcCompat="@mipmap/ic_launcher" />
+        tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/tvNameCast"
@@ -20,5 +20,5 @@
         android:layout_width="@dimen/castPhotoSize"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        tools:text="Robert\nDowney Jr." />
+        tools:text="@tools:sample/full_names" />
 </LinearLayout>

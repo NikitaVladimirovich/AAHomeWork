@@ -160,7 +160,7 @@
                 app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
                 app:layout_constraintRight_toLeftOf="@+id/guideVerticalRight"
                 app:layout_constraintTop_toBottomOf="@+id/tvStorylineHeader"
-                tools:text="After the devastating events of Avengers: Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos\' actions and restore balance to the universe." />
+                tools:text="@tools:sample/lorem/random" />
 
             <TextView
                 android:id="@+id/tvCast"

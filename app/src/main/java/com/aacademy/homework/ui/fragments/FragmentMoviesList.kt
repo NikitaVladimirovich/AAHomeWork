@@ -21,6 +21,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
         val movieAdapter = MovieAdapter(Glide.with(this), resources) {
             (activity as MainActivity?)?.openMovieDetail(it)
         }
+        movieAdapter.setHasStableIds(true)
         binding.rvMovies.apply {
             setHasFixedSize(true)
             adapter = movieAdapter

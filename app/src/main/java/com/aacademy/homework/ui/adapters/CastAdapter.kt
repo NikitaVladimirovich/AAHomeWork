@@ -34,6 +34,9 @@ class CastAdapter(val glide: RequestManager) : RecyclerView.Adapter<CastViewHold
     }
 
     override fun getItemCount(): Int = actors.size
+    override fun getItemId(position: Int): Long {
+        return actors[position].id.toLong()
+    }
 
     inner class CastViewHolder(private val binding: LayoutCastItemBinding) : RecyclerView.ViewHolder(binding.root) {
 

@@ -39,6 +39,10 @@ class MovieAdapter(val glide: RequestManager, val resources: Resources, val clic
 
     override fun getItemCount(): Int = movies.size
 
+    override fun getItemId(position: Int): Long {
+        return movies[position].id.toLong()
+    }
+
     inner class MovieViewHolder(private val binding: LayoutMovieItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(movie: Movie) {

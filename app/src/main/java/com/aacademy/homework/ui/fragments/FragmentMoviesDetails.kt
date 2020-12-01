@@ -42,6 +42,7 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
         binding.tvStoryline.text = movie.storyline
 
         val castAdapter = CastAdapter(glide)
+        castAdapter.setHasStableIds(true)
         binding.rvCast.apply {
             layoutManager = LinearLayoutManager(
                 context,
