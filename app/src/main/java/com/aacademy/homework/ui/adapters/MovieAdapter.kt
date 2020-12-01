@@ -2,6 +2,7 @@ package com.aacademy.homework.ui.adapters
 
 import android.content.res.Resources
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -11,6 +12,8 @@ import com.aacademy.homework.data.local.model.Movie
 import com.aacademy.homework.databinding.LayoutMovieItemBinding
 import com.aacademy.homework.ui.adapters.MovieAdapter.MovieViewHolder
 import com.aacademy.homework.utils.DragManageAdapter.OnItemSwapped
+import com.aacademy.homework.utils.LikeItemAnimator.Companion.ACTION_LIKE_IMAGE_DOUBLE_CLICKED
+import com.aacademy.homework.utils.LikeItemAnimator.LikeViewHolder
 import com.bumptech.glide.RequestManager
 
 class MovieAdapter(val glide: RequestManager, val resources: Resources, val clickListener: (Movie) -> Unit) :
@@ -55,7 +58,7 @@ class MovieAdapter(val glide: RequestManager, val resources: Resources, val clic
         movies = newMovies
     }
 
-    inner class MovieViewHolder(private val binding: LayoutMovieItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class MovieViewHolder(private val binding: LayoutMovieItemBinding) : LikeViewHolder(binding) {
 
         fun bind(movie: Movie) {
             binding.tvName.text = movie.title
@@ -66,8 +69,14 @@ class MovieAdapter(val glide: RequestManager, val resources: Resources, val clic
             binding.rbRating.rating = movie.rating.toFloat()
             binding.tvMin.text = resources.getString(string.minFormat).format(movie.min)
             binding.cbLike.isSelected = movie.isLiked
-            binding.cbLike.setOnCheckedChangeListener { _, isChecked -> movie.isLiked = isChecked }
+            binding.cbLike.setOnCheckedChangeListener { _, isChecked ->
+                movie.isLiked = isChecked
+                if (isChecked) notifyItemChanged(adapterPosition, ACTION_LIKE_IMAGE_DOUBLE_CLICKED);
+            }
             binding.root.setOnClickListener { clickListener(movie) }
         }
+
+        override val ivLike: View
+            get() = binding.ivLike
     }
 }

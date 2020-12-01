@@ -10,6 +10,7 @@ import com.aacademy.homework.databinding.FragmentMoviesListBinding
 import com.aacademy.homework.ui.activities.MainActivity
 import com.aacademy.homework.ui.adapters.MovieAdapter
 import com.aacademy.homework.utils.DragManageAdapter
+import com.aacademy.homework.utils.LikeItemAnimator
 import com.aacademy.homework.utils.viewBinding
 import com.bumptech.glide.Glide
 
@@ -26,6 +27,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
         binding.rvMovies.apply {
             setHasFixedSize(true)
             adapter = movieAdapter
+            itemAnimator = LikeItemAnimator()
         }
 
         movieAdapter.movies = MockRepository.getMovies()
