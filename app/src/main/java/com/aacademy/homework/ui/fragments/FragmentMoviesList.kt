@@ -19,10 +19,12 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
     private val binding by viewBinding(FragmentMoviesListBinding::bind)
 
+    private lateinit var movieAdapter: MovieAdapter
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val movieAdapter = MovieAdapter(Glide.with(this), resources) {
+        movieAdapter = MovieAdapter(Glide.with(this), resources) {
             (activity as MainActivity?)?.openMovieDetail(it)
         }
         binding.rvMovies.apply {
@@ -36,8 +38,8 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
         // Setup DragAndDrop
         ItemTouchHelper(DragManageAdapter(movieAdapter)).attachToRecyclerView(binding.rvMovies)
 
-        binding.add.setOnClickListener { (binding.rvMovies.adapter as MovieAdapter).insertItem(getRandomMovie()) }
-        binding.remove.setOnClickListener { (binding.rvMovies.adapter as MovieAdapter).removeLastItem() }
+        binding.add.setOnClickListener { movieAdapter.insertItem(getRandomMovie()) }
+        binding.remove.setOnClickListener { movieAdapter.removeLastItem() }
     }
 
     companion object {
