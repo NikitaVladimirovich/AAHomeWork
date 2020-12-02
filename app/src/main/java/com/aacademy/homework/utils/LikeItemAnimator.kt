@@ -4,6 +4,7 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.State
@@ -65,13 +66,13 @@ class LikeItemAnimator : DefaultItemAnimator() {
             PropertyValuesHolder.ofFloat("alpha", 0.0f, 1.0f, 0.0f)
         )
         scaleLikeIcon.interpolator = DECELERATE_INTERPOLATOR
-        scaleLikeIcon.duration = 1000
+        scaleLikeIcon.duration = 400
         val scaleLikeBackground: ObjectAnimator = ObjectAnimator.ofPropertyValuesHolder(
             holder.itemView, PropertyValuesHolder.ofFloat("scaleX", 1.0f, 0.95f, 1.0f),
             PropertyValuesHolder.ofFloat("scaleY", 1.0f, 0.95f, 1.0f)
         )
-        scaleLikeBackground.interpolator = DECELERATE_INTERPOLATOR
-        scaleLikeBackground.duration = 600
+        scaleLikeBackground.interpolator = AccelerateDecelerateInterpolator()
+        scaleLikeBackground.duration = 400
         animatorSet.playTogether(scaleLikeIcon, scaleLikeBackground)
         animatorSet.start()
     }
