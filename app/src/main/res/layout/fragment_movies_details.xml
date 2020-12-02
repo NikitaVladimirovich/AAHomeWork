@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/darkBlue"
+    android:fitsSystemWindows="true">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            app:collapsedTitleTextAppearance="@style/HeaderText.LightGray.Bold.Collapsed"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleTextAppearance="@style/HeaderText.LightGray.Bold"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:maxLines="2">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/ivCover"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/detailCoverHeight"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="centerCrop"
+                    app:layout_collapseMode="parallax"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription"
+                    tools:srcCompat="@drawable/orig" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/detailCoverHeight"
+                    android:background="@drawable/cover_mask"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:fitsSystemWindows="false"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:descendantFocusability="blocksDescendants"
+            android:paddingBottom="@dimen/space4x">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideVerticalLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/space4x" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideVerticalRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/space4x" />
+
+            <TextView
+                android:id="@+id/tvAgeLimit"
+                style="@style/SubText.White.Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space"
+                android:background="@drawable/age_limit_rectangle"
+                android:gravity="center"
+                app:layout_constraintRight_toLeftOf="@+id/guideVerticalRight"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="13+" />
+
+            <TextView
+                android:id="@+id/tvTags"
+                style="@style/MainText.Pink.Normal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space"
+                app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
+                app:layout_constraintRight_toLeftOf="@+id/guideVerticalRight"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Action, Adventure, Fantasy" />
+
+            <com.aacademy.homework.ui.views.RatingBarSvg
+                android:id="@+id/rbRating"
+                style="@style/RatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/space3x"
+                android:indeterminate="false"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:stepSize="1"
+                app:drawableHeight="@dimen/space3x"
+                app:drawableWidth="@dimen/space3x"
+                app:innerPadding="@dimen/space"
+                app:layout_constraintBottom_toBottomOf="@+id/tvReviews"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
+                app:layout_constraintRight_toLeftOf="@+id/tvReviews"
+                app:layout_constraintTop_toTopOf="@+id/tvReviews"
+                tools:rating="3" />
+
+            <TextView
+                android:id="@+id/tvReviews"
+                style="@style/MainText.DarkGray.Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space2x"
+                android:layout_marginTop="@dimen/space"
+                android:textAllCaps="true"
+                app:layout_constraintLeft_toRightOf="@+id/rbRating"
+                app:layout_constraintRight_toLeftOf="@+id/guideVerticalRight"
+                app:layout_constraintTop_toBottomOf="@+id/tvTags"
+                tools:text="125 reviews" />
+
+            <TextView
+                android:id="@+id/tvStorylineHeader"
+                style="@style/MainText.LightLightGray.Bold"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space6x"
+                android:text="@string/storylineTitle"
+                app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
+                app:layout_constraintRight_toLeftOf="@+id/guideVerticalRight"
+                app:layout_constraintTop_toBottomOf="@+id/tvReviews" />
+
+            <TextView
+                android:id="@+id/tvStoryline"
+                style="@style/MainText.White.Normal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space"
+                android:alpha="0.75"
+                app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
+                app:layout_constraintRight_toLeftOf="@+id/guideVerticalRight"
+                app:layout_constraintTop_toBottomOf="@+id/tvStorylineHeader"
+                tools:text="@tools:sample/lorem/random" />
+
+            <TextView
+                android:id="@+id/tvCast"
+                style="@style/MainText.LightLightGray.Bold"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space6x"
+                android:text="@string/castTitle"
+                app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
+                app:layout_constraintRight_toLeftOf="@+id/guideVerticalRight"
+                app:layout_constraintTop_toBottomOf="@+id/tvStoryline" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrierHorizontalCastBottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:barrierMargin="@dimen/space2x"
+                app:constraint_referenced_ids="tvCast" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                android:paddingEnd="@dimen/space3x"
+                android:paddingStart="@dimen/space3x"
+                android:paddingTop="@dimen/space2x"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/tvCast"
+                app:spanCount="4"
+                tools:listitem="@layout/layout_cast_item" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

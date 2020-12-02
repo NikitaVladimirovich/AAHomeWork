@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="detailCoverHeight">298dp</dimen>
+    <dimen name="space0.5x">2dp</dimen>
     <dimen name="space">4dp</dimen>
+    <dimen name="space1.5x">6dp</dimen>
     <dimen name="space2x">8dp</dimen>
     <dimen name="space3x">12dp</dimen>
     <dimen name="space4x">16dp</dimen>
+    <dimen name="space5x">20dp</dimen>
     <dimen name="space6x">24dp</dimen>
+    <dimen name="space8x">32dp</dimen>
+    <dimen name="space10x">40dp</dimen>
+    <dimen name="textSizeCard">8sp</dimen>
     <dimen name="textSizeSub">12sp</dimen>
     <dimen name="textSizeMain">14sp</dimen>
     <dimen name="textSizeHeader">40sp</dimen>
     <dimen name="headerControlMarginTop">56dp</dimen>
     <dimen name="dataMarginTop">222dp</dimen>
+    <dimen name="castPhotoSize">80dp</dimen>
+    <dimen name="cardCoverHeight">260dp</dimen>
+    <dimen name="minMovieItemWidth">187dp</dimen>
 </resources>

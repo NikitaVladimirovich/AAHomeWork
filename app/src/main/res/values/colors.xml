@@ -10,6 +10,10 @@
     <color name="lightlightGray">#ececec</color>
     <color name="lightGray">#D8D8D8</color>
     <color name="darkGray">#6D6D80</color>
+    <color name="darkDarkGray">#565656</color>
     <color name="pink">#FF3466</color>
     <color name="darkBlue">#191926</color>
+    <color name="filledStar">#FF3365</color>
+    <color name="emptyStar">#6D6D80</color>
+    <color name="cardStroke">#272633</color>
 </resources>
