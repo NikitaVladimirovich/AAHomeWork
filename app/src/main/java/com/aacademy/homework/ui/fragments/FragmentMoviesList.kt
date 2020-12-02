@@ -36,7 +36,9 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
         movieAdapter.movies = MockRepository.getMovies()
 
         // Setup DragAndDrop
-        ItemTouchHelper(DragManageAdapter(movieAdapter)).attachToRecyclerView(binding.rvMovies)
+        ItemTouchHelper(DragManageAdapter(moveCallback = movieAdapter::swapItems)).attachToRecyclerView(
+            binding.rvMovies
+        )
 
         binding.add.setOnClickListener { movieAdapter.insertItem(getRandomMovie()) }
         binding.remove.setOnClickListener { movieAdapter.removeLastItem() }

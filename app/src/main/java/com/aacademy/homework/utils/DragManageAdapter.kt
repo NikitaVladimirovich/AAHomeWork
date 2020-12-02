@@ -6,7 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
 class DragManageAdapter(
-    private val adapter: OnItemSwapped
+    private val moveCallback: ((Int, Int) -> Unit)? = null,
+    private val swipeCallback: ((ViewHolder, Int) -> Unit)? = null
 ) : SimpleCallback(
     ItemTouchHelper.DOWN or ItemTouchHelper.UP or ItemTouchHelper.START or ItemTouchHelper.END, 0
 ) {
@@ -16,15 +17,11 @@ class DragManageAdapter(
         viewHolder: ViewHolder,
         target: ViewHolder
     ): Boolean {
-        adapter.swapItems(viewHolder.adapterPosition, target.adapterPosition)
+        moveCallback?.invoke(viewHolder.adapterPosition, target.adapterPosition)
         return true
     }
 
     override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
-    }
-
-    interface OnItemSwapped {
-
-        fun swapItems(fromPosition: Int, toPosition: Int)
+        swipeCallback?.invoke(viewHolder, direction)
     }
 }

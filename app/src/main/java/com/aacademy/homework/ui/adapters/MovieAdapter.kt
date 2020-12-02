@@ -11,14 +11,13 @@ import com.aacademy.homework.R.string
 import com.aacademy.homework.data.local.model.Movie
 import com.aacademy.homework.databinding.LayoutMovieItemBinding
 import com.aacademy.homework.ui.adapters.MovieAdapter.MovieViewHolder
-import com.aacademy.homework.utils.DragManageAdapter.OnItemSwapped
-import com.aacademy.homework.utils.LikeItemAnimator.Companion.ACTION_LIKE_IMAGE_DOUBLE_CLICKED
+import com.aacademy.homework.utils.LikeItemAnimator.Companion.ACTION_FILM_LIKED
 import com.aacademy.homework.utils.LikeItemAnimator.LikeViewHolder
 import com.bumptech.glide.RequestManager
 import java.util.Collections
 
 class MovieAdapter(val glide: RequestManager, val resources: Resources, val clickListener: (Movie) -> Unit) :
-    RecyclerView.Adapter<MovieViewHolder>(), OnItemSwapped {
+    RecyclerView.Adapter<MovieViewHolder>() {
 
     private val diffCallback = object : DiffUtil.ItemCallback<Movie>() {
         override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean =
@@ -44,7 +43,7 @@ class MovieAdapter(val glide: RequestManager, val resources: Resources, val clic
 
     override fun getItemCount(): Int = movies.size
 
-    override fun swapItems(fromPosition: Int, toPosition: Int) {
+    fun swapItems(fromPosition: Int, toPosition: Int) {
         val newMovies = movies.toMutableList()
         if (fromPosition < toPosition) {
             for (i in fromPosition until toPosition) {
@@ -84,7 +83,7 @@ class MovieAdapter(val glide: RequestManager, val resources: Resources, val clic
             binding.cbLike.isSelected = movie.isLiked
             binding.cbLike.setOnCheckedChangeListener { _, isChecked ->
                 movie.isLiked = isChecked
-                if (isChecked) notifyItemChanged(adapterPosition, ACTION_LIKE_IMAGE_DOUBLE_CLICKED)
+                if (isChecked) notifyItemChanged(adapterPosition, ACTION_FILM_LIKED)
             }
             binding.root.setOnClickListener { clickListener(movie) }
         }
