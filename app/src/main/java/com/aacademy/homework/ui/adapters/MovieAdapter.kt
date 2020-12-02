@@ -15,6 +15,7 @@ import com.aacademy.homework.utils.DragManageAdapter.OnItemSwapped
 import com.aacademy.homework.utils.LikeItemAnimator.Companion.ACTION_LIKE_IMAGE_DOUBLE_CLICKED
 import com.aacademy.homework.utils.LikeItemAnimator.LikeViewHolder
 import com.bumptech.glide.RequestManager
+import java.util.Collections
 
 class MovieAdapter(val glide: RequestManager, val resources: Resources, val clickListener: (Movie) -> Unit) :
     RecyclerView.Adapter<MovieViewHolder>(), OnItemSwapped {
@@ -47,11 +48,11 @@ class MovieAdapter(val glide: RequestManager, val resources: Resources, val clic
         val newMovies = movies.toMutableList()
         if (fromPosition < toPosition) {
             for (i in fromPosition until toPosition) {
-                newMovies[i] = newMovies[i + 1].also { newMovies[i + 1] = newMovies[i] }
+                Collections.swap(newMovies, i, i + 1)
             }
         } else {
             for (i in fromPosition downTo (toPosition + 1)) {
-                newMovies[i] = newMovies[i - 1].also { newMovies[i - 1] = newMovies[i] }
+                Collections.swap(newMovies, i, i - 1)
             }
         }
 
