@@ -83,12 +83,14 @@ class MovieAdapter(val glide: RequestManager, val resources: Resources, val clic
             binding.rbRating.rating = movie.rating.toFloat()
             binding.tvMin.text = resources.getString(string.minFormat).format(movie.min)
             binding.cbLike.setOnCheckedChangeListener(null)
-            binding.cbLike.isSelected = movie.isLiked
+            binding.cbLike.isChecked = movie.isLiked
             binding.cbLike.setOnCheckedChangeListener { _, isChecked ->
                 movie.isLiked = isChecked
                 if (isChecked) notifyItemChanged(adapterPosition, ACTION_FILM_LIKED)
             }
-            binding.llLike.setOnClickListener { binding.cbLike.isChecked = !movie.isLiked }
+            binding.llLike.setOnClickListener {
+                binding.cbLike.isChecked = !movie.isLiked
+            }
             binding.root.setOnClickListener { clickListener(movie) }
         }
 
