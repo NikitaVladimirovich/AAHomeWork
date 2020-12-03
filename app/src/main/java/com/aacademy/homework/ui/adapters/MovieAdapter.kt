@@ -11,8 +11,8 @@ import com.aacademy.homework.R.string
 import com.aacademy.homework.data.local.model.Movie
 import com.aacademy.homework.databinding.LayoutMovieItemBinding
 import com.aacademy.homework.ui.adapters.MovieAdapter.MovieViewHolder
-import com.aacademy.homework.utils.LikeItemAnimator.Companion.ACTION_FILM_LIKED
-import com.aacademy.homework.utils.LikeItemAnimator.LikeViewHolder
+import com.aacademy.homework.utils.MovieItemAnimator.Companion.ACTION_FILM_LIKED
+import com.aacademy.homework.utils.MovieItemAnimator.LikeViewHolder
 import com.bumptech.glide.RequestManager
 import java.util.Collections
 
@@ -65,9 +65,11 @@ class MovieAdapter(val glide: RequestManager, val resources: Resources, val clic
     }
 
     fun removeLastItem() {
+        if (movies.size < 0) return
         val newMovies = movies.toMutableList()
         newMovies.removeLast()
         movies = newMovies
+        notifyItemRemoved(movies.size)
     }
 
     inner class MovieViewHolder(private val binding: LayoutMovieItemBinding) : LikeViewHolder(binding) {

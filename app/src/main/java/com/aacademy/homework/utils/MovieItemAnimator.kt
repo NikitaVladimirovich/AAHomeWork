@@ -1,5 +1,7 @@
 package com.aacademy.homework.utils
 
+import android.animation.Animator
+import android.animation.Animator.AnimatorListener
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
@@ -16,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView.Y
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.animation.AnimationUtils.DECELERATE_INTERPOLATOR
 
-class LikeItemAnimator : DefaultItemAnimator() {
+class MovieItemAnimator : DefaultItemAnimator() {
 
     companion object {
 
@@ -83,8 +85,9 @@ class LikeItemAnimator : DefaultItemAnimator() {
 
     override fun animateRemove(holder: ViewHolder): Boolean {
         val animatorSet = AnimatorSet()
+        val startY = holder.itemView.y
         val scaleBackground: ObjectAnimator = ObjectAnimator.ofPropertyValuesHolder(
-            holder.itemView, PropertyValuesHolder.ofFloat(Y, holder.itemView.y, holder.itemView.y + 150.0f)
+            holder.itemView, PropertyValuesHolder.ofFloat(Y, startY, holder.itemView.y + 150.0f)
         )
         scaleBackground.interpolator = DECELERATE_INTERPOLATOR
         scaleBackground.duration = 600
@@ -93,9 +96,36 @@ class LikeItemAnimator : DefaultItemAnimator() {
         )
         fadeBackground.interpolator = DECELERATE_INTERPOLATOR
         fadeBackground.duration = 600
+
+        animatorSet.addListener(object : AnimatorListener {
+            override fun onAnimationStart(animator: Animator) {
+                dispatchRemoveStarting(holder)
+            }
+
+            override fun onAnimationRepeat(animation: Animator?) {
+            }
+
+            override fun onAnimationEnd(animator: Animator) {
+                dispatchRemoveFinished(holder)
+                holder.itemView.y = startY
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+        })
         animatorSet.playTogether(scaleBackground, fadeBackground)
         animatorSet.start()
         return true
+    }
+
+    override fun onRemoveStarting(item: ViewHolder?) {
+        super.onRemoveStarting(item)
+        item?.itemView?.isEnabled = false
+    }
+
+    override fun onAddFinished(item: ViewHolder?) {
+        super.onAddFinished(item)
+        item?.itemView?.isEnabled = true
     }
 
     override fun animateAdd(holder: ViewHolder): Boolean {
@@ -110,6 +140,21 @@ class LikeItemAnimator : DefaultItemAnimator() {
         )
         fadeBackground.interpolator = DECELERATE_INTERPOLATOR
         fadeBackground.duration = 600
+        animatorSet.addListener(object : AnimatorListener {
+            override fun onAnimationStart(animator: Animator) {
+                dispatchAddStarting(holder)
+            }
+
+            override fun onAnimationRepeat(animation: Animator?) {
+            }
+
+            override fun onAnimationEnd(animator: Animator) {
+                dispatchAddFinished(holder)
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+        })
         animatorSet.playTogether(scaleBackground, fadeBackground)
         animatorSet.start()
         return true

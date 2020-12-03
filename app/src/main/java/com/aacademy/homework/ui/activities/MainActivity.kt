@@ -3,6 +3,7 @@ package com.aacademy.homework.ui.activities
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.WindowCompat
 import com.aacademy.homework.R.anim
 import com.aacademy.homework.R.id
@@ -38,6 +39,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun setSupportActionBar(toolbar: Toolbar?) {
+        super.setSupportActionBar(toolbar)
+        title = ""
     }
 
     override fun onDestroy() {

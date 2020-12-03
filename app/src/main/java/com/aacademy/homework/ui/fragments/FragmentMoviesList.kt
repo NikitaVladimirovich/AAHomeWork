@@ -1,6 +1,9 @@
 package com.aacademy.homework.ui.fragments
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -11,7 +14,7 @@ import com.aacademy.homework.databinding.FragmentMoviesListBinding
 import com.aacademy.homework.ui.activities.MainActivity
 import com.aacademy.homework.ui.adapters.MovieAdapter
 import com.aacademy.homework.utils.DragManageAdapter
-import com.aacademy.homework.utils.LikeItemAnimator
+import com.aacademy.homework.utils.MovieItemAnimator
 import com.aacademy.homework.utils.viewBinding
 import com.bumptech.glide.Glide
 
@@ -21,16 +24,35 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
     private lateinit var movieAdapter: MovieAdapter
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.movie_list, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.add -> movieAdapter.insertItem(getRandomMovie())
+            R.id.remove -> movieAdapter.removeLastItem()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        (activity as MainActivity?)?.setSupportActionBar(binding.toolbar)
         movieAdapter = MovieAdapter(Glide.with(this), resources) {
             (activity as MainActivity?)?.openMovieDetail(it)
         }
         binding.rvMovies.apply {
             setHasFixedSize(true)
             adapter = movieAdapter
-            itemAnimator = LikeItemAnimator()
+            itemAnimator = MovieItemAnimator()
         }
 
         movieAdapter.movies = MockRepository.getMovies()
@@ -39,9 +61,6 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
         ItemTouchHelper(DragManageAdapter(moveCallback = movieAdapter::swapItems)).attachToRecyclerView(
             binding.rvMovies
         )
-
-        binding.add.setOnClickListener { movieAdapter.insertItem(getRandomMovie()) }
-        binding.remove.setOnClickListener { movieAdapter.removeLastItem() }
     }
 
     companion object {
