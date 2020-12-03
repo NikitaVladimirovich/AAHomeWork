@@ -61,14 +61,23 @@
             android:background="@drawable/cover_mask"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/cbLike"
-            android:layout_width="16dp"
-            android:layout_height="14dp"
-            android:layout_marginTop="@dimen/space"
-            style="@style/LikeCheckBox"
-            app:layout_constraintEnd_toEndOf="@id/guideVerticalRight"
-            app:layout_constraintTop_toTopOf="@id/guideHorizontalTop"/>
+        <LinearLayout
+            android:id="@+id/llLike"
+            android:layout_width="@dimen/space8x"
+            android:layout_height="34dp"
+            android:padding="@dimen/space2x"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/cbLike"
+                style="@style/LikeCheckBox"
+                android:layout_width="16dp"
+                android:layout_height="14dp"
+                android:layout_marginTop="@dimen/space"
+                android:clickable="false"
+                android:enabled="false" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvAgeLimit"

@@ -65,7 +65,7 @@ class MovieAdapter(val glide: RequestManager, val resources: Resources, val clic
     }
 
     fun removeLastItem() {
-        if (movies.size < 0) return
+        if (movies.isEmpty()) return
         val newMovies = movies.toMutableList()
         newMovies.removeLast()
         movies = newMovies
@@ -82,11 +82,13 @@ class MovieAdapter(val glide: RequestManager, val resources: Resources, val clic
             binding.tvReviews.text = resources.getString(string.reviewsFormat).format(movie.reviews)
             binding.rbRating.rating = movie.rating.toFloat()
             binding.tvMin.text = resources.getString(string.minFormat).format(movie.min)
+            binding.cbLike.setOnCheckedChangeListener(null)
             binding.cbLike.isSelected = movie.isLiked
             binding.cbLike.setOnCheckedChangeListener { _, isChecked ->
                 movie.isLiked = isChecked
                 if (isChecked) notifyItemChanged(adapterPosition, ACTION_FILM_LIKED)
             }
+            binding.llLike.setOnClickListener { binding.cbLike.isChecked = !movie.isLiked }
             binding.root.setOnClickListener { clickListener(movie) }
         }
 
