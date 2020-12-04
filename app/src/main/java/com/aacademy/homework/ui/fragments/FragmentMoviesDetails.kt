@@ -1,14 +1,11 @@
 package com.aacademy.homework.ui.fragments
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.Room
 import com.aacademy.homework.R
-import com.aacademy.homework.data.local.dao.AppDatabase
+import com.aacademy.homework.data.local.MockRepository
 import com.aacademy.homework.data.local.model.MoviePreviewWithTags
 import com.aacademy.homework.databinding.FragmentMoviesDetailsBinding
 import com.aacademy.homework.ui.adapters.CastAdapter
@@ -25,29 +22,24 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
         val glide = Glide.with(this)
         val moviePreview = arguments?.get(MOVIE_PREVIEW_ARGUMENT) as MoviePreviewWithTags
 
-        //TODO : only for test!!! need Rx or Coroutines
-        Thread {
-            val movieDetail = Room.databaseBuilder(context!!, AppDatabase::class.java, "sqlite.db")
-                .createFromAsset("sqlite.db")
-                .build().movieDetailDao().getMovieDetail(moviePreview.moviePreview.id)
-            Handler(Looper.getMainLooper()).post {
-                binding.tvStoryline.text = movieDetail.movieDetail.storyline
+        val castAdapter = CastAdapter(glide)
+        binding.rvCast.apply {
+            layoutManager = LinearLayoutManager(
+                context,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+            setHasFixedSize(true)
+            adapter = castAdapter
+        }
 
-                val castAdapter = CastAdapter(glide)
-                binding.rvCast.apply {
-                    layoutManager = LinearLayoutManager(
-                        context,
-                        LinearLayoutManager.HORIZONTAL,
-                        false
-                    )
-                    setHasFixedSize(true)
-                    adapter = castAdapter
-                }
-
+        MockRepository.getMovieDetail(moviePreview.moviePreview.id)
+            .subscribe({ movieDetail ->
                 castAdapter.actors = movieDetail.cast
-
-            }
-        }.start()
+                binding.tvStoryline.text = movieDetail.movieDetail.storyline
+            }, {
+                it.printStackTrace()
+            })
 
         glide.load(moviePreview.moviePreview.coverPath).into(binding.ivCover)
 
