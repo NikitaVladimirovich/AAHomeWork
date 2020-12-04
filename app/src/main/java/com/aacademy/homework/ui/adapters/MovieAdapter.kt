@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.aacademy.homework.R.string
+import com.aacademy.homework.data.local.MockRepository
 import com.aacademy.homework.data.local.model.MoviePreviewWithTags
 import com.aacademy.homework.databinding.LayoutMovieItemBinding
 import com.aacademy.homework.ui.adapters.MovieAdapter.MovieViewHolder
@@ -55,9 +56,10 @@ class MovieAdapter(
                 resources.getString(string.reviewsFormat).format(moviePreview.moviePreview.reviews)
             binding.rbRating.rating = moviePreview.moviePreview.rating.toFloat()
             binding.tvMin.text = resources.getString(string.minFormat).format(moviePreview.moviePreview.min)
-            binding.cbLike.isSelected = moviePreview.moviePreview.isLiked
+            binding.cbLike.isChecked = moviePreview.moviePreview.isLiked
             binding.cbLike.setOnCheckedChangeListener { _, isChecked ->
                 moviePreview.moviePreview.isLiked = isChecked
+                MockRepository.setMovieLiked(moviePreview.moviePreview.id, isChecked).subscribe()
             }
             binding.root.setOnClickListener { clickListener(moviePreview) }
         }
