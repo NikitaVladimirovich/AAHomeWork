@@ -12,7 +12,11 @@ import com.aacademy.homework.databinding.LayoutMovieItemBinding
 import com.aacademy.homework.ui.adapters.MovieAdapter.MovieViewHolder
 import com.bumptech.glide.RequestManager
 
-class MovieAdapter(val glide: RequestManager, val resources: Resources, val clickListener: (Int) -> Unit) :
+class MovieAdapter(
+    val glide: RequestManager,
+    val resources: Resources,
+    val clickListener: (MoviePreviewWithTags) -> Unit
+) :
     RecyclerView.Adapter<MovieViewHolder>() {
 
     private val diffCallback = object : DiffUtil.ItemCallback<MoviePreviewWithTags>() {
@@ -55,7 +59,7 @@ class MovieAdapter(val glide: RequestManager, val resources: Resources, val clic
             binding.cbLike.setOnCheckedChangeListener { _, isChecked ->
                 moviePreview.moviePreview.isLiked = isChecked
             }
-            binding.root.setOnClickListener { clickListener(moviePreview.moviePreview.id) }
+            binding.root.setOnClickListener { clickListener(moviePreview) }
         }
     }
 }

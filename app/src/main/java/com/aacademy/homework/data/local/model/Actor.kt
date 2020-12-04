@@ -3,9 +3,12 @@ package com.aacademy.homework.data.local.model
 import android.os.Parcel
 import android.os.Parcelable
 import android.os.Parcelable.Creator
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
+@Entity
 data class Actor(
-    val id: Int,
+    @PrimaryKey val id: Int,
     val firstName: String,
     val lastName: String,
     val photoPath: String
