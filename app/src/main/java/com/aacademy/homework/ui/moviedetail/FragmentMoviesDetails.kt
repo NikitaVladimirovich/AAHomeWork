@@ -1,4 +1,4 @@
-package com.aacademy.homework.ui.fragments
+package com.aacademy.homework.ui.moviedetail
 
 import android.os.Bundle
 import android.view.Menu
@@ -11,7 +11,6 @@ import com.aacademy.homework.R.string
 import com.aacademy.homework.data.local.model.Movie
 import com.aacademy.homework.databinding.FragmentMoviesDetailsBinding
 import com.aacademy.homework.ui.activities.MainActivity
-import com.aacademy.homework.ui.adapters.CastAdapter
 import com.aacademy.homework.utils.viewBinding
 import com.bumptech.glide.Glide
 

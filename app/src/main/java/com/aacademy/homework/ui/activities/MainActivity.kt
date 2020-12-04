@@ -9,8 +9,8 @@ import com.aacademy.homework.R.anim
 import com.aacademy.homework.R.id
 import com.aacademy.homework.data.local.model.Movie
 import com.aacademy.homework.databinding.ActivityMainBinding
-import com.aacademy.homework.ui.fragments.FragmentMoviesDetails
-import com.aacademy.homework.ui.fragments.FragmentMoviesList
+import com.aacademy.homework.ui.moviedetail.FragmentMoviesDetails
+import com.aacademy.homework.ui.movielist.FragmentMoviesList
 
 class MainActivity : AppCompatActivity() {
 

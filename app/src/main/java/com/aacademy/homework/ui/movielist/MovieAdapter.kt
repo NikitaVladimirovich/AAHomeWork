@@ -1,4 +1,4 @@
-package com.aacademy.homework.ui.adapters
+package com.aacademy.homework.ui.movielist
 
 import android.content.res.Resources
 import android.view.LayoutInflater
@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aacademy.homework.R.string
 import com.aacademy.homework.data.local.model.Movie
 import com.aacademy.homework.databinding.LayoutMovieItemBinding
-import com.aacademy.homework.ui.adapters.MovieAdapter.MovieViewHolder
-import com.aacademy.homework.utils.MovieItemAnimator.Companion.ACTION_FILM_LIKED
-import com.aacademy.homework.utils.MovieItemAnimator.LikeViewHolder
+import com.aacademy.homework.ui.movielist.MovieAdapter.MovieViewHolder
+import com.aacademy.homework.ui.movielist.MovieItemAnimator.Companion.ACTION_FILM_LIKED
+import com.aacademy.homework.ui.movielist.MovieItemAnimator.LikeViewHolder
 import com.bumptech.glide.RequestManager
 import java.util.Collections
 

@@ -1,4 +1,4 @@
-package com.aacademy.homework.utils
+package com.aacademy.homework.ui.views
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.SimpleCallback

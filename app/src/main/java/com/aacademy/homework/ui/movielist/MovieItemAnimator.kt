@@ -1,4 +1,4 @@
-package com.aacademy.homework.utils
+package com.aacademy.homework.ui.movielist
 
 import android.animation.Animator
 import android.animation.Animator.AnimatorListener

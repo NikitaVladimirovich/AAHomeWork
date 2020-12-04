@@ -1,4 +1,4 @@
-package com.aacademy.homework.ui.fragments
+package com.aacademy.homework.ui.movielist
 
 import android.os.Bundle
 import android.view.Menu
@@ -12,9 +12,7 @@ import com.aacademy.homework.data.local.MockRepository
 import com.aacademy.homework.data.local.MockRepository.getRandomMovie
 import com.aacademy.homework.databinding.FragmentMoviesListBinding
 import com.aacademy.homework.ui.activities.MainActivity
-import com.aacademy.homework.ui.adapters.MovieAdapter
-import com.aacademy.homework.utils.DragManageAdapter
-import com.aacademy.homework.utils.MovieItemAnimator
+import com.aacademy.homework.ui.views.DragManageAdapter
 import com.aacademy.homework.utils.viewBinding
 import com.bumptech.glide.Glide
 
