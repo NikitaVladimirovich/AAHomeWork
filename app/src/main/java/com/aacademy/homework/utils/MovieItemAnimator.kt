@@ -9,6 +9,9 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ALPHA
+import androidx.recyclerview.widget.RecyclerView.SCALE_X
+import androidx.recyclerview.widget.RecyclerView.SCALE_Y
 import androidx.recyclerview.widget.RecyclerView.State
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.viewbinding.ViewBinding
@@ -63,15 +66,15 @@ class MovieItemAnimator : DefaultItemAnimator() {
         val animatorSet = AnimatorSet()
         val scaleLikeIcon: ObjectAnimator = ObjectAnimator.ofPropertyValuesHolder(
             holder.ivLike,
-            PropertyValuesHolder.ofFloat("scaleX", 0.0f, 2.0f),
-            PropertyValuesHolder.ofFloat("scaleY", 0.0f, 2.0f),
-            PropertyValuesHolder.ofFloat("alpha", 0.0f, 1.0f, 0.0f)
+            PropertyValuesHolder.ofFloat(SCALE_X, 0.0f, 2.0f),
+            PropertyValuesHolder.ofFloat(SCALE_Y, 0.0f, 2.0f),
+            PropertyValuesHolder.ofFloat(ALPHA, 0.0f, 1.0f, 0.0f)
         )
         scaleLikeIcon.interpolator = DECELERATE_INTERPOLATOR
         scaleLikeIcon.duration = 400
         val scaleLikeBackground: ObjectAnimator = ObjectAnimator.ofPropertyValuesHolder(
-            holder.itemView, PropertyValuesHolder.ofFloat("scaleX", 1.0f, 0.95f, 1.0f),
-            PropertyValuesHolder.ofFloat("scaleY", 1.0f, 0.95f, 1.0f)
+            holder.itemView, PropertyValuesHolder.ofFloat(SCALE_X, 1.0f, 0.95f, 1.0f),
+            PropertyValuesHolder.ofFloat(SCALE_Y, 1.0f, 0.95f, 1.0f)
         )
         scaleLikeBackground.interpolator = AccelerateDecelerateInterpolator()
         scaleLikeBackground.duration = 400
@@ -88,7 +91,7 @@ class MovieItemAnimator : DefaultItemAnimator() {
         scaleBackground.interpolator = DECELERATE_INTERPOLATOR
         scaleBackground.duration = 600
         val fadeBackground: ObjectAnimator = ObjectAnimator.ofPropertyValuesHolder(
-            holder.itemView, PropertyValuesHolder.ofFloat("alpha", 1.0f, 0.0f)
+            holder.itemView, PropertyValuesHolder.ofFloat(ALPHA, 1.0f, 0.0f)
         )
         fadeBackground.interpolator = DECELERATE_INTERPOLATOR
         fadeBackground.duration = 600
@@ -132,7 +135,7 @@ class MovieItemAnimator : DefaultItemAnimator() {
         scaleBackground.interpolator = DECELERATE_INTERPOLATOR
         scaleBackground.duration = 600
         val fadeBackground: ObjectAnimator = ObjectAnimator.ofPropertyValuesHolder(
-            holder.itemView, PropertyValuesHolder.ofFloat("alpha", 0.0f, 1.0f)
+            holder.itemView, PropertyValuesHolder.ofFloat(ALPHA, 0.0f, 1.0f)
         )
         fadeBackground.interpolator = DECELERATE_INTERPOLATOR
         fadeBackground.duration = 600
