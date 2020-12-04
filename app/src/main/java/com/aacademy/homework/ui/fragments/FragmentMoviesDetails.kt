@@ -11,6 +11,7 @@ import com.aacademy.homework.databinding.FragmentMoviesDetailsBinding
 import com.aacademy.homework.ui.adapters.CastAdapter
 import com.aacademy.homework.utils.viewBinding
 import com.bumptech.glide.Glide
+import io.reactivex.android.schedulers.AndroidSchedulers
 
 class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
 
@@ -34,8 +35,11 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
         }
 
         MockRepository.getMovieDetail(moviePreview.moviePreview.id)
+            .doOnNext {
+                castAdapter.actors = it.cast
+            }
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ movieDetail ->
-                castAdapter.actors = movieDetail.cast
                 binding.tvStoryline.text = movieDetail.movieDetail.storyline
             }, {
                 it.printStackTrace()

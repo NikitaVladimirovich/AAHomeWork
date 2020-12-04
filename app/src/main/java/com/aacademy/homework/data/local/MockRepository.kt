@@ -26,6 +26,5 @@ object MockRepository {
     fun getMovieDetail(id: Int): Observable<MovieDetailWithActors> {
         return database.movieDetailDao().getMovieDetail(id)
             .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
     }
 }
