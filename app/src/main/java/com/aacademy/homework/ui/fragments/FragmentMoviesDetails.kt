@@ -1,6 +1,8 @@
 package com.aacademy.homework.ui.fragments
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +18,11 @@ import com.bumptech.glide.Glide
 class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
 
     private val binding by viewBinding(FragmentMoviesDetailsBinding::bind)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -54,6 +61,11 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
         }
 
         castAdapter.actors = movie.cast
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     companion object {

@@ -2,6 +2,7 @@ package com.aacademy.homework.ui.adapters
 
 import android.content.res.Resources
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -10,7 +11,10 @@ import com.aacademy.homework.R.string
 import com.aacademy.homework.data.local.model.Movie
 import com.aacademy.homework.databinding.LayoutMovieItemBinding
 import com.aacademy.homework.ui.adapters.MovieAdapter.MovieViewHolder
+import com.aacademy.homework.utils.MovieItemAnimator.Companion.ACTION_FILM_LIKED
+import com.aacademy.homework.utils.MovieItemAnimator.LikeViewHolder
 import com.bumptech.glide.RequestManager
+import java.util.Collections
 
 class MovieAdapter(val glide: RequestManager, val resources: Resources, val clickListener: (Movie) -> Unit) :
     RecyclerView.Adapter<MovieViewHolder>() {
@@ -39,11 +43,40 @@ class MovieAdapter(val glide: RequestManager, val resources: Resources, val clic
 
     override fun getItemCount(): Int = movies.size
 
+    fun swapItems(fromPosition: Int, toPosition: Int) {
+        val newMovies = movies.toMutableList()
+        if (fromPosition < toPosition) {
+            for (i in fromPosition until toPosition) {
+                Collections.swap(newMovies, i, i + 1)
+            }
+        } else {
+            for (i in fromPosition downTo (toPosition + 1)) {
+                Collections.swap(newMovies, i, i - 1)
+            }
+        }
+
+        movies = newMovies
+    }
+
+    fun insertItem(movie: Movie) {
+        val newMovies = movies.toMutableList()
+        newMovies.add(movie)
+        movies = newMovies
+    }
+
+    fun removeLastItem() {
+        if (movies.isEmpty()) return
+        val newMovies = movies.toMutableList()
+        newMovies.removeLast()
+        movies = newMovies
+        notifyItemRemoved(movies.size)
+    }
+
     override fun getItemId(position: Int): Long {
         return movies[position].id.toLong()
     }
 
-    inner class MovieViewHolder(private val binding: LayoutMovieItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class MovieViewHolder(private val binding: LayoutMovieItemBinding) : LikeViewHolder(binding) {
 
         fun bind(movie: Movie) {
             binding.tvName.text = movie.title
@@ -53,9 +86,19 @@ class MovieAdapter(val glide: RequestManager, val resources: Resources, val clic
             binding.tvReviews.text = resources.getString(string.reviewsFormat).format(movie.reviews)
             binding.rbRating.rating = movie.rating.toFloat()
             binding.tvMin.text = resources.getString(string.minFormat).format(movie.min)
-            binding.cbLike.isSelected = movie.isLiked
-            binding.cbLike.setOnCheckedChangeListener { _, isChecked -> movie.isLiked = isChecked }
+            binding.cbLike.setOnCheckedChangeListener(null)
+            binding.cbLike.isChecked = movie.isLiked
+            binding.cbLike.setOnCheckedChangeListener { _, isChecked ->
+                movie.isLiked = isChecked
+                if (isChecked) notifyItemChanged(adapterPosition, ACTION_FILM_LIKED)
+            }
+            binding.llLike.setOnClickListener {
+                binding.cbLike.isChecked = !movie.isLiked
+            }
             binding.root.setOnClickListener { clickListener(movie) }
         }
+
+        override val ivLike: View
+            get() = binding.ivLike
     }
 }
