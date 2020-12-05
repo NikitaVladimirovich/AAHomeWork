@@ -5,10 +5,8 @@ import com.aacademy.homework.MyApp
 import com.aacademy.homework.data.local.dao.AppDatabase
 import com.aacademy.homework.data.local.model.MovieDetailWithActors
 import com.aacademy.homework.data.local.model.MoviePreviewWithTags
-import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 
 object MockRepository {
 
@@ -18,19 +16,15 @@ object MockRepository {
             .build()
     }
 
-    fun getAllMoviePreviews(): Observable<List<MoviePreviewWithTags>> {
+    fun getAllMoviePreviews(): Single<List<MoviePreviewWithTags>> {
         return database.movieDao().getAllMovies()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun getMovieDetail(id: Int): Observable<MovieDetailWithActors> {
+    fun getMovieDetail(id: Int): Single<MovieDetailWithActors> {
         return database.movieDetailDao().getMovieDetail(id)
-            .subscribeOn(Schedulers.io())
     }
 
     fun setMovieLiked(id: Int, isLiked: Boolean): Completable {
         return database.movieDao().setMovieLiked(id, isLiked)
-            .subscribeOn(Schedulers.io())
     }
 }

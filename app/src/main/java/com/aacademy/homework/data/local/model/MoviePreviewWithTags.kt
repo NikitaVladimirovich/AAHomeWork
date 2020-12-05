@@ -21,7 +21,7 @@ data class MoviePreviewWithTags(
             entityColumn = "tagId"
         )
     )
-    var tags: List<Tag>,
+    val tags: List<Tag>,
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(

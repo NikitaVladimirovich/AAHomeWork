@@ -18,5 +18,5 @@ data class MovieDetailWithActors(
             entityColumn = "actorId"
         )
     )
-    var cast: List<Actor>,
+    val cast: List<Actor>,
 )

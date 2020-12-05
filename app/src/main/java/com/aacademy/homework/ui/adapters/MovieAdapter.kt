@@ -1,6 +1,7 @@
 package com.aacademy.homework.ui.adapters
 
 import android.content.res.Resources
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -12,6 +13,7 @@ import com.aacademy.homework.data.local.model.MoviePreviewWithTags
 import com.aacademy.homework.databinding.LayoutMovieItemBinding
 import com.aacademy.homework.ui.adapters.MovieAdapter.MovieViewHolder
 import com.bumptech.glide.RequestManager
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class MovieAdapter(
     val glide: RequestManager,
@@ -59,7 +61,9 @@ class MovieAdapter(
             binding.cbLike.isChecked = moviePreview.moviePreview.isLiked
             binding.cbLike.setOnCheckedChangeListener { _, isChecked ->
                 moviePreview.moviePreview.isLiked = isChecked
-                MockRepository.setMovieLiked(moviePreview.moviePreview.id, isChecked).subscribe()
+                MockRepository.setMovieLiked(moviePreview.moviePreview.id, isChecked)
+                    .subscribeOn(Schedulers.io())
+                    .subscribe({}, { Log.e("MovieAdapter", "Error when update movie like state", it) })
             }
             binding.root.setOnClickListener { clickListener(moviePreview) }
         }

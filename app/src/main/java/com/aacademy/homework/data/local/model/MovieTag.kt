@@ -4,6 +4,6 @@ import androidx.room.Entity
 
 @Entity(primaryKeys = ["movieId", "tagId"])
 data class MovieTag(
-    var movieId: Int,
-    var tagId: Int
+    val movieId: Int,
+    val tagId: Int
 )
