@@ -1,119 +1,30 @@
 package com.aacademy.homework.data.local
 
-import com.aacademy.homework.data.local.model.Actor
-import com.aacademy.homework.data.local.model.Movie
-import java.util.Date
-import kotlin.random.Random
+import androidx.room.Room
+import com.aacademy.homework.MyApp
+import com.aacademy.homework.data.local.dao.AppDatabase
+import com.aacademy.homework.data.local.model.MovieDetailWithActors
+import com.aacademy.homework.data.local.model.MoviePreviewWithTags
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 
 object MockRepository {
 
-    fun getMovies() = listOf(
-        Movie(
-            id = 0,
-            title = "Avengers: End Game",
-            coverPath = "https://img5.goodfon.ru/original/800x480/6/9c/mstiteli-voina-beskonechnosti-fentezi-poster-personazhi.jpg",
-            ageLimit = 16,
-            tags = listOf("Action", "Adventure", "Fantasy"),
-            rating = 2,
-            reviews = 119,
-            storyline = "After the devastating events of Avengers: Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos\\' actions and restore balance to the universe.",
-            min = 100,
-            isLiked = true,
-            cast = listOf(
-                Actor(
-                    id = 1,
-                    firstName = "Johnny",
-                    lastName = "Depp",
-                    photoPath = "https://i.pinimg.com/236x/d8/ed/b5/d8edb51aa51788b9d3c0360acd6f345a--johnny-depp-blow-heres-johnny.jpg"
-                ),
-                Actor(
-                    id = 2,
-                    firstName = "Johnny",
-                    lastName = "Depp",
-                    photoPath = "https://i.pinimg.com/236x/d8/ed/b5/d8edb51aa51788b9d3c0360acd6f345a--johnny-depp-blow-heres-johnny.jpg"
-                ),
-                Actor(
-                    id = 3,
-                    firstName = "Johnny",
-                    lastName = "Depp",
-                    photoPath = "https://i.pinimg.com/236x/d8/ed/b5/d8edb51aa51788b9d3c0360acd6f345a--johnny-depp-blow-heres-johnny.jpg"
-                ),
-                Actor(
-                    id = 4,
-                    firstName = "Johnny",
-                    lastName = "Depp",
-                    photoPath = "https://i.pinimg.com/236x/d8/ed/b5/d8edb51aa51788b9d3c0360acd6f345a--johnny-depp-blow-heres-johnny.jpg"
-                ),
-                Actor(
-                    id = 5,
-                    firstName = "Johnny",
-                    lastName = "Depp",
-                    photoPath = "https://i.pinimg.com/236x/d8/ed/b5/d8edb51aa51788b9d3c0360acd6f345a--johnny-depp-blow-heres-johnny.jpg"
-                ),
-                Actor(
-                    id = 6,
-                    firstName = "Johnny",
-                    lastName = "Depp",
-                    photoPath = "https://i.pinimg.com/236x/d8/ed/b5/d8edb51aa51788b9d3c0360acd6f345a--johnny-depp-blow-heres-johnny.jpg"
-                )
-            )
-        ),
-        Movie(
-            id = 1,
-            title = "Tenet",
-            coverPath = "https://cagrikayit.com/wp-content/uploads/2020/05/tenet-vizyonda-768x961.png",
-            ageLimit = 10,
-            tags = listOf("Action", "Thriller", "Sci-Fi"),
-            rating = 4,
-            reviews = 64,
-            storyline = "Empty",
-            min = 134,
-            isLiked = false,
-            cast = listOf(
-                Actor(
-                    id = 7,
-                    firstName = "Johnny",
-                    lastName = "Depp",
-                    photoPath = "https://i.pinimg.com/236x/d8/ed/b5/d8edb51aa51788b9d3c0360acd6f345a--johnny-depp-blow-heres-johnny.jpg"
-                )
-            )
-        ),
-        Movie(
-            id = 2,
-            title = "Tenet2",
-            coverPath = "https://cagrikayit.com/wp-content/uploads/2020/05/tenet-vizyonda-768x961.png",
-            ageLimit = 10,
-            tags = listOf("Action", "Thriller", "Sci-Fi"),
-            rating = 4,
-            reviews = 64,
-            storyline = "Empty",
-            min = 134,
-            isLiked = false,
-            cast = listOf(
-                Actor(
-                    id = 7,
-                    firstName = "Johnny",
-                    lastName = "Depp",
-                    photoPath = "https://i.pinimg.com/236x/d8/ed/b5/d8edb51aa51788b9d3c0360acd6f345a--johnny-depp-blow-heres-johnny.jpg"
-                )
-            )
-        )
-    ).toMutableList()
+    private val database: AppDatabase by lazy {
+        Room.databaseBuilder(MyApp.INSTANCE, AppDatabase::class.java, "sqlite.db")
+            .createFromAsset("sqlite.db")
+            .build()
+    }
 
-    fun getRandomMovie(): Movie {
-        val id = Random(Date().time).nextInt(0, Int.MAX_VALUE)
-        return Movie(
-            id,
-            "Film $id",
-            "",
-            id % 21,
-            listOf("Tag1", "Tag2", "Tag3"),
-            id % 6,
-            id,
-            "",
-            id % 200,
-            false,
-            emptyList()
-        )
+    fun getAllMoviePreviews(): Single<List<MoviePreviewWithTags>> {
+        return database.movieDao().getAllMovies()
+    }
+
+    fun getMovieDetail(id: Int): Single<MovieDetailWithActors> {
+        return database.movieDetailDao().getMovieDetail(id)
+    }
+
+    fun setMovieLiked(id: Int, isLiked: Boolean): Completable {
+        return database.movieDao().setMovieLiked(id, isLiked)
     }
 }

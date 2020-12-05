@@ -7,16 +7,21 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aacademy.homework.R
-import com.aacademy.homework.R.string
-import com.aacademy.homework.data.local.model.Movie
+import com.aacademy.homework.data.local.MockRepository
+import com.aacademy.homework.data.local.model.MoviePreviewWithTags
 import com.aacademy.homework.databinding.FragmentMoviesDetailsBinding
 import com.aacademy.homework.ui.activities.MainActivity
 import com.aacademy.homework.utils.viewBinding
 import com.bumptech.glide.Glide
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.schedulers.Schedulers
+import timber.log.Timber
 
 class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
 
     private val binding by viewBinding(FragmentMoviesDetailsBinding::bind)
+    private val compositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,12 +31,6 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val movie = arguments?.get(MOVIE_ARGUMENT) as Movie
-
-        val glide = Glide.with(this)
-        glide.load(movie.coverPath).into(binding.ivCover)
-
-
         (activity as MainActivity?)?.let {
             it.setSupportActionBar(binding.toolbar)
             it.supportActionBar?.apply {
@@ -40,12 +39,8 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
             }
         }
 
-        binding.collapsingToolbar.title = movie.title
-        binding.tvAgeLimit.text = getString(string.ageLimitFormat).format(movie.ageLimit)
-        binding.tvTags.text = movie.tags.joinToString(", ")
-        binding.tvReviews.text = getString(string.reviewsFormat).format(movie.reviews)
-        binding.rbRating.rating = movie.rating.toFloat()
-        binding.tvStoryline.text = movie.storyline
+        val glide = Glide.with(this)
+        val moviePreview = arguments?.get(MOVIE_PREVIEW_ARGUMENT) as MoviePreviewWithTags
 
         val castAdapter = CastAdapter(glide)
         castAdapter.setHasStableIds(true)
@@ -59,7 +54,26 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
             adapter = castAdapter
         }
 
-        castAdapter.actors = movie.cast
+        compositeDisposable.add(MockRepository.getMovieDetail(moviePreview.moviePreview.id)
+            .subscribeOn(Schedulers.io())
+            .doOnSuccess {
+                castAdapter.actors = it.cast
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ movieDetail ->
+                binding.tvStoryline.text = movieDetail.movieDetail.storyline
+            }, {
+                Timber.e(it, "Error when load movie detail")
+            })
+        )
+
+        glide.load(moviePreview.moviePreview.coverPath).into(binding.ivCover)
+
+        binding.collapsingToolbar.title = moviePreview.moviePreview.title
+        binding.tvAgeLimit.text = getString(R.string.ageLimitFormat).format(moviePreview.moviePreview.ageLimit)
+        binding.tvTags.text = moviePreview.tags.joinToString(", ") { it.name }
+        binding.tvReviews.text = getString(R.string.reviewsFormat).format(moviePreview.moviePreview.reviews)
+        binding.rbRating.rating = moviePreview.moviePreview.rating.toFloat()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -67,13 +81,18 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.dispose()
+    }
+
     companion object {
 
-        private const val MOVIE_ARGUMENT = "MovieArgument"
+        private const val MOVIE_PREVIEW_ARGUMENT = "MoviePreview"
 
-        fun newInstance(movie: Movie): FragmentMoviesDetails {
+        fun newInstance(moviePreview: MoviePreviewWithTags): FragmentMoviesDetails {
             val args = Bundle()
-            args.putParcelable(MOVIE_ARGUMENT, movie)
+            args.putParcelable(MOVIE_PREVIEW_ARGUMENT, moviePreview)
             val fragment = FragmentMoviesDetails()
             fragment.arguments = args
             return fragment

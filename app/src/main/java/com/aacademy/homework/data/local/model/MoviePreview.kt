@@ -3,19 +3,19 @@ package com.aacademy.homework.data.local.model
 import android.os.Parcel
 import android.os.Parcelable
 import android.os.Parcelable.Creator
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-data class Movie(
-    val id: Int,
+@Entity
+data class MoviePreview(
+    @PrimaryKey val id: Int,
     val title: String,
     val coverPath: String,
     val ageLimit: Int,
-    val tags: List<String>,
     val rating: Int,
     val reviews: Int,
-    val storyline: String,
     val min: Int,
     var isLiked: Boolean,
-    val cast: List<Actor>
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
@@ -23,13 +23,10 @@ data class Movie(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readInt(),
-        parcel.createStringArrayList()!!,
         parcel.readInt(),
         parcel.readInt(),
-        parcel.readString()!!,
         parcel.readInt(),
-        parcel.readInt() != 0,
-        parcel.createTypedArrayList(Actor)!!
+        parcel.readByte() != 0.toByte()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -37,26 +34,23 @@ data class Movie(
         parcel.writeString(title)
         parcel.writeString(coverPath)
         parcel.writeInt(ageLimit)
-        parcel.writeStringList(tags)
         parcel.writeInt(rating)
         parcel.writeInt(reviews)
-        parcel.writeString(storyline)
         parcel.writeInt(min)
-        parcel.writeInt(if (isLiked) 1 else 0)
-        parcel.writeTypedList(cast)
+        parcel.writeByte(if (isLiked) 1 else 0)
     }
 
     override fun describeContents(): Int {
         return 0
     }
 
-    companion object CREATOR : Creator<Movie> {
+    companion object CREATOR : Creator<MoviePreview> {
 
-        override fun createFromParcel(parcel: Parcel): Movie {
-            return Movie(parcel)
+        override fun createFromParcel(parcel: Parcel): MoviePreview {
+            return MoviePreview(parcel)
         }
 
-        override fun newArray(size: Int): Array<Movie?> {
+        override fun newArray(size: Int): Array<MoviePreview?> {
             return arrayOfNulls(size)
         }
     }
