@@ -1,7 +1,6 @@
 package com.aacademy.homework.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +13,7 @@ import com.aacademy.homework.utils.viewBinding
 import com.bumptech.glide.Glide
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
+import timber.log.Timber
 
 class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
 
@@ -45,7 +45,7 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
             .subscribe({ movieDetail ->
                 binding.tvStoryline.text = movieDetail.movieDetail.storyline
             }, {
-                Log.e("FragmentMoviesDetails", "Error when load movie detail", it)
+                Timber.e(it, "Error when load movie detail")
             })
 
         glide.load(moviePreview.moviePreview.coverPath).into(binding.ivCover)

@@ -1,7 +1,6 @@
 package com.aacademy.homework.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.aacademy.homework.R
@@ -13,6 +12,7 @@ import com.aacademy.homework.utils.viewBinding
 import com.bumptech.glide.Glide
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
+import timber.log.Timber
 
 class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
@@ -35,7 +35,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
             .subscribe({
                 movieAdapter.moviePreviews = it
             }, {
-                Log.e("FragmentMovieList", "Error when load movie previews", it)
+                Timber.e(it, "Error when load movie previews")
             })
     }
 
