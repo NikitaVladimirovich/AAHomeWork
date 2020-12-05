@@ -12,12 +12,14 @@ import com.aacademy.homework.ui.adapters.CastAdapter
 import com.aacademy.homework.utils.viewBinding
 import com.bumptech.glide.Glide
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
 
 class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
 
     private val binding by viewBinding(FragmentMoviesDetailsBinding::bind)
+    private val compositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,7 +38,7 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
             adapter = castAdapter
         }
 
-        MockRepository.getMovieDetail(moviePreview.moviePreview.id)
+        compositeDisposable.add(MockRepository.getMovieDetail(moviePreview.moviePreview.id)
             .subscribeOn(Schedulers.io())
             .doOnSuccess {
                 castAdapter.actors = it.cast
@@ -47,6 +49,7 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
             }, {
                 Timber.e(it, "Error when load movie detail")
             })
+        )
 
         glide.load(moviePreview.moviePreview.coverPath).into(binding.ivCover)
 
@@ -57,6 +60,11 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
         binding.rbRating.rating = moviePreview.moviePreview.rating.toFloat()
 
         binding.tvBack.setOnClickListener { activity?.onBackPressed() }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.dispose()
     }
 
     companion object {

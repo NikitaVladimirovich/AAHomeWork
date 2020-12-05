@@ -7,18 +7,16 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.aacademy.homework.R.string
-import com.aacademy.homework.data.local.MockRepository
 import com.aacademy.homework.data.local.model.MoviePreviewWithTags
 import com.aacademy.homework.databinding.LayoutMovieItemBinding
 import com.aacademy.homework.ui.adapters.MovieAdapter.MovieViewHolder
 import com.bumptech.glide.RequestManager
-import io.reactivex.rxjava3.schedulers.Schedulers
-import timber.log.Timber
 
 class MovieAdapter(
     val glide: RequestManager,
     val resources: Resources,
-    val clickListener: (MoviePreviewWithTags) -> Unit
+    val itemClickListener: (MoviePreviewWithTags) -> Unit,
+    val likeStateChangeListener: (Int, Boolean) -> Unit
 ) :
     RecyclerView.Adapter<MovieViewHolder>() {
 
@@ -61,11 +59,9 @@ class MovieAdapter(
             binding.cbLike.isChecked = moviePreview.moviePreview.isLiked
             binding.cbLike.setOnCheckedChangeListener { _, isChecked ->
                 moviePreview.moviePreview.isLiked = isChecked
-                MockRepository.setMovieLiked(moviePreview.moviePreview.id, isChecked)
-                    .subscribeOn(Schedulers.io())
-                    .subscribe({}, { Timber.e(it, "Error when update movie like state") })
+                likeStateChangeListener.invoke(moviePreview.moviePreview.id, isChecked)
             }
-            binding.root.setOnClickListener { clickListener(moviePreview) }
+            binding.root.setOnClickListener { itemClickListener(moviePreview) }
         }
     }
 }
