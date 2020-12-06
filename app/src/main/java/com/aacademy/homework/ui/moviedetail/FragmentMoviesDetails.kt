@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aacademy.homework.R
 import com.aacademy.homework.data.local.FakeLocalRepository
-import com.aacademy.homework.data.local.model.MoviePreviewWithTags
+import com.aacademy.homework.data.model.MoviePreviewWithTags
 import com.aacademy.homework.databinding.FragmentMoviesDetailsBinding
 import com.aacademy.homework.ui.activities.MainActivity
 import com.aacademy.homework.utils.viewBinding

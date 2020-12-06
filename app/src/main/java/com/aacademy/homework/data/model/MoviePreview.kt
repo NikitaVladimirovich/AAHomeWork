@@ -1,4 +1,4 @@
-package com.aacademy.homework.data.local.model
+package com.aacademy.homework.data.model
 
 import android.os.Parcel
 import android.os.Parcelable

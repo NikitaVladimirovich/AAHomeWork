@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.aacademy.homework.data.local.model.Actor
+import com.aacademy.homework.data.model.Actor
 import com.aacademy.homework.databinding.LayoutCastItemBinding
 import com.aacademy.homework.ui.moviedetail.CastAdapter.CastViewHolder
 import com.bumptech.glide.RequestManager

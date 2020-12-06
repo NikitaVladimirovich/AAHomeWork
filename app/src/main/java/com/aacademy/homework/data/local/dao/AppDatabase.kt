@@ -2,12 +2,12 @@ package com.aacademy.homework.data.local.dao
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.aacademy.homework.data.local.model.Actor
-import com.aacademy.homework.data.local.model.MovieActor
-import com.aacademy.homework.data.local.model.MovieDetail
-import com.aacademy.homework.data.local.model.MoviePreview
-import com.aacademy.homework.data.local.model.MovieTag
-import com.aacademy.homework.data.local.model.Tag
+import com.aacademy.homework.data.model.Actor
+import com.aacademy.homework.data.model.MovieActor
+import com.aacademy.homework.data.model.MovieDetail
+import com.aacademy.homework.data.model.MoviePreview
+import com.aacademy.homework.data.model.MovieTag
+import com.aacademy.homework.data.model.Tag
 
 @Database(
     entities = [MoviePreview::class, Tag::class, MovieTag::class, MovieDetail::class, Actor::class, MovieActor::class],

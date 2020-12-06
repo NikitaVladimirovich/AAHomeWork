@@ -2,7 +2,7 @@ package com.aacademy.homework.data
 
 import com.aacademy.homework.data.api.FakeApiRepository
 import com.aacademy.homework.data.local.FakeLocalRepository
-import com.aacademy.homework.data.local.model.MoviePreviewWithTags
+import com.aacademy.homework.data.model.MoviePreviewWithTags
 import io.reactivex.rxjava3.core.Single
 
 object FakeDataRepository {

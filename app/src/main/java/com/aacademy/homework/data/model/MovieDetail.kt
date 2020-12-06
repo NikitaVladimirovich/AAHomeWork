@@ -1,4 +1,4 @@
-package com.aacademy.homework.data.local.model
+package com.aacademy.homework.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

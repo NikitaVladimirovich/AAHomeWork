@@ -3,8 +3,8 @@ package com.aacademy.homework.data.local
 import androidx.room.Room
 import com.aacademy.homework.MyApp
 import com.aacademy.homework.data.local.dao.AppDatabase
-import com.aacademy.homework.data.local.model.MovieDetailWithActors
-import com.aacademy.homework.data.local.model.MoviePreviewWithTags
+import com.aacademy.homework.data.model.MovieDetailWithActors
+import com.aacademy.homework.data.model.MoviePreviewWithTags
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 

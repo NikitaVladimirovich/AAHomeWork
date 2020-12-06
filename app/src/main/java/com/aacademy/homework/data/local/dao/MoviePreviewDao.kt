@@ -5,9 +5,9 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import com.aacademy.homework.data.local.model.MoviePreview
-import com.aacademy.homework.data.local.model.MoviePreviewWithTags
-import com.aacademy.homework.data.local.model.Tag
+import com.aacademy.homework.data.model.MoviePreview
+import com.aacademy.homework.data.model.MoviePreviewWithTags
+import com.aacademy.homework.data.model.Tag
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 

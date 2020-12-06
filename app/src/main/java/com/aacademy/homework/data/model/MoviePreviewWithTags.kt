@@ -1,9 +1,10 @@
-package com.aacademy.homework.data.local.model
+package com.aacademy.homework.data.model
 
 import android.os.Parcel
 import android.os.Parcelable
 import android.os.Parcelable.Creator
 import androidx.room.Embedded
+import androidx.room.Junction
 import androidx.room.Relation
 
 data class MoviePreviewWithTags(

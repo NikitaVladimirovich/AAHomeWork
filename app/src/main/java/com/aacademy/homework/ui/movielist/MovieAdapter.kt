@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.aacademy.homework.R.string
-import com.aacademy.homework.data.local.model.MoviePreviewWithTags
+import com.aacademy.homework.data.model.MoviePreviewWithTags
 import com.aacademy.homework.databinding.LayoutMovieItemBinding
 import com.aacademy.homework.ui.movielist.MovieAdapter.MovieViewHolder
 import com.aacademy.homework.ui.movielist.MovieItemAnimator.LikeViewHolder
