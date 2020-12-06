@@ -4,11 +4,8 @@ import android.os.Parcel
 import android.os.Parcelable
 import android.os.Parcelable.Creator
 import androidx.room.Embedded
-import androidx.room.Entity
-import androidx.room.Junction
 import androidx.room.Relation
 
-@Entity
 data class MoviePreviewWithTags(
     @Embedded val moviePreview: MoviePreview,
     @Relation(

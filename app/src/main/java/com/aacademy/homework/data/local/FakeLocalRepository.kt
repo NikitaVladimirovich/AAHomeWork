@@ -8,11 +8,11 @@ import com.aacademy.homework.data.local.model.MoviePreviewWithTags
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 
-object MockRepository {
+object FakeLocalRepository {
 
     private val database: AppDatabase by lazy {
         Room.databaseBuilder(MyApp.INSTANCE, AppDatabase::class.java, "sqlite.db")
-            .createFromAsset("sqlite.db")
+//            .createFromAsset("sqlite.db")
             .build()
     }
 
@@ -26,5 +26,9 @@ object MockRepository {
 
     fun setMovieLiked(id: Int, isLiked: Boolean): Completable {
         return database.movieDao().setMovieLiked(id, isLiked)
+    }
+
+    fun cacheMoviePreviewsWithTags(list: List<MoviePreviewWithTags>) {
+        database.movieDao().insert(list)
     }
 }

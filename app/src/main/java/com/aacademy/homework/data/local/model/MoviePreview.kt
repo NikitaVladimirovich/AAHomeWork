@@ -4,6 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import android.os.Parcelable.Creator
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
 @Entity
@@ -15,8 +16,21 @@ data class MoviePreview(
     val rating: Int,
     val reviews: Int,
     val min: Int,
-    var isLiked: Boolean,
+    var isLiked: Boolean = false,
+    @Ignore var tags: List<Tag> = emptyList()
 ) : Parcelable {
+
+    // Need to declare that constructor for Room
+    constructor(
+        id: Int,
+        title: String,
+        coverPath: String,
+        ageLimit: Int,
+        rating: Int,
+        reviews: Int,
+        min: Int,
+        isLiked: Boolean
+    ) : this(id, title, coverPath, ageLimit, rating, reviews, min, isLiked, emptyList())
 
     constructor(parcel: Parcel) : this(
         parcel.readInt(),

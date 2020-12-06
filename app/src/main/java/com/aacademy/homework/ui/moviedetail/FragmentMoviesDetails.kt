@@ -7,7 +7,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aacademy.homework.R
-import com.aacademy.homework.data.local.MockRepository
+import com.aacademy.homework.data.local.FakeLocalRepository
 import com.aacademy.homework.data.local.model.MoviePreviewWithTags
 import com.aacademy.homework.databinding.FragmentMoviesDetailsBinding
 import com.aacademy.homework.ui.activities.MainActivity
@@ -54,7 +54,7 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
             adapter = castAdapter
         }
 
-        compositeDisposable.add(MockRepository.getMovieDetail(moviePreview.moviePreview.id)
+        compositeDisposable.add(FakeLocalRepository.getMovieDetail(moviePreview.moviePreview.id)
             .subscribeOn(Schedulers.io())
             .doOnSuccess {
                 castAdapter.actors = it.cast

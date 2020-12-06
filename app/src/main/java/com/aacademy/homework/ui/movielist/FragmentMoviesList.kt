@@ -8,7 +8,8 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.aacademy.homework.R
-import com.aacademy.homework.data.local.MockRepository
+import com.aacademy.homework.data.FakeDataRepository
+import com.aacademy.homework.data.local.FakeLocalRepository
 import com.aacademy.homework.databinding.FragmentMoviesListBinding
 import com.aacademy.homework.ui.activities.MainActivity
 import com.aacademy.homework.ui.views.DragManageAdapter
@@ -52,7 +53,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
             (activity as MainActivity?)?.openMovieDetail(it)
         }, { id, isLiked ->
             compositeDisposable.add(
-                MockRepository.setMovieLiked(id, isLiked)
+                FakeLocalRepository.setMovieLiked(id, isLiked)
                     .subscribeOn(Schedulers.io())
                     .subscribe({}, { Timber.e(it, "Error when update movie like state") })
             )
@@ -69,7 +70,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
         )
 
         compositeDisposable.add(
-            MockRepository.getAllMoviePreviews()
+            FakeDataRepository.getAllPreviews()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
