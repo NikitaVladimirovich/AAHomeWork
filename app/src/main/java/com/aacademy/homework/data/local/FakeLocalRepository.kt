@@ -17,18 +17,22 @@ object FakeLocalRepository {
     }
 
     fun getAllMoviePreviews(): Single<List<MoviePreviewWithTags>> {
-        return database.movieDao().getAllMovies()
+        return database.moviePreviewDao().getAllMovies()
     }
 
-    fun getMovieDetail(id: Int): Single<MovieDetailWithActors> {
+    fun getMovieDetail(id: Int): Single<List<MovieDetailWithActors>> {
         return database.movieDetailDao().getMovieDetail(id)
     }
 
     fun setMovieLiked(id: Int, isLiked: Boolean): Completable {
-        return database.movieDao().setMovieLiked(id, isLiked)
+        return database.moviePreviewDao().setMovieLiked(id, isLiked)
     }
 
-    fun cacheMoviePreviewsWithTags(list: List<MoviePreviewWithTags>) {
-        database.movieDao().insert(list)
+    fun cacheMoviePreviewsWithTags(moviePreviewsWithTags: List<MoviePreviewWithTags>) {
+        database.moviePreviewDao().insert(moviePreviewsWithTags)
+    }
+
+    fun cacheMovieDetailWithActors(movieDetailWithActors: MovieDetailWithActors) {
+        database.movieDetailDao().insert(movieDetailWithActors)
     }
 }

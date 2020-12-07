@@ -17,7 +17,7 @@ data class MoviePreview(
     val reviews: Int,
     val min: Int,
     var isLiked: Boolean = false,
-    @Ignore var tags: List<Tag> = emptyList()
+    @Ignore val tags: List<Tag>
 ) : Parcelable {
 
     // Need to declare that constructor for Room

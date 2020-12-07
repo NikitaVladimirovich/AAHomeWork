@@ -1,19 +1,67 @@
 package com.aacademy.homework.data.api
 
 import com.aacademy.homework.data.local.FakeLocalRepository
+import com.aacademy.homework.data.model.Actor
+import com.aacademy.homework.data.model.MovieDetail
+import com.aacademy.homework.data.model.MovieDetailWithActors
 import com.aacademy.homework.data.model.MoviePreview
 import com.aacademy.homework.data.model.MoviePreviewWithTags
 import com.aacademy.homework.data.model.Tag
 import io.reactivex.rxjava3.core.Single
+import java.util.concurrent.TimeUnit.SECONDS
+import kotlin.random.Random
 
 object FakeApiRepository {
+
+    fun getMovieDetail(id: Int): Single<MovieDetailWithActors> = Single.just(
+        MovieDetail(
+            id = id,
+            storyline = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            cast = listOf(
+                Actor(
+                    id = 1 + id * 100,
+                    firstName = "Chris",
+                    lastName = "Evans",
+                    photoPath = "https://static.wikia.nocookie.net/marvelcinematicuniverse/images/b/b2/Chris_Evans.jpg"
+                ),
+                Actor(
+                    id = 2 + id * 100,
+                    firstName = "Mark",
+                    lastName = "Ruffalo",
+                    photoPath = "https://producedbyconference.com/New-York/wp-content/uploads/2019/10/Mark-Ruffalo-600.png"
+                ),
+                Actor(
+                    id = 3 + id * 100,
+                    firstName = "Robert",
+                    lastName = "Pattinson",
+                    photoPath = "https://st.kp.yandex.net/im/kadr/3/5/4/kinopoisk.ru-Robert-Pattinson-3540779.jpg"
+                ),
+                Actor(
+                    id = 4 + id * 100,
+                    firstName = "Kenneth",
+                    lastName = "Branagh",
+                    photoPath = "https://st.kp.yandex.net/im/kadr/1/2/4/kinopoisk.ru-Kenneth-Branagh-1241673.jpg"
+                ),
+                Actor(
+                    id = 5 + id * 100,
+                    firstName = "Florence",
+                    lastName = "Pugh",
+                    photoPath = "https://toronto.citynews.ca/wp-content/blogs.dir/sites/10/2019/06/NYET414-618_2019_013921.jpg"
+                )
+            ).shuffled(Random(id * 100))
+        )
+    ).delay(2, SECONDS)
+        .map { MovieDetailWithActors(it, it.cast) }
+        .doOnSuccess {
+            FakeLocalRepository.cacheMovieDetailWithActors(it)
+        }
 
     fun getAllMoviePreviews(): Single<List<MoviePreviewWithTags>> = Single.just(
         listOf(
             MoviePreview(
                 id = 0,
                 coverPath = "https://upload.wikimedia.org/wikipedia/en/0/0d/Avengers_Endgame_poster.jpg",
-                title = "Avengers: End Game \n Avengers: End Game",
+                title = "Avengers: End Game",
                 rating = 4,
                 ageLimit = 13,
                 reviews = 135,
@@ -123,12 +171,7 @@ object FakeApiRepository {
                 )
             )
         )
-    )
-        .doOnSuccess { }
-        .flatMap { response ->
-            response.map { MoviePreviewWithTags(it, it.tags) }.let {
-                FakeLocalRepository.cacheMoviePreviewsWithTags(it)
-                Single.just(it)
-            }
-        }
+    ).delay(2, SECONDS)
+        .map { response -> response.map { MoviePreviewWithTags(it, it.tags) } }
+        .doOnSuccess { FakeLocalRepository.cacheMoviePreviewsWithTags(it) }
 }

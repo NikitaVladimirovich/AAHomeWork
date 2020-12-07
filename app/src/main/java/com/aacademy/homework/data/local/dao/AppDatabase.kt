@@ -15,6 +15,6 @@ import com.aacademy.homework.data.model.Tag
 )
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun movieDao(): MoviePreviewDao
+    abstract fun moviePreviewDao(): MoviePreviewDao
     abstract fun movieDetailDao(): MovieDetailDao
 }
