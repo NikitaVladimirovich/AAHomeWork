@@ -3,13 +3,14 @@ package com.aacademy.homework.ui.activities
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.WindowCompat
 import com.aacademy.homework.R.anim
 import com.aacademy.homework.R.id
-import com.aacademy.homework.data.local.model.Movie
+import com.aacademy.homework.data.local.model.MoviePreviewWithTags
 import com.aacademy.homework.databinding.ActivityMainBinding
-import com.aacademy.homework.ui.fragments.FragmentMoviesDetails
-import com.aacademy.homework.ui.fragments.FragmentMoviesList
+import com.aacademy.homework.ui.moviedetail.FragmentMoviesDetails
+import com.aacademy.homework.ui.movielist.FragmentMoviesList
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,12 +41,17 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun setSupportActionBar(toolbar: Toolbar?) {
+        super.setSupportActionBar(toolbar)
+        title = ""
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
 
-    fun openMovieDetail(movie: Movie) {
+    fun openMovieDetail(moviePreview: MoviePreviewWithTags) {
         supportFragmentManager
             .beginTransaction()
             .setCustomAnimations(
@@ -54,7 +60,7 @@ class MainActivity : AppCompatActivity() {
                 anim.fade_in,
                 anim.fade_out
             )
-            .add(id.flContainer, FragmentMoviesDetails.newInstance(movie), FRAGMENT_TAG)
+            .add(id.flContainer, FragmentMoviesDetails.newInstance(moviePreview), FRAGMENT_TAG)
             .addToBackStack(null)
             .commit()
     }
