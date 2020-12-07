@@ -2,8 +2,6 @@ package com.aacademy.homework.ui.moviedetail
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.aacademy.homework.data.model.Actor
 import com.aacademy.homework.databinding.LayoutCastItemBinding
@@ -12,19 +10,11 @@ import com.bumptech.glide.RequestManager
 
 class CastAdapter(val glide: RequestManager) : RecyclerView.Adapter<CastViewHolder>() {
 
-    private val diffCallback = object : DiffUtil.ItemCallback<Actor>() {
-        override fun areItemsTheSame(oldItem: Actor, newItem: Actor): Boolean =
-            oldItem.id == newItem.id
-
-        override fun areContentsTheSame(oldItem: Actor, newItem: Actor): Boolean =
-            oldItem.hashCode() == newItem.hashCode()
-    }
-
-    private val differ = AsyncListDiffer(this, diffCallback)
-
-    var actors: List<Actor>
-        get() = differ.currentList
-        set(value) = differ.submitList(value)
+    var actors: List<Actor> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CastViewHolder =
         CastViewHolder(LayoutCastItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))

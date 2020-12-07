@@ -1,27 +1,39 @@
 package com.aacademy.homework.ui.moviedetail
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aacademy.homework.R
-import com.aacademy.homework.data.local.FakeLocalRepository
+import com.aacademy.homework.data.FakeDataRepository
 import com.aacademy.homework.data.model.MoviePreviewWithTags
 import com.aacademy.homework.databinding.FragmentMoviesDetailsBinding
 import com.aacademy.homework.ui.activities.MainActivity
-import com.aacademy.homework.utils.viewBinding
 import com.bumptech.glide.Glide
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
 
-class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
+class FragmentMoviesDetails : Fragment() {
 
-    private val binding by viewBinding(FragmentMoviesDetailsBinding::bind)
+    private var _binding: FragmentMoviesDetailsBinding? = null
+    private val binding get() = _binding!!
     private val compositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = FragmentMoviesDetailsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,17 +66,16 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
             adapter = castAdapter
         }
 
-        compositeDisposable.add(FakeLocalRepository.getMovieDetail(moviePreview.moviePreview.id)
-            .subscribeOn(Schedulers.io())
-            .doOnSuccess {
-                castAdapter.actors = it.cast
-            }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ movieDetail ->
-                binding.tvStoryline.text = movieDetail.movieDetail.storyline
-            }, {
-                Timber.e(it, "Error when load movie detail")
-            })
+        compositeDisposable.add(
+            FakeDataRepository.getMovieDetail(moviePreview.moviePreview.id)
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    binding.tvStoryline.text = it.movieDetail.storyline
+                    castAdapter.actors = it.cast
+                }, {
+                    Timber.e(it, "Error when load movie detail")
+                })
         )
 
         glide.load(moviePreview.moviePreview.coverPath).into(binding.ivCover)
