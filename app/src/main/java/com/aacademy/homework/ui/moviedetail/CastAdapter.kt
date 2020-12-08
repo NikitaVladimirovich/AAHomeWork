@@ -7,6 +7,7 @@ import com.aacademy.homework.data.model.Actor
 import com.aacademy.homework.databinding.LayoutCastItemBinding
 import com.aacademy.homework.ui.moviedetail.CastAdapter.CastViewHolder
 import com.bumptech.glide.RequestManager
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
 class CastAdapter(val glide: RequestManager) : RecyclerView.Adapter<CastViewHolder>() {
 
@@ -32,7 +33,9 @@ class CastAdapter(val glide: RequestManager) : RecyclerView.Adapter<CastViewHold
 
         fun bind(actor: Actor) {
             binding.tvNameCast.text = "${actor.firstName} ${actor.lastName}"
-            glide.load(actor.photoPath).into(binding.ivPhotoCast)
+            glide.load(actor.photoPath)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(binding.ivPhotoCast)
         }
     }
 }

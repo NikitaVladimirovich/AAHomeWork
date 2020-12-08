@@ -14,6 +14,7 @@ import com.aacademy.homework.data.model.MoviePreviewWithTags
 import com.aacademy.homework.databinding.FragmentMoviesDetailsBinding
 import com.aacademy.homework.ui.activities.MainActivity
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -50,7 +51,6 @@ class FragmentMoviesDetails : Fragment() {
                 setDisplayShowHomeEnabled(true)
             }
         }
-
         val glide = Glide.with(this)
         val moviePreview = arguments?.get(MOVIE_PREVIEW_ARGUMENT) as MoviePreviewWithTags
 
@@ -78,7 +78,9 @@ class FragmentMoviesDetails : Fragment() {
                 })
         )
 
-        glide.load(moviePreview.moviePreview.coverPath).into(binding.ivCover)
+        glide.load(moviePreview.moviePreview.coverPath)
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .into(binding.ivCover)
 
         binding.collapsingToolbar.title = moviePreview.moviePreview.title
         binding.tvAgeLimit.text = getString(R.string.ageLimitFormat).format(moviePreview.moviePreview.ageLimit)

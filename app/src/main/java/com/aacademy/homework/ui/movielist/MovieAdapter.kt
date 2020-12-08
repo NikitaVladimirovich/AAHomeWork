@@ -13,6 +13,7 @@ import com.aacademy.homework.databinding.LayoutMovieItemBinding
 import com.aacademy.homework.ui.movielist.MovieAdapter.MovieViewHolder
 import com.aacademy.homework.ui.movielist.MovieItemAnimator.LikeViewHolder
 import com.bumptech.glide.RequestManager
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import java.util.Collections
 
 class MovieAdapter(
@@ -84,7 +85,9 @@ class MovieAdapter(
 
         fun bind(moviePreview: MoviePreviewWithTags) {
             binding.tvName.text = moviePreview.moviePreview.title
-            glide.load(moviePreview.moviePreview.coverPath).into(binding.ivCover)
+            glide.load(moviePreview.moviePreview.coverPath)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(binding.ivCover)
             binding.tvAgeLimit.text =
                 resources.getString(string.ageLimitFormat).format(moviePreview.moviePreview.ageLimit)
             binding.tvTags.text = moviePreview.tags.joinToString(", ") { it.name }
