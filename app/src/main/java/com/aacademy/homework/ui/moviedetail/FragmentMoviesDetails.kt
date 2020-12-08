@@ -66,7 +66,7 @@ class FragmentMoviesDetails : Fragment() {
 
         viewModel.moviesPreview.observe(viewLifecycleOwner) { moviePreviews ->
             moviePreviews.first { it.moviePreview.id == movieId }.let { moviePreview ->
-                glide.load(moviePreview.moviePreview.coverPath)
+                glide.load(moviePreview.moviePreview.backdrop)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(binding.ivCover)
 
@@ -74,16 +74,16 @@ class FragmentMoviesDetails : Fragment() {
                 binding.collapsingToolbar.title = moviePreview.moviePreview.title
                 binding.tvAgeLimit.text =
                     getString(R.string.ageLimitFormat).format(moviePreview.moviePreview.ageLimit)
-                binding.tvTags.text = moviePreview.tags.joinToString(", ") { it.name }
+                binding.tvTags.text = moviePreview.genres.joinToString(", ") { it.name }
                 binding.tvReviews.text = getString(R.string.reviewsFormat).format(moviePreview.moviePreview.reviews)
-                binding.rbRating.rating = moviePreview.moviePreview.rating.toFloat()
+                binding.rbRating.rating = moviePreview.moviePreview.rating / 2
             }
         }
 
         viewModel.movieDetail.observe(viewLifecycleOwner) {
             if (it.movieDetail.id == movieId) {
-                binding.tvStoryline.text = it.movieDetail.storyline
-                castAdapter.actors = it.cast
+                binding.tvStoryline.text = it.movieDetail.overview
+                castAdapter.actors = it.actors
             }
         }
     }

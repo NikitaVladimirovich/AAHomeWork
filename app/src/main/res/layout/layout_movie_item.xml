@@ -109,7 +109,7 @@
             android:indeterminate="false"
             android:isIndicator="true"
             android:numStars="5"
-            android:stepSize="1"
+            android:stepSize="0.01"
             app:drawableHeight="@dimen/space2x"
             app:drawableWidth="@dimen/space2x"
             app:innerPadding="@dimen/space0.5x"
@@ -119,7 +119,7 @@
             app:layout_constraintLeft_toLeftOf="@id/guideVerticalLeft"
             app:layout_constraintRight_toLeftOf="@+id/tvReviews"
             app:layout_constraintTop_toTopOf="@+id/tvReviews"
-            tools:rating="3" />
+            tools:rating="2" />
 
         <TextView
             android:id="@+id/tvReviews"

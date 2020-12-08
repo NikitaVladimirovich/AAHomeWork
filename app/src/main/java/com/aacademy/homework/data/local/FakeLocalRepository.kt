@@ -4,7 +4,7 @@ import androidx.room.Room
 import com.aacademy.homework.MyApp
 import com.aacademy.homework.data.local.dao.AppDatabase
 import com.aacademy.homework.data.model.MovieDetailWithActors
-import com.aacademy.homework.data.model.MoviePreviewWithTags
+import com.aacademy.homework.data.model.MoviePreviewWithGenres
 
 object FakeLocalRepository {
 
@@ -14,7 +14,7 @@ object FakeLocalRepository {
             .build()
     }
 
-    suspend fun getAllMoviePreviews(): List<MoviePreviewWithTags> {
+    suspend fun getAllMoviePreviews(): List<MoviePreviewWithGenres> {
         return database.moviePreviewDao().getAllMovies()
     }
 
@@ -26,7 +26,7 @@ object FakeLocalRepository {
         return database.moviePreviewDao().setMovieLiked(id, isLiked)
     }
 
-    suspend fun cacheMoviePreviewsWithTags(moviePreviewsWithTags: List<MoviePreviewWithTags>) {
+    suspend fun cacheMoviePreviewsWithTags(moviePreviewsWithTags: List<MoviePreviewWithGenres>) {
         database.moviePreviewDao().insert(moviePreviewsWithTags)
     }
 

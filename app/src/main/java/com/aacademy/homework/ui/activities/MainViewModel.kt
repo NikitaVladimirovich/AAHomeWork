@@ -7,14 +7,14 @@ import androidx.lifecycle.viewModelScope
 import com.aacademy.homework.data.FakeDataRepository
 import com.aacademy.homework.data.local.FakeLocalRepository
 import com.aacademy.homework.data.model.MovieDetailWithActors
-import com.aacademy.homework.data.model.MoviePreviewWithTags
+import com.aacademy.homework.data.model.MoviePreviewWithGenres
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
 
-    private val _moviesPreview = MutableLiveData<List<MoviePreviewWithTags>>()
-    val moviesPreview: LiveData<List<MoviePreviewWithTags>> = _moviesPreview
+    private val _moviesPreview = MutableLiveData<List<MoviePreviewWithGenres>>()
+    val moviesPreview: LiveData<List<MoviePreviewWithGenres>> = _moviesPreview
 
     private val _movieDetail = MutableLiveData<MovieDetailWithActors>()
     val movieDetail: LiveData<MovieDetailWithActors> = _movieDetail

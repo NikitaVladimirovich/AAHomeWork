@@ -4,11 +4,11 @@ import androidx.room.Embedded
 import androidx.room.Junction
 import androidx.room.Relation
 
-data class MoviePreviewWithTags(
+data class MoviePreviewWithGenres(
     @Embedded val moviePreview: MoviePreview,
     @Relation(
         parentColumn = "id",
-        entity = Tag::class,
+        entity = Genre::class,
         entityColumn = "id",
         associateBy = Junction(
             value = MovieTag::class,
@@ -16,5 +16,5 @@ data class MoviePreviewWithTags(
             entityColumn = "tagId"
         )
     )
-    val tags: List<Tag>,
+    val genres: List<Genre>,
 )

@@ -21,7 +21,7 @@ interface MovieDetailDao {
     @Insert
     suspend fun insert(movieDetailWithActors: MovieDetailWithActors) {
         insert(movieDetailWithActors.movieDetail)
-        for (actor in movieDetailWithActors.cast) {
+        for (actor in movieDetailWithActors.actors) {
             insert(actor)
             insert(MovieActor(movieDetailWithActors.movieDetail.id, actor.id))
         }

@@ -6,7 +6,6 @@ import androidx.room.PrimaryKey
 @Entity
 data class Actor(
     @PrimaryKey val id: Int,
-    val firstName: String,
-    val lastName: String,
-    val photoPath: String
+    val name: String,
+    val picture: String
 )
