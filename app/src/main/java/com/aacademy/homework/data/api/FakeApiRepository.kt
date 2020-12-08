@@ -7,14 +7,12 @@ import com.aacademy.homework.data.model.MovieDetailWithActors
 import com.aacademy.homework.data.model.MoviePreview
 import com.aacademy.homework.data.model.MoviePreviewWithTags
 import com.aacademy.homework.data.model.Tag
-import io.reactivex.rxjava3.core.Single
-import java.util.concurrent.TimeUnit.SECONDS
-import kotlin.random.Random
 
 object FakeApiRepository {
 
-    fun getMovieDetail(id: Int): Single<MovieDetailWithActors> = Single.just(
-        MovieDetail(
+    suspend fun getMovieDetail(id: Int): MovieDetailWithActors {
+        Thread.sleep(2000)
+        return MovieDetail(
             id = id,
             storyline = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
             cast = listOf(
@@ -48,16 +46,17 @@ object FakeApiRepository {
                     lastName = "Pugh",
                     photoPath = "https://toronto.citynews.ca/wp-content/blogs.dir/sites/10/2019/06/NYET414-618_2019_013921.jpg"
                 )
-            ).shuffled(Random(id * 100))
-        )
-    ).delay(2, SECONDS)
-        .map { MovieDetailWithActors(it, it.cast) }
-        .doOnSuccess {
-            FakeLocalRepository.cacheMovieDetailWithActors(it)
+            ).shuffled()
+        ).let {
+            val result = MovieDetailWithActors(it, it.cast)
+            FakeLocalRepository.cacheMovieDetailWithActors(result)
+            result
         }
+    }
 
-    fun getAllMoviePreviews(): Single<List<MoviePreviewWithTags>> = Single.just(
-        listOf(
+    suspend fun getAllMoviePreviews(): List<MoviePreviewWithTags> {
+        Thread.sleep(2000)
+        return listOf(
             MoviePreview(
                 id = 0,
                 coverPath = "https://upload.wikimedia.org/wikipedia/en/0/0d/Avengers_Endgame_poster.jpg",
@@ -170,8 +169,11 @@ object FakeApiRepository {
                     Tag(3, "Fantasy")
                 )
             )
-        )
-    ).delay(2, SECONDS)
-        .map { response -> response.map { MoviePreviewWithTags(it, it.tags) } }
-        .doOnSuccess { FakeLocalRepository.cacheMoviePreviewsWithTags(it) }
+        ).map {
+            MoviePreviewWithTags(it, it.tags)
+        }.let {
+            FakeLocalRepository.cacheMoviePreviewsWithTags(it)
+            it
+        }
+    }
 }

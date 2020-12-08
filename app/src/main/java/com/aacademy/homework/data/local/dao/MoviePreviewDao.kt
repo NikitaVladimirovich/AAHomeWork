@@ -9,21 +9,19 @@ import com.aacademy.homework.data.model.MoviePreview
 import com.aacademy.homework.data.model.MoviePreviewWithTags
 import com.aacademy.homework.data.model.MovieTag
 import com.aacademy.homework.data.model.Tag
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Single
 
 @Dao
 interface MoviePreviewDao {
 
     @Transaction
     @Query("SELECT * FROM moviepreview")
-    fun getAllMovies(): Single<List<MoviePreviewWithTags>>
+    suspend fun getAllMovies(): List<MoviePreviewWithTags>
 
     @Query("UPDATE moviepreview SET isLiked = :isLiked WHERE id = :id")
-    fun setMovieLiked(id: Int, isLiked: Boolean): Completable
+    suspend fun setMovieLiked(id: Int, isLiked: Boolean)
 
     @Transaction
-    fun insert(moviePreviewsWithTags: List<MoviePreviewWithTags>) {
+    suspend fun insert(moviePreviewsWithTags: List<MoviePreviewWithTags>) {
         for (moviePreview in moviePreviewsWithTags) {
             insert(moviePreview.moviePreview)
             for (tag in moviePreview.tags) {
@@ -34,11 +32,11 @@ interface MoviePreviewDao {
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(moviePreview: MoviePreview): Long
+    suspend fun insert(moviePreview: MoviePreview): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(tag: Tag): Long
+    suspend fun insert(tag: Tag): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(movieTag: MovieTag): Long
+    suspend fun insert(movieTag: MovieTag): Long
 }

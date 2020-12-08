@@ -9,18 +9,17 @@ import com.aacademy.homework.data.model.Actor
 import com.aacademy.homework.data.model.MovieActor
 import com.aacademy.homework.data.model.MovieDetail
 import com.aacademy.homework.data.model.MovieDetailWithActors
-import io.reactivex.rxjava3.core.Single
 
 @Dao
 interface MovieDetailDao {
 
     @Transaction
     @Query("SELECT * FROM moviedetail WHERE id = :id")
-    fun getMovieDetail(id: Int): Single<List<MovieDetailWithActors>>
+    suspend fun getMovieDetail(id: Int): List<MovieDetailWithActors>
 
     @Transaction
     @Insert
-    fun insert(movieDetailWithActors: MovieDetailWithActors) {
+    suspend fun insert(movieDetailWithActors: MovieDetailWithActors) {
         insert(movieDetailWithActors.movieDetail)
         for (actor in movieDetailWithActors.cast) {
             insert(actor)
@@ -29,11 +28,11 @@ interface MovieDetailDao {
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(movieDetail: MovieDetail): Long
+    suspend fun insert(movieDetail: MovieDetail): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(actor: Actor): Long
+    suspend fun insert(actor: Actor): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(movieActor: MovieActor): Long
+    suspend fun insert(movieActor: MovieActor): Long
 }
