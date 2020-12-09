@@ -81,7 +81,7 @@
 
         <TextView
             android:id="@+id/tvAgeLimit"
-            style="@style/SubText.White.Bold"
+            style="@style/AgeLimit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/age_limit_rectangle"
@@ -92,7 +92,7 @@
 
         <TextView
             android:id="@+id/tvTags"
-            style="@style/CardText.Pink.Normal"
+            style="@style/CardMovieTag"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/space0.5x"
@@ -123,7 +123,7 @@
 
         <TextView
             android:id="@+id/tvReviews"
-            style="@style/CardText.DarkGray.Bold"
+            style="@style/CardMovieReview"
             android:layout_width="wrap_content"
             android:layout_height="12dp"
             android:layout_marginBottom="@dimen/space2x"
@@ -144,7 +144,7 @@
 
             <TextView
                 android:id="@+id/tvName"
-                style="@style/MainText.LightLightGray.Bold"
+                style="@style/CardMovieName"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/space5x"
                 android:ellipsize="end"
@@ -154,7 +154,7 @@
 
             <TextView
                 android:id="@+id/tvMin"
-                style="@style/CardText.DarkDarkGray.Bold"
+                style="@style/CardMovieMin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAllCaps="true"

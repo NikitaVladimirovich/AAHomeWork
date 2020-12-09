@@ -17,7 +17,7 @@
 
     <TextView
         android:id="@+id/tvNameCast"
-        style="@style/SubText.LightGray.Bold"
+        style="@style/CastName"
         android:layout_width="@dimen/castPhotoSize"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
