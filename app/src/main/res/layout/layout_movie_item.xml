@@ -8,8 +8,9 @@
     app:cardBackgroundColor="@color/darkBlue"
     app:cardCornerRadius="@dimen/space2x"
     app:cardElevation="@dimen/space6x"
+    app:contentPadding="@dimen/movieCardStrokeWidth"
     app:strokeColor="@color/cardStroke"
-    app:strokeWidth="1dp">
+    app:strokeWidth="@dimen/movieCardStrokeWidth">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -46,20 +47,29 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="@dimen/space2x" />
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivCover"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="@dimen/cardCoverHeight"
+            android:layout_marginEnd="@dimen/movieCardStrokeWidth"
+            android:layout_marginStart="@dimen/movieCardStrokeWidth"
+            android:layout_marginTop="@dimen/movieCardStrokeWidth"
             android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/MovieCard.ImageAppearance"
             tools:ignore="ContentDescription"
             tools:srcCompat="@drawable/orig" />
 
         <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/cardCoverHeight"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:background="@drawable/cover_mask"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="@id/ivCover"
+            app:layout_constraintEnd_toEndOf="@id/ivCover"
+            app:layout_constraintStart_toStartOf="@id/ivCover"
+            app:layout_constraintTop_toTopOf="@id/ivCover" />
 
         <LinearLayout
             android:id="@+id/llLike"

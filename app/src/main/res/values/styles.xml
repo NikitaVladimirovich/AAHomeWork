@@ -52,9 +52,15 @@
         <item name="android:button">@drawable/checkbox_selector</item>
     </style>
 
-    <style name="ImageView.Rounded.Appearance" parent="">
+    <style name="CastCard.ImageAppearance" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">4dp</item>
+    </style>
+
+    <style name="MovieCard.ImageAppearance" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">7dp</item>
+        <item name="cornerSizeTopRight">7dp</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

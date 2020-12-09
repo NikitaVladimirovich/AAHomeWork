@@ -12,7 +12,7 @@
         android:layout_width="@dimen/castPhotoSize"
         android:layout_height="@dimen/castPhotoSize"
         android:scaleType="centerCrop"
-        app:shapeAppearanceOverlay="@style/ImageView.Rounded.Appearance"
+        app:shapeAppearanceOverlay="@style/CastCard.ImageAppearance"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
