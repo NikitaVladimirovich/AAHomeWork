@@ -20,9 +20,15 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
     private val binding by viewBinding(FragmentMoviesListBinding::bind)
 
-    private lateinit var movieAdapter: MovieAdapter
-
     private val viewModel: MainViewModel by activityViewModels()
+
+    private val movieAdapter by lazy {
+        MovieAdapter(Glide.with(this), resources, {
+            (activity as MainActivity?)?.openMovieDetail(it)
+        }, { id, isLiked ->
+            viewModel.setMovieLiked(id, isLiked)
+        })
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,24 +50,25 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initViews()
+        subscribe()
+    }
 
-        (activity as MainActivity?)?.setSupportActionBar(binding.toolbar)
-        movieAdapter = MovieAdapter(Glide.with(this), resources, {
-            (activity as MainActivity?)?.openMovieDetail(it)
-        }, { id, isLiked ->
-            viewModel.setMovieLiked(id, isLiked)
-        })
-        movieAdapter.setHasStableIds(true)
-        binding.rvMovies.apply {
-            setHasFixedSize(true)
-            adapter = movieAdapter
-            itemAnimator = MovieItemAnimator()
+    private fun initViews() {
+        binding.apply {
+            (activity as MainActivity?)?.setSupportActionBar(toolbar)
+            movieAdapter.setHasStableIds(true)
+            rvMovies.apply {
+                setHasFixedSize(true)
+                adapter = movieAdapter
+                itemAnimator = MovieItemAnimator()
+            }
+
+            ItemTouchHelper(DragManageAdapter(moveCallback = movieAdapter::swapItems)).attachToRecyclerView(rvMovies)
         }
+    }
 
-        ItemTouchHelper(DragManageAdapter(moveCallback = movieAdapter::swapItems)).attachToRecyclerView(
-            binding.rvMovies
-        )
-
+    private fun subscribe() {
         viewModel.moviesPreview.observe(viewLifecycleOwner, {
             movieAdapter.moviePreviews = it
         })

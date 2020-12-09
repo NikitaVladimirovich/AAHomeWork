@@ -23,6 +23,11 @@ class FragmentMoviesDetails : Fragment() {
 
     private val viewModel: MainViewModel by activityViewModels()
 
+    private val glide by lazy { Glide.with(this) }
+    private val castAdapter by lazy { CastAdapter(glide) }
+
+    private var movieId = 0
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentMoviesDetailsBinding.inflate(inflater, container, false)
         return binding.root
@@ -36,47 +41,58 @@ class FragmentMoviesDetails : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        movieId = arguments?.getInt(MOVIE_ID_ARGUMENT) ?: 0
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        savedInstanceState ?: viewModel.getMovieDetail(movieId)
+        initViews()
+        subscribe()
+    }
 
-        (activity as MainActivity?)?.let {
-            it.setSupportActionBar(binding.toolbar)
-            it.supportActionBar?.apply {
-                setDisplayHomeAsUpEnabled(true)
-                setDisplayShowHomeEnabled(true)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    private fun initViews() {
+        binding.apply {
+            (activity as MainActivity?)?.let {
+                it.setSupportActionBar(toolbar)
+                it.supportActionBar?.apply {
+                    setDisplayHomeAsUpEnabled(true)
+                    setDisplayShowHomeEnabled(true)
+                }
+            }
+
+            castAdapter.setHasStableIds(true)
+            rvCast.apply {
+                layoutManager = LinearLayoutManager(
+                    context,
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+                )
+                setHasFixedSize(true)
+                adapter = castAdapter
             }
         }
-        val glide = Glide.with(this)
-        val movieId = arguments?.getInt(MOVIE_ID_ARGUMENT) ?: 0
-        viewModel.getMovieDetail(movieId)
+    }
 
-        val castAdapter = CastAdapter(glide)
-        castAdapter.setHasStableIds(true)
-        binding.rvCast.apply {
-            layoutManager = LinearLayoutManager(
-                context,
-                LinearLayoutManager.HORIZONTAL,
-                false
-            )
-            setHasFixedSize(true)
-            adapter = castAdapter
-        }
-
+    private fun subscribe() {
         viewModel.moviesPreview.observe(viewLifecycleOwner) { moviePreviews ->
             moviePreviews.first { it.moviePreview.id == movieId }.let { moviePreview ->
-                glide.load(moviePreview.moviePreview.backdrop)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(binding.ivCover)
-
-
-                binding.collapsingToolbar.title = moviePreview.moviePreview.title
-                binding.tvAgeLimit.text =
-                    getString(R.string.ageLimitFormat).format(moviePreview.moviePreview.ageLimit)
-                binding.tvTags.text = moviePreview.genres.joinToString(", ") { it.name }
-                binding.tvReviews.text = getString(R.string.reviewsFormat).format(moviePreview.moviePreview.reviews)
-                binding.rbRating.rating = moviePreview.moviePreview.rating / 2
+                binding.apply {
+                    glide.load(moviePreview.moviePreview.backdrop)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(ivCover)
+                    collapsingToolbar.title = moviePreview.moviePreview.title
+                    tvAgeLimit.text =
+                        getString(R.string.ageLimitFormat).format(moviePreview.moviePreview.ageLimit)
+                    tvTags.text = moviePreview.genres.joinToString(", ") { it.name }
+                    tvReviews.text = getString(R.string.reviewsFormat).format(moviePreview.moviePreview.reviews)
+                    rbRating.rating = moviePreview.moviePreview.rating / 2
+                }
             }
         }
 
@@ -86,11 +102,6 @@ class FragmentMoviesDetails : Fragment() {
                 castAdapter.actors = it.actors
             }
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
-        super.onCreateOptionsMenu(menu, inflater)
     }
 
     companion object {
