@@ -9,7 +9,8 @@ class DragManageAdapter(
     private val moveCallback: ((Int, Int) -> Unit)? = null,
     private val swipeCallback: ((ViewHolder, Int) -> Unit)? = null
 ) : SimpleCallback(
-    ItemTouchHelper.DOWN or ItemTouchHelper.UP or ItemTouchHelper.START or ItemTouchHelper.END, 0
+    ItemTouchHelper.DOWN or ItemTouchHelper.UP or ItemTouchHelper.START or ItemTouchHelper.END,
+    0
 ) {
 
     override fun onMove(

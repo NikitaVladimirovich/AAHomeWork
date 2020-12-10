@@ -1,7 +1,6 @@
 package com.aacademy.homework
 
-import org.junit.Test
-
+import org.junit.*
 import org.junit.Assert.*
 
 /**

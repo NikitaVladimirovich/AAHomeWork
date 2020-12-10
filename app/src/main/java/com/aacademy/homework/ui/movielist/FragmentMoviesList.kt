@@ -23,11 +23,16 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
     private val viewModel: MainViewModel by activityViewModels()
 
     private val movieAdapter by lazy {
-        MovieAdapter(Glide.with(this), resources, {
-            (activity as MainActivity).openMovieDetail(it)
-        }, { id, isLiked ->
-            viewModel.setMovieLiked(id, isLiked)
-        })
+        MovieAdapter(
+            Glide.with(this),
+            resources,
+            {
+                (activity as MainActivity).openMovieDetail(it)
+            },
+            { id, isLiked ->
+                viewModel.setMovieLiked(id, isLiked)
+            }
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +47,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            //R.id.add -> movieAdapter.insertItem(getRandomMovie())
+            // R.id.add -> movieAdapter.insertItem(getRandomMovie())
             R.id.remove -> movieAdapter.removeLastItem()
         }
         return super.onOptionsItemSelected(item)
@@ -69,9 +74,12 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
     }
 
     private fun subscribe() {
-        viewModel.moviesPreview.observe(viewLifecycleOwner, {
-            movieAdapter.moviePreviews = it
-        })
+        viewModel.moviesPreview.observe(
+            viewLifecycleOwner,
+            {
+                movieAdapter.moviePreviews = it
+            }
+        )
     }
 
     companion object {
