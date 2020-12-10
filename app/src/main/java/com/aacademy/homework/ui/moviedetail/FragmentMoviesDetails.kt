@@ -1,11 +1,9 @@
 package com.aacademy.homework.ui.moviedetail
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,30 +11,18 @@ import com.aacademy.homework.R
 import com.aacademy.homework.databinding.FragmentMoviesDetailsBinding
 import com.aacademy.homework.ui.activities.MainActivity
 import com.aacademy.homework.ui.activities.MainViewModel
+import com.aacademy.homework.utils.viewBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
 class FragmentMoviesDetails : Fragment() {
 
-    private var _binding: FragmentMoviesDetailsBinding? = null
-    private val binding get() = _binding!!
-
+    private val binding by viewBinding(FragmentMoviesDetailsBinding::bind)
     private val viewModel: MainViewModel by activityViewModels()
-
     private val glide by lazy { Glide.with(this) }
     private val castAdapter by lazy { CastAdapter(glide) }
 
     private var movieId = 0
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentMoviesDetailsBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

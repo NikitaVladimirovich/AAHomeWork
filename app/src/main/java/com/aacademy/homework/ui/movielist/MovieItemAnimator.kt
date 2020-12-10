@@ -21,7 +21,7 @@ class MovieItemAnimator : DefaultItemAnimator() {
 
     companion object {
 
-        val ACTION_FILM_LIKED = "ACTION_FILM_LIKED"
+        const val ACTION_FILM_LIKED = "ACTION_FILM_LIKED"
     }
 
     override fun canReuseUpdatedViewHolder(viewHolder: ViewHolder): Boolean {

@@ -24,6 +24,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="TODO"
             app:srcCompat="@drawable/movie_card_bg" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -181,6 +182,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="likeAnim"
             app:srcCompat="@drawable/ic_like_filled" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
