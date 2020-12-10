@@ -19,4 +19,7 @@
     <dimen name="cardCoverHeight">260dp</dimen>
     <dimen name="minMovieItemWidth">187dp</dimen>
     <dimen name="movieCardStrokeWidth">1dp</dimen>
+    <dimen name="likeAnimImageSize">100dp</dimen>
+    <dimen name="movieCardCornerRadius">8dp</dimen>
+    <dimen name="movieCardCoverCornerRadius">7dp</dimen>
 </resources>

@@ -15,7 +15,7 @@ import com.aacademy.homework.utils.viewBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
-class FragmentMoviesDetails : Fragment() {
+class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
 
     private val binding by viewBinding(FragmentMoviesDetailsBinding::bind)
     private val viewModel: MainViewModel by activityViewModels()
@@ -44,7 +44,7 @@ class FragmentMoviesDetails : Fragment() {
 
     private fun initViews() {
         binding.apply {
-            (activity as MainActivity?)?.let {
+            (activity as MainActivity).let {
                 it.setSupportActionBar(toolbar)
                 it.supportActionBar?.apply {
                     setDisplayHomeAsUpEnabled(true)

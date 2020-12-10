@@ -6,5 +6,5 @@ import androidx.room.PrimaryKey
 @Entity
 data class MovieDetail(
     @PrimaryKey val id: Int,
-    val overview: String,
+    val overview: String
 )

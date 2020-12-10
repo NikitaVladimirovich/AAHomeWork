@@ -20,7 +20,7 @@ class MainViewModel : ViewModel() {
     val movieDetail: LiveData<MovieDetailWithActors> = _movieDetail
 
     init {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _moviesPreview.postValue(FakeDataRepository.getAllPreviews())
         }
     }
@@ -34,7 +34,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun setMovieLiked(id: Int, isLiked: Boolean) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             FakeLocalRepository.setMovieLiked(id, isLiked)
         }
     }

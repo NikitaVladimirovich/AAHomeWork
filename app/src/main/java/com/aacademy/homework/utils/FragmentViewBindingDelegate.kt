@@ -30,7 +30,8 @@ class FragmentViewBindingDelegate<T : ViewBinding>(
                     })
                 }
             }
-        })
+        }
+        )
     }
 
     override fun getValue(thisRef: Fragment, property: KProperty<*>): T {

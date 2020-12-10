@@ -90,7 +90,7 @@ class MovieAdapter(
                 .into(binding.ivCover)
             binding.tvAgeLimit.text =
                 resources.getString(string.ageLimitFormat).format(moviePreview.moviePreview.ageLimit)
-            binding.tvTags.text = moviePreview.genres.joinToString(", ") { it.name }
+            binding.tvTags.text = moviePreview.genres.take(3).joinToString(", ") { it.name }
             binding.tvReviews.text =
                 resources.getString(string.reviewsFormat).format(moviePreview.moviePreview.reviews)
             binding.rbRating.rating = moviePreview.moviePreview.rating / 2

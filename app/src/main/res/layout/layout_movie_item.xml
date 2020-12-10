@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/space1.5x"
     app:cardBackgroundColor="@color/darkBlue"
-    app:cardCornerRadius="@dimen/space2x"
+    app:cardCornerRadius="@dimen/movieCardCornerRadius"
     app:cardElevation="@dimen/space6x"
     app:contentPadding="@dimen/movieCardStrokeWidth"
     app:strokeColor="@color/cardStroke"
@@ -75,7 +75,8 @@
         <LinearLayout
             android:id="@+id/llLike"
             android:layout_width="@dimen/space8x"
-            android:layout_height="34dp"
+            android:layout_height="@dimen/space8x"
+            android:layout_marginTop="@dimen/space0.5x"
             android:padding="@dimen/space2x"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -83,9 +84,8 @@
             <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/cbLike"
                 style="@style/LikeCheckBox"
-                android:layout_width="16dp"
-                android:layout_height="14dp"
-                android:layout_marginTop="@dimen/space"
+                android:layout_width="@dimen/space4x"
+                android:layout_height="@dimen/space4x"
                 android:clickable="false"
                 android:enabled="false" />
         </LinearLayout>
@@ -136,7 +136,7 @@
             android:id="@+id/tvReviews"
             style="@style/CardMovieReview"
             android:layout_width="wrap_content"
-            android:layout_height="12dp"
+            android:layout_height="@dimen/space3x"
             android:layout_marginBottom="@dimen/space2x"
             android:layout_marginStart="@dimen/space2x"
             android:layout_marginTop="@dimen/space"
@@ -175,8 +175,8 @@
 
         <ImageView
             android:id="@+id/ivLike"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/likeAnimImageSize"
+            android:layout_height="@dimen/likeAnimImageSize"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

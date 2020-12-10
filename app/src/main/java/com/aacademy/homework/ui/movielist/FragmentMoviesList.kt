@@ -24,7 +24,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
     private val movieAdapter by lazy {
         MovieAdapter(Glide.with(this), resources, {
-            (activity as MainActivity?)?.openMovieDetail(it)
+            (activity as MainActivity).openMovieDetail(it)
         }, { id, isLiked ->
             viewModel.setMovieLiked(id, isLiked)
         })
@@ -56,7 +56,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
     private fun initViews() {
         binding.apply {
-            (activity as MainActivity?)?.setSupportActionBar(toolbar)
+            (activity as MainActivity).setSupportActionBar(toolbar)
             movieAdapter.setHasStableIds(true)
             rvMovies.apply {
                 setHasFixedSize(true)

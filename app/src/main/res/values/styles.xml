@@ -54,13 +54,13 @@
 
     <style name="CastCard.ImageAppearance" parent="">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">4dp</item>
+        <item name="cornerSize">@dimen/space</item>
     </style>
 
     <style name="MovieCard.ImageAppearance" parent="">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSizeTopLeft">7dp</item>
-        <item name="cornerSizeTopRight">7dp</item>
+        <item name="cornerSizeTopLeft">@dimen/movieCardCoverCornerRadius</item>
+        <item name="cornerSizeTopRight">@dimen/movieCardCoverCornerRadius</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -82,7 +82,7 @@
 
     <style name="CardMovieName" parent="MainText.Bold">
         <item name="android:textColor">@color/lightlightGray</item>
-        <item name="android:shadowColor">#80000000</item>
+        <item name="android:shadowColor">@color/colorTextShadow</item>
         <item name="android:shadowDy">6</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowRadius">12</item>
@@ -110,7 +110,7 @@
 
     <style name="DetailMovieSectionTitle" parent="MainText.Bold">
         <item name="android:textColor">@color/lightlightGray</item>
-        <item name="android:shadowColor">#80000000</item>
+        <item name="android:shadowColor">@color/colorTextShadow</item>
         <item name="android:shadowDy">6</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowRadius">12</item>

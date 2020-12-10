@@ -20,6 +20,6 @@
         style="@style/CastName"
         android:layout_width="@dimen/castPhotoSize"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="@dimen/space1.5x"
         tools:text="@tools:sample/full_names" />
 </LinearLayout>

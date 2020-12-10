@@ -16,5 +16,5 @@ data class MoviePreviewWithGenres(
             entityColumn = "tagId"
         )
     )
-    val genres: List<Genre>,
+    val genres: List<Genre>
 )
