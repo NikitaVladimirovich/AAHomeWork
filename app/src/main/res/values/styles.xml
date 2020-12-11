@@ -36,11 +36,11 @@
     </style>
 
     <style name="AgeLimit" parent="SubText.Bold">
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">?attr/colorText</item>
     </style>
 
     <style name="ToolbarTitle" parent="MainText.Bold">
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">?attr/colorText</item>
     </style>
 
     <style name="RatingBar" parent="">
@@ -68,49 +68,45 @@
 
     <!--MovieCard-->
     <style name="CardMovieTag" parent="CardText">
-        <item name="android:textColor">@color/pink</item>
+        <item name="android:textColor">?attr/colorAccentPink</item>
     </style>
 
     <style name="CardMovieReview" parent="CardText.Bold">
-        <item name="android:textColor">@color/darkGray</item>
+        <item name="android:textColor">?attr/colorReviewsText</item>
     </style>
 
     <style name="CardMovieMin" parent="CardText.Bold">
-        <item name="android:textColor">@color/darkDarkGray</item>
+        <item name="android:textColor">?attr/colorMinText</item>
     </style>
 
     <style name="CardMovieName" parent="MainText.Bold">
         <item name="android:lines">1</item>
-        <item name="android:textColor">@color/lightlightGray</item>
-        <item name="android:shadowColor">@color/colorTextShadow</item>
-        <item name="android:shadowDy">6</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowRadius">12</item>
+        <item name="android:textColor">?attr/colorSectionText</item>
     </style>
 
     <!--CastCard-->
     <style name="CastName" parent="SubText.Bold">
-        <item name="android:textColor">@color/lightGray</item>
+        <item name="android:textColor">?attr/colorCastNameText</item>
         <item name="android:lineSpacingExtra">2sp</item>
     </style>
 
     <!--MovieDetail-->
     <style name="DetailMovieTag" parent="MainText">
         <item name="android:lines">1</item>
-        <item name="android:textColor">@color/pink</item>
+        <item name="android:textColor">?attr/colorAccentPink</item>
     </style>
 
     <style name="DetailMovieReviews" parent="MainText.Bold">
-        <item name="android:textColor">@color/darkGray</item>
+        <item name="android:textColor">?attr/colorReviewsText</item>
     </style>
 
     <style name="DetailMovieStoryline" parent="MainText">
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">?attr/colorText</item>
     </style>
 
     <style name="DetailMovieSectionTitle" parent="MainText.Bold">
-        <item name="android:textColor">@color/lightlightGray</item>
-        <item name="android:shadowColor">@color/colorTextShadow</item>
+        <item name="android:textColor">?attr/colorSectionText</item>
+        <item name="android:shadowColor">?attr/colorTextShadow</item>
         <item name="android:shadowDy">6</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowRadius">12</item>
@@ -118,7 +114,7 @@
 
     <style name="DetailMovieCollapsingTitle" parent="">
         <item name="fontFamily">sans-serif-black</item>
-        <item name="android:textColor">@color/lightGray</item>
+        <item name="android:textColor">?attr/colorSectionText</item>
         <item name="android:letterSpacing" tools:targetApi="lollipop">-0.01</item>
         <item name="android:lineSpacingExtra">0sp</item>
         <item name="android:textSize">@dimen/textSizeHeader</item>

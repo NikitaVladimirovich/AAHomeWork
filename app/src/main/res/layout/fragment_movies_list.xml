@@ -3,28 +3,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darkBlue"
-    android:fitsSystemWindows="true"
+    android:background="?attr/colorBackground"
+    android:fitsSystemWindows="false"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_marginTop="@dimen/space10x"
-        android:theme="@style/AppTheme.PopupOverlay"
-        app:popupTheme="@style/AppTheme.PopupOverlay">
 
-        <TextView
-            style="@style/ToolbarTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/space5x"
-            android:layout_marginStart="@dimen/space4x"
-            android:drawablePadding="@dimen/space2x"
-            android:gravity="center_vertical"
-            android:text="@string/moviesList"
-            app:drawableStartCompat="@drawable/ic_combined_shape" />
-    </androidx.appcompat.widget.Toolbar>
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorBackground"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:fitsSystemWindows="false"
+            android:theme="@style/AppTheme.PopupOverlay"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <TextView
+                style="@style/ToolbarTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/space5x"
+                android:layout_marginStart="@dimen/space4x"
+                android:drawablePadding="@dimen/space2x"
+                android:gravity="center_vertical"
+                android:text="@string/moviesList"
+                app:drawableStartCompat="@drawable/ic_combined_shape" />
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <com.aacademy.homework.ui.views.AutofitRecyclerView android:id="@+id/rvMovies"
         xmlns:tools="http://schemas.android.com/tools"

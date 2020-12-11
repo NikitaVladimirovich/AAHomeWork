@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darkBlue"
+    android:background="?attr/colorBackground"
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
+        android:background="?attr/colorBackground"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -26,13 +27,14 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
+                android:fitsSystemWindows="true"
                 android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/ivCover"
+                    android:fitsSystemWindows="true"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/detailCoverHeight"
-                    android:fitsSystemWindows="true"
                     android:scaleType="centerCrop"
                     app:layout_collapseMode="parallax"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -100,8 +102,8 @@
                 style="@style/DetailMovieTag"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space"
                 android:layout_marginEnd="@dimen/space"
+                android:layout_marginTop="@dimen/space"
                 app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
                 app:layout_constraintRight_toLeftOf="@+id/tvAgeLimit"
                 app:layout_constraintTop_toTopOf="parent"

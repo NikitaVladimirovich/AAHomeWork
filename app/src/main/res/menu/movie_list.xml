@@ -5,13 +5,13 @@
     <item
         android:id="@+id/add"
         android:icon="@android:drawable/ic_input_add"
-        android:title="Add"
-        app:iconTint="@color/pink"
-        app:showAsAction="always" />
+        android:title="@string/add"
+        app:iconTint="?attr/colorAccentPink"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/remove"
         android:icon="@android:drawable/ic_delete"
-        android:title="Remove"
-        app:iconTint="@color/pink"
-        app:showAsAction="always" />
+        android:title="@string/remove"
+        app:iconTint="?attr/colorAccentPink"
+        app:showAsAction="ifRoom" />
 </menu>

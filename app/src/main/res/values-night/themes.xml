@@ -1,0 +1,29 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.AAHomeWork" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/colorBackground</item>
+        <item name="colorPrimaryDark">@color/colorBackground</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@android:color/transparent</item>
+        <!-- Customize your theme here. -->
+
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowBackground">@color/colorBackground</item>
+
+        <item name="colorBackground">@color/colorBackground</item>
+        <item name="colorCardStroke">@color/colorCardStroke</item>
+        <item name="colorAccentPink">@color/colorAccentPink</item>
+        <item name="colorText">@color/colorText</item>
+        <item name="colorCastNameText">@color/colorCastNameText</item>
+        <item name="colorSectionText">@color/colorSectionText</item>
+        <item name="colorTextShadow">@color/colorTextShadow</item>
+        <item name="colorReviewsText">@color/colorReviewsText</item>
+        <item name="colorMinText">@color/colorMinText</item>
+        <item name="colorMovieMaskStart">@color/colorMovieMaskStart</item>
+        <item name="colorMovieMaskEnd">@color/colorMovieMaskEnd</item>
+
+    </style>
+</resources>

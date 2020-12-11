@@ -5,27 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/space1.5x"
-    app:cardBackgroundColor="@color/darkBlue"
+    app:cardBackgroundColor="?attr/colorBackground"
     app:cardCornerRadius="@dimen/movieCardCornerRadius"
     app:cardElevation="@dimen/space6x"
     app:contentPadding="@dimen/movieCardStrokeWidth"
-    app:strokeColor="@color/cardStroke"
+    app:strokeColor="?attr/colorCardStroke"
     app:strokeWidth="@dimen/movieCardStrokeWidth">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:scaleType="fitXY"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="TODO"
-            app:srcCompat="@drawable/movie_card_bg" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideVerticalLeft"
@@ -182,7 +171,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="likeAnim"
+            android:contentDescription="@string/likeAnim"
             app:srcCompat="@drawable/ic_like_filled" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

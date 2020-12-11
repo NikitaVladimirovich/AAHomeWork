@@ -1,18 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="lightlightGray">#ececec</color>
-    <color name="lightGray">#D8D8D8</color>
-    <color name="darkGray">#6D6D80</color>
-    <color name="darkDarkGray">#565656</color>
-    <color name="pink">#FF3466</color>
-    <color name="darkBlue">#191926</color>
-    <color name="filledStar">#FF3365</color>
-    <color name="emptyStar">#6D6D80</color>
-    <color name="cardStroke">#2E2D3C</color>
+    <color name="colorAccentPink">#FF3466</color>
+    <color name="colorBackground">#191926</color>
+    <color name="colorBackgroundLight">#E6E6D9</color>
+    <color name="colorText">#FFFFFF</color>
+    <color name="colorTextLight">#000000</color>
+    <color name="colorCastNameText">#D8D8D8</color>
+    <color name="colorCastNameTextLight">#272727</color>
+    <color name="colorFilledStar">#FF3365</color>
+    <color name="colorEmptyStar">#6D6D80</color>
+    <color name="colorEmptyStarLight">#92927f</color>
+    <color name="colorSectionText">#ECECEC</color>
+    <color name="colorSectionTextLight">#131313</color>
     <color name="colorTextShadow">#80000000</color>
+    <color name="colorReviewsText">#6D6D80</color>
+    <color name="colorReviewsTextLight">#92927F</color>
+    <color name="colorMinText">#565656</color>
+    <color name="colorMinTextLight">#A9A9A9</color>
+    <color name="colorMovieMaskStart">#191926</color>
+    <color name="colorMovieMaskStartLight">#E6E6D9</color>
+    <color name="colorMovieMaskEnd">#00191926</color>
+    <color name="colorCardStroke">#2E2D3C</color>
+    <color name="colorCardStrokeLight">#D1D2C3</color>
 </resources>

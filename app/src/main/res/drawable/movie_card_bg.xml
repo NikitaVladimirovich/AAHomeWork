@@ -1,27 +1,8 @@
-<vector android:alpha="0.55"
-    android:autoMirrored="true"
-    android:height="296dp"
-    android:viewportHeight="296"
-    android:viewportWidth="170"
-    android:width="170dp"
-    xmlns:aapt="http://schemas.android.com/aapt"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <path
-        android:fillAlpha="0.55"
-        android:pathData="M8,0L162,0A8,9999999 0,0 1,170 8L170,288A8,9999 0,0 1,162 296L8,296A8,999999999 0,0 1,0 288L0,8A8,99999999 0,0 1,8 0z">
-        <aapt:attr name="android:fillColor">
-            <gradient
-                android:centerX="40.0315"
-                android:centerY="77.3069"
-                android:gradientRadius="249.296"
-                android:type="radial">
-                <item
-                    android:color="#FD404056"
-                    android:offset="0" />
-                <item
-                    android:color="#FF222232"
-                    android:offset="1" />
-            </gradient>
-        </aapt:attr>
-    </path>
-</vector>
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:angle="90"
+        android:endColor="@color/colorMovieMaskEnd"
+        android:startColor="@color/colorMovieMaskStart"
+        android:type="linear" />
+</shape>

@@ -6,4 +6,7 @@
     <string name="ageLimitFormat">%d+</string>
     <string name="minFormat">%d min</string>
     <string name="moviesList">Movies list</string>
+    <string name="likeAnim">likeAnim</string>
+    <string name="add">Add</string>
+    <string name="remove">Remove</string>
 </resources>
