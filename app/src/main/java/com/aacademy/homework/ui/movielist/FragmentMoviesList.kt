@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import com.aacademy.homework.R
 import com.aacademy.homework.databinding.FragmentMoviesListBinding
 import com.aacademy.homework.ui.activities.MainActivity
-import com.aacademy.homework.ui.activities.MainViewModel
+import com.aacademy.homework.ui.activities.MoviesViewModel
 import com.aacademy.homework.ui.views.DragManageAdapter
 import com.aacademy.homework.utils.viewBinding
 import com.bumptech.glide.Glide
@@ -20,7 +20,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
     private val binding by viewBinding(FragmentMoviesListBinding::bind)
 
-    private val viewModel: MainViewModel by activityViewModels()
+    private val viewModel: MoviesViewModel by activityViewModels()
 
     private val movieAdapter by lazy {
         MovieAdapter(

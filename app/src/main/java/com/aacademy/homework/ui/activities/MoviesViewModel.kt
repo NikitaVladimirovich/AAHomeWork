@@ -11,7 +11,7 @@ import com.aacademy.homework.data.model.MoviePreviewWithGenres
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainViewModel : ViewModel() {
+class MoviesViewModel : ViewModel() {
 
     private val _moviesPreview = MutableLiveData<List<MoviePreviewWithGenres>>()
     val moviesPreview: LiveData<List<MoviePreviewWithGenres>> = _moviesPreview
