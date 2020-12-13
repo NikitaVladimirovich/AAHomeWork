@@ -22,12 +22,12 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
     private val glide by lazy { Glide.with(this) }
     private val castAdapter by lazy { CastAdapter(glide) }
 
-    private var movieId = 0
+    private var movieId = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        movieId = arguments?.getInt(MOVIE_ID_ARGUMENT) ?: 0
+        movieId = arguments?.getLong(MOVIE_ID_ARGUMENT) ?: 0
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -94,9 +94,9 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
 
         private const val MOVIE_ID_ARGUMENT = "MovieId"
 
-        fun newInstance(movieId: Int): FragmentMoviesDetails {
+        fun newInstance(movieId: Long): FragmentMoviesDetails {
             val args = Bundle()
-            args.putInt(MOVIE_ID_ARGUMENT, movieId)
+            args.putLong(MOVIE_ID_ARGUMENT, movieId)
             val fragment = FragmentMoviesDetails()
             fragment.arguments = args
             return fragment

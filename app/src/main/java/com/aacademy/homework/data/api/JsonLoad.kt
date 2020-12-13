@@ -1,6 +1,6 @@
 package com.aacademy.homework.data.api
 
-import android.content.Context
+import com.aacademy.homework.MyApp
 import com.aacademy.homework.data.model.Actor
 import com.aacademy.homework.data.model.Genre
 import com.aacademy.homework.data.model.MovieDetail
@@ -15,19 +15,8 @@ import kotlinx.serialization.json.Json
 private val jsonFormat = Json { ignoreUnknownKeys = true }
 
 @Serializable
-private class JsonGenre(val id: Int, val name: String)
-
-@Serializable
-private class JsonActor(
-    val id: Int,
-    val name: String,
-    @SerialName("profile_path")
-    val profilePicture: String
-)
-
-@Serializable
 private class JsonMovie(
-    val id: Int,
+    val id: Long,
     val title: String,
     @SerialName("poster_path")
     val posterPicture: String,
@@ -35,8 +24,9 @@ private class JsonMovie(
     val backdropPicture: String,
     val runtime: Int,
     @SerialName("genre_ids")
-    val genreIds: List<Int>,
-    val actors: List<Int>,
+    val genreIds: List<Long>,
+    @SerialName("actors")
+    val actorsIds: List<Long>,
     @SerialName("vote_average")
     val ratings: Float,
     val overview: String,
@@ -45,34 +35,24 @@ private class JsonMovie(
     val voteCount: Int
 )
 
-private fun loadGenres(context: Context): List<Genre> {
-    val data = readAssetFileToString(context, "genres.json")
-    return parseGenres(data)
-}
-
-internal fun parseGenres(data: String): List<Genre> {
-    val jsonGenres = jsonFormat.decodeFromString<List<JsonGenre>>(data)
-    return jsonGenres.map { Genre(id = it.id, name = it.name) }
-}
-
-private fun readAssetFileToString(context: Context, fileName: String): String {
-    val stream = context.assets.open(fileName)
+private fun readAssetFileToString(fileName: String): String {
+    val stream = MyApp.INSTANCE.assets.open(fileName)
     return stream.bufferedReader().readText()
 }
 
-private fun loadActors(context: Context): List<Actor> {
-    val data = readAssetFileToString(context, "people.json")
-    return parseActors(data)
+private fun loadGenres(): List<Genre> {
+    val data = readAssetFileToString("genres.json")
+    return jsonFormat.decodeFromString(data)
 }
 
-internal fun parseActors(data: String): List<Actor> {
-    val jsonActors = jsonFormat.decodeFromString<List<JsonActor>>(data)
-    return jsonActors.map { Actor(id = it.id, name = it.name, picture = it.profilePicture) }
+private fun loadActors(): List<Actor> {
+    val data = readAssetFileToString("people.json")
+    return jsonFormat.decodeFromString(data)
 }
 
-internal fun loadMoviesPreviews(context: Context): List<MoviePreviewWithGenres> {
-    val genresMap = loadGenres(context)
-    val data = readAssetFileToString(context, "data.json")
+internal fun loadMoviesPreviews(): List<MoviePreviewWithGenres> {
+    val genresMap = loadGenres()
+    val data = readAssetFileToString("data.json")
     return parseMoviesPreviews(data, genresMap)
 }
 
@@ -102,14 +82,14 @@ internal fun parseMoviesPreviews(
     }
 }
 
-internal fun loadMovieDetail(id: Int, context: Context): MovieDetailWithActors {
-    val actorsMap = loadActors(context)
-    val data = readAssetFileToString(context, "data.json")
+internal fun loadMovieDetail(id: Long): MovieDetailWithActors {
+    val actorsMap = loadActors()
+    val data = readAssetFileToString("data.json")
     return parseMovieDetail(id, data, actorsMap)
 }
 
 internal fun parseMovieDetail(
-    id: Int,
+    id: Long,
     data: String,
     actors: List<Actor>
 ): MovieDetailWithActors {
@@ -121,7 +101,7 @@ internal fun parseMovieDetail(
             id = jsonMovie.id,
             overview = jsonMovie.overview,
         ),
-        actors = jsonMovie.actors.map {
+        actors = jsonMovie.actorsIds.map {
             actorsMap[it] ?: throw IllegalArgumentException("Actor not found")
         }
     )

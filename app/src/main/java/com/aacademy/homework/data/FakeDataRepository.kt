@@ -14,7 +14,7 @@ object FakeDataRepository {
             }
     }
 
-    suspend fun getMovieDetail(id: Int): MovieDetailWithActors = FakeLocalRepository.getMovieDetail(id)
+    suspend fun getMovieDetail(id: Long): MovieDetailWithActors = FakeLocalRepository.getMovieDetail(id)
         .let {
             if (it.isEmpty()) FakeApiRepository.getMovieDetail(id) else it.first()
         }

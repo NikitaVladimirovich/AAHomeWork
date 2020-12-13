@@ -10,6 +10,7 @@ object FakeLocalRepository {
 
     private val database: AppDatabase by lazy {
         Room.databaseBuilder(MyApp.INSTANCE, AppDatabase::class.java, "sqlite.db")
+            .fallbackToDestructiveMigration()
 //            .createFromAsset("sqlite.db")
             .build()
     }
@@ -18,11 +19,11 @@ object FakeLocalRepository {
         return database.moviePreviewDao().getAllMovies()
     }
 
-    suspend fun getMovieDetail(id: Int): List<MovieDetailWithActors> {
+    suspend fun getMovieDetail(id: Long): List<MovieDetailWithActors> {
         return database.movieDetailDao().getMovieDetail(id)
     }
 
-    suspend fun setMovieLiked(id: Int, isLiked: Boolean) {
+    suspend fun setMovieLiked(id: Long, isLiked: Boolean) {
         return database.moviePreviewDao().setMovieLiked(id, isLiked)
     }
 

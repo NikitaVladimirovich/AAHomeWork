@@ -19,8 +19,8 @@ import java.util.Collections
 class MovieAdapter(
     val glide: RequestManager,
     val resources: Resources,
-    val itemClickListener: (Int) -> Unit,
-    val likeStateChangeListener: (Int, Boolean) -> Unit
+    val itemClickListener: (Long) -> Unit,
+    val likeStateChangeListener: (Long, Boolean) -> Unit
 ) :
     RecyclerView.Adapter<MovieViewHolder>() {
 
@@ -78,7 +78,7 @@ class MovieAdapter(
     }
 
     override fun getItemId(position: Int): Long {
-        return moviePreviews[position].moviePreview.id.toLong()
+        return moviePreviews[position].moviePreview.id
     }
 
     inner class MovieViewHolder(private val binding: LayoutMovieItemBinding) : LikeViewHolder(binding) {

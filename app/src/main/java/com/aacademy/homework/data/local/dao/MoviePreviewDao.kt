@@ -18,7 +18,7 @@ interface MoviePreviewDao {
     suspend fun getAllMovies(): List<MoviePreviewWithGenres>
 
     @Query("UPDATE moviepreview SET isLiked = :isLiked WHERE id = :id")
-    suspend fun setMovieLiked(id: Int, isLiked: Boolean)
+    suspend fun setMovieLiked(id: Long, isLiked: Boolean)
 
     @Transaction
     suspend fun insert(moviePreviewsWithTags: List<MoviePreviewWithGenres>) {
@@ -32,11 +32,11 @@ interface MoviePreviewDao {
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(moviePreview: MoviePreview): Long
+    suspend fun insert(moviePreview: MoviePreview)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(genre: Genre): Long
+    suspend fun insert(genre: Genre)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(movieTag: MovieTag): Long
+    suspend fun insert(movieTag: MovieTag)
 }

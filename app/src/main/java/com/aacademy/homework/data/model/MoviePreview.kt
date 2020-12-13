@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class MoviePreview(
-    @PrimaryKey val id: Int,
+    @PrimaryKey val id: Long,
     val title: String,
     val poster: String,
     val backdrop: String,

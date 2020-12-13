@@ -11,7 +11,7 @@ import com.aacademy.homework.data.model.MovieTag
 
 @Database(
     entities = [MoviePreview::class, Genre::class, MovieTag::class, MovieDetail::class, Actor::class, MovieActor::class],
-    version = 1
+    version = 2
 )
 abstract class AppDatabase : RoomDatabase() {
 

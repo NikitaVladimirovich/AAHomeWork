@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <!--Base-->
     <style name="CardText" parent="">
@@ -115,7 +115,7 @@
     <style name="DetailMovieCollapsingTitle" parent="">
         <item name="fontFamily">sans-serif-black</item>
         <item name="android:textColor">?attr/colorSectionText</item>
-        <item name="android:letterSpacing" tools:targetApi="lollipop">-0.01</item>
+        <item name="android:letterSpacing">-0.01</item>
         <item name="android:lineSpacingExtra">0sp</item>
         <item name="android:textSize">@dimen/textSizeHeader</item>
     </style>

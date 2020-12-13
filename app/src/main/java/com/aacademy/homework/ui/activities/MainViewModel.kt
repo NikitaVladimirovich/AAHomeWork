@@ -25,7 +25,7 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun getMovieDetail(id: Int) {
+    fun getMovieDetail(id: Long) {
         if (movieDetail.value?.movieDetail?.id != id) {
             viewModelScope.launch(Dispatchers.IO) {
                 _movieDetail.postValue(FakeDataRepository.getMovieDetail(id))
@@ -33,7 +33,7 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun setMovieLiked(id: Int, isLiked: Boolean) {
+    fun setMovieLiked(id: Long, isLiked: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             FakeLocalRepository.setMovieLiked(id, isLiked)
         }

@@ -15,7 +15,7 @@ interface MovieDetailDao {
 
     @Transaction
     @Query("SELECT * FROM moviedetail WHERE id = :id")
-    suspend fun getMovieDetail(id: Int): List<MovieDetailWithActors>
+    suspend fun getMovieDetail(id: Long): List<MovieDetailWithActors>
 
     @Transaction
     @Insert
@@ -28,11 +28,11 @@ interface MovieDetailDao {
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(movieDetail: MovieDetail): Long
+    suspend fun insert(movieDetail: MovieDetail)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(actor: Actor): Long
+    suspend fun insert(actor: Actor)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(movieActor: MovieActor): Long
+    suspend fun insert(movieActor: MovieActor)
 }

@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         title = ""
     }
 
-    fun openMovieDetail(movieId: Int) {
+    fun openMovieDetail(movieId: Long) {
         supportFragmentManager
             .beginTransaction()
             .setCustomAnimations(
