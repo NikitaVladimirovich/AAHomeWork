@@ -7,6 +7,8 @@ import com.aacademy.homework.data.model.MovieDetail
 import com.aacademy.homework.data.model.MovieDetailWithActors
 import com.aacademy.homework.data.model.MoviePreview
 import com.aacademy.homework.data.model.MoviePreviewWithGenres
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
@@ -40,20 +42,20 @@ private fun readAssetFileToString(fileName: String): String {
     return stream.bufferedReader().readText()
 }
 
-private fun loadGenres(): List<Genre> {
+private suspend fun loadGenres(): List<Genre> = withContext(Dispatchers.IO) {
     val data = readAssetFileToString("genres.json")
-    return jsonFormat.decodeFromString(data)
+    jsonFormat.decodeFromString(data)
 }
 
-private fun loadActors(): List<Actor> {
+private suspend fun loadActors(): List<Actor> = withContext(Dispatchers.IO) {
     val data = readAssetFileToString("people.json")
-    return jsonFormat.decodeFromString(data)
+    jsonFormat.decodeFromString(data)
 }
 
-internal fun loadMoviesPreviews(): List<MoviePreviewWithGenres> {
+internal suspend fun loadMoviesPreviews(): List<MoviePreviewWithGenres> = withContext(Dispatchers.IO) {
     val genresMap = loadGenres()
     val data = readAssetFileToString("data.json")
-    return parseMoviesPreviews(data, genresMap)
+    parseMoviesPreviews(data, genresMap)
 }
 
 internal fun parseMoviesPreviews(
@@ -82,10 +84,10 @@ internal fun parseMoviesPreviews(
     }
 }
 
-internal fun loadMovieDetail(id: Long): MovieDetailWithActors {
+internal suspend fun loadMovieDetail(id: Long): MovieDetailWithActors = withContext(Dispatchers.IO) {
     val actorsMap = loadActors()
     val data = readAssetFileToString("data.json")
-    return parseMovieDetail(id, data, actorsMap)
+    parseMovieDetail(id, data, actorsMap)
 }
 
 internal fun parseMovieDetail(
