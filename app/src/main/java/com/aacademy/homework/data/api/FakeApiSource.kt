@@ -1,16 +1,16 @@
 package com.aacademy.homework.data.api
 
-import com.aacademy.homework.data.local.FakeLocalRepository
+import com.aacademy.homework.data.local.LocalSource
 import com.aacademy.homework.data.model.MovieDetailWithActors
 import com.aacademy.homework.data.model.MoviePreviewWithGenres
 
-object FakeApiRepository {
+object FakeApiSource {
 
     suspend fun getMovieDetail(id: Long): MovieDetailWithActors {
         Thread.sleep(2000)
         return loadMovieDetail(id)
             .let {
-                FakeLocalRepository.cacheMovieDetailWithActors(it)
+                LocalSource.cacheMovieDetailWithActors(it)
                 it
             }
     }
@@ -19,7 +19,7 @@ object FakeApiRepository {
         Thread.sleep(2000)
         return loadMoviesPreviews()
             .let {
-                FakeLocalRepository.cacheMoviePreviewsWithTags(it)
+                LocalSource.cacheMoviePreviewsWithTags(it)
                 it
             }
     }

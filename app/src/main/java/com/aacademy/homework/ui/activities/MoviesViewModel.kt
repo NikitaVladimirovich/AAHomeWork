@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aacademy.homework.data.FakeDataRepository
-import com.aacademy.homework.data.local.FakeLocalRepository
+import com.aacademy.homework.data.local.LocalSource
 import com.aacademy.homework.data.model.MovieDetailWithActors
 import com.aacademy.homework.data.model.MoviePreviewWithGenres
 import kotlinx.coroutines.Dispatchers
@@ -35,7 +35,7 @@ class MoviesViewModel : ViewModel() {
 
     fun setMovieLiked(id: Long, isLiked: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
-            FakeLocalRepository.setMovieLiked(id, isLiked)
+            LocalSource.setMovieLiked(id, isLiked)
         }
     }
 }

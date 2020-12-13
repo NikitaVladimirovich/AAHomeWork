@@ -6,7 +6,7 @@ import com.aacademy.homework.data.local.dao.AppDatabase
 import com.aacademy.homework.data.model.MovieDetailWithActors
 import com.aacademy.homework.data.model.MoviePreviewWithGenres
 
-object FakeLocalRepository {
+object LocalSource {
 
     private val database: AppDatabase by lazy {
         Room.databaseBuilder(MyApp.INSTANCE, AppDatabase::class.java, "sqlite.db")

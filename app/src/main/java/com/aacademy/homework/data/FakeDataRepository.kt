@@ -1,21 +1,21 @@
 package com.aacademy.homework.data
 
-import com.aacademy.homework.data.api.FakeApiRepository
-import com.aacademy.homework.data.local.FakeLocalRepository
+import com.aacademy.homework.data.api.FakeApiSource
+import com.aacademy.homework.data.local.LocalSource
 import com.aacademy.homework.data.model.MovieDetailWithActors
 import com.aacademy.homework.data.model.MoviePreviewWithGenres
 
 object FakeDataRepository {
 
     suspend fun getAllPreviews(): List<MoviePreviewWithGenres> {
-        return FakeLocalRepository.getAllMoviePreviews()
+        return LocalSource.getAllMoviePreviews()
             .let {
-                if (it.isEmpty()) FakeApiRepository.getAllMoviePreviews() else it
+                if (it.isEmpty()) FakeApiSource.getAllMoviePreviews() else it
             }
     }
 
-    suspend fun getMovieDetail(id: Long): MovieDetailWithActors = FakeLocalRepository.getMovieDetail(id)
+    suspend fun getMovieDetail(id: Long): MovieDetailWithActors = LocalSource.getMovieDetail(id)
         .let {
-            if (it.isEmpty()) FakeApiRepository.getMovieDetail(id) else it.first()
+            if (it.isEmpty()) FakeApiSource.getMovieDetail(id) else it.first()
         }
 }
