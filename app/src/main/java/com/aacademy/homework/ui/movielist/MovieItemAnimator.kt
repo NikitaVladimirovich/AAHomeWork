@@ -1,7 +1,7 @@
 package com.aacademy.homework.ui.movielist
 
 import android.animation.Animator
-import android.animation.Animator.AnimatorListener
+import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
@@ -100,20 +100,16 @@ class MovieItemAnimator : DefaultItemAnimator() {
         fadeBackground.duration = 600
 
         animatorSet.addListener(
-            object : AnimatorListener {
-                override fun onAnimationStart(animator: Animator) {
+            object : AnimatorListenerAdapter() {
+                override fun onAnimationStart(animator: Animator?) {
+                    super.onAnimationStart(animator)
                     dispatchRemoveStarting(holder)
                 }
 
-                override fun onAnimationRepeat(animation: Animator?) {
-                }
-
-                override fun onAnimationEnd(animator: Animator) {
+                override fun onAnimationEnd(animator: Animator?) {
+                    super.onAnimationEnd(animator)
                     dispatchRemoveFinished(holder)
                     holder.itemView.y = startY
-                }
-
-                override fun onAnimationCancel(animation: Animator?) {
                 }
             }
         )
@@ -147,19 +143,15 @@ class MovieItemAnimator : DefaultItemAnimator() {
         fadeBackground.interpolator = DECELERATE_INTERPOLATOR
         fadeBackground.duration = 600
         animatorSet.addListener(
-            object : AnimatorListener {
-                override fun onAnimationStart(animator: Animator) {
+            object : AnimatorListenerAdapter() {
+                override fun onAnimationStart(animator: Animator?) {
+                    super.onAnimationStart(animator)
                     dispatchAddStarting(holder)
                 }
 
-                override fun onAnimationRepeat(animation: Animator?) {
-                }
-
-                override fun onAnimationEnd(animator: Animator) {
+                override fun onAnimationEnd(animator: Animator?) {
+                    super.onAnimationEnd(animator)
                     dispatchAddFinished(holder)
-                }
-
-                override fun onAnimationCancel(animation: Animator?) {
                 }
             }
         )
