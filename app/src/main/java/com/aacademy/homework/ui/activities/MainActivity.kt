@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.WindowCompat
 import com.aacademy.homework.R.anim
 import com.aacademy.homework.R.id
 import com.aacademy.homework.databinding.ActivityMainBinding
@@ -19,8 +18,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
-        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         if (savedInstanceState == null)
             supportFragmentManager

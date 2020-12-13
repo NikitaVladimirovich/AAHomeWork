@@ -166,12 +166,12 @@
             android:id="@+id/ivLike"
             android:layout_width="@dimen/likeAnimImageSize"
             android:layout_height="@dimen/likeAnimImageSize"
+            android:contentDescription="@string/likeAnim"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/likeAnim"
             app:srcCompat="@drawable/ic_like_filled" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

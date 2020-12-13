@@ -10,8 +10,8 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
         android:background="?attr/colorBackground"
+        android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -27,14 +27,14 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:fitsSystemWindows="true"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:fitsSystemWindows="true">
 
                 <ImageView
                     android:id="@+id/ivCover"
-                    android:fitsSystemWindows="true"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/detailCoverHeight"
+                    android:fitsSystemWindows="true"
                     android:scaleType="centerCrop"
                     app:layout_collapseMode="parallax"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -55,8 +55,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:fitsSystemWindows="false"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
+                android:theme="@style/AppTheme.PopupOverlay"
+                app:layout_collapseMode="pin" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
