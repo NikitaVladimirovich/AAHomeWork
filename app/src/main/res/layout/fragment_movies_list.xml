@@ -42,6 +42,7 @@
         android:clipToPadding="false"
         android:paddingBottom="@dimen/space5x"
         android:paddingEnd="@dimen/space1.5x"
+        android:fitsSystemWindows="true"
         android:paddingStart="@dimen/space1.5x"
         android:paddingTop="@dimen/space3x"
         app:minItemWidth="@dimen/minMovieItemWidth"
