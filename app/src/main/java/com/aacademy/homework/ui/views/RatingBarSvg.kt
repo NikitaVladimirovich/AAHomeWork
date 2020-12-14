@@ -39,10 +39,10 @@ class RatingBarSvg @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = attr.ratingBarStyle,
-    var innerPadding: Int = 2,
-    var drawableHeight: Int = 0,
-    var drawableWidth: Int = 0,
-    var isCompensatingMarginActive: Boolean = true,
+    private var innerPadding: Int = 2,
+    private var drawableHeight: Int = 0,
+    private var drawableWidth: Int = 0,
+    private var isCompensatingMarginActive: Boolean = true,
 ) : AppCompatRatingBar(context, attrs, defStyleAttr) {
 
     private var mSampleTile: Bitmap? = null
@@ -120,7 +120,8 @@ class RatingBarSvg @JvmOverloads constructor(
                     }
 
                 return if (clip) ClipDrawable(
-                    shapeDrawable, Gravity.START,
+                    shapeDrawable,
+                    Gravity.START,
                     ClipDrawable.HORIZONTAL
                 ) else shapeDrawable
             }
@@ -134,7 +135,7 @@ class RatingBarSvg @JvmOverloads constructor(
         if (drawableWidth == 0) drawableWidth = drawable.intrinsicWidth
 
         val bitmap = Bitmap.createBitmap(
-            drawableWidth + halfOfInnerPadding * 2, //dp between svg images
+            drawableWidth + halfOfInnerPadding * 2, // dp between svg images
             drawableHeight,
             Bitmap.Config.ARGB_8888
         )

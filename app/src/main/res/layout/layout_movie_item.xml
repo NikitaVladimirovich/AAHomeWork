@@ -5,25 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/space1.5x"
-    app:cardBackgroundColor="@color/darkBlue"
-    app:cardCornerRadius="@dimen/space2x"
+    app:cardBackgroundColor="?attr/colorBackground"
+    app:cardCornerRadius="@dimen/movieCardCornerRadius"
     app:cardElevation="@dimen/space6x"
-    app:strokeColor="@color/cardStroke"
-    app:strokeWidth="1dp">
+    app:contentPadding="@dimen/movieCardStrokeWidth"
+    app:strokeColor="?attr/colorCardStroke"
+    app:strokeWidth="@dimen/movieCardStrokeWidth">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:scaleType="fitXY"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/movie_card_bg" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideVerticalLeft"
@@ -46,25 +37,35 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="@dimen/space2x" />
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivCover"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="@dimen/cardCoverHeight"
+            android:layout_marginEnd="@dimen/movieCardStrokeWidth"
+            android:layout_marginStart="@dimen/movieCardStrokeWidth"
+            android:layout_marginTop="@dimen/movieCardStrokeWidth"
             android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/MovieCard.ImageAppearance"
             tools:ignore="ContentDescription"
             tools:srcCompat="@drawable/orig" />
 
         <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/cardCoverHeight"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:background="@drawable/cover_mask"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="@id/ivCover"
+            app:layout_constraintEnd_toEndOf="@id/ivCover"
+            app:layout_constraintStart_toStartOf="@id/ivCover"
+            app:layout_constraintTop_toTopOf="@id/ivCover" />
 
         <LinearLayout
             android:id="@+id/llLike"
             android:layout_width="@dimen/space8x"
-            android:layout_height="34dp"
+            android:layout_height="@dimen/space8x"
+            android:layout_marginTop="@dimen/space0.5x"
             android:padding="@dimen/space2x"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -72,16 +73,15 @@
             <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/cbLike"
                 style="@style/LikeCheckBox"
-                android:layout_width="16dp"
-                android:layout_height="14dp"
-                android:layout_marginTop="@dimen/space"
+                android:layout_width="@dimen/space4x"
+                android:layout_height="@dimen/space4x"
                 android:clickable="false"
                 android:enabled="false" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/tvAgeLimit"
-            style="@style/SubText.White.Bold"
+            style="@style/AgeLimit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/age_limit_rectangle"
@@ -92,7 +92,7 @@
 
         <TextView
             android:id="@+id/tvTags"
-            style="@style/CardText.Pink.Normal"
+            style="@style/CardMovieTag"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/space0.5x"
@@ -109,7 +109,7 @@
             android:indeterminate="false"
             android:isIndicator="true"
             android:numStars="5"
-            android:stepSize="1"
+            android:stepSize="0.01"
             app:drawableHeight="@dimen/space2x"
             app:drawableWidth="@dimen/space2x"
             app:innerPadding="@dimen/space0.5x"
@@ -119,13 +119,13 @@
             app:layout_constraintLeft_toLeftOf="@id/guideVerticalLeft"
             app:layout_constraintRight_toLeftOf="@+id/tvReviews"
             app:layout_constraintTop_toTopOf="@+id/tvReviews"
-            tools:rating="3" />
+            tools:rating="2" />
 
         <TextView
             android:id="@+id/tvReviews"
-            style="@style/CardText.DarkGray.Bold"
+            style="@style/CardMovieReview"
             android:layout_width="wrap_content"
-            android:layout_height="12dp"
+            android:layout_height="@dimen/space3x"
             android:layout_marginBottom="@dimen/space2x"
             android:layout_marginStart="@dimen/space2x"
             android:layout_marginTop="@dimen/space"
@@ -144,7 +144,7 @@
 
             <TextView
                 android:id="@+id/tvName"
-                style="@style/MainText.LightLightGray.Bold"
+                style="@style/CardMovieName"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/space5x"
                 android:ellipsize="end"
@@ -154,7 +154,7 @@
 
             <TextView
                 android:id="@+id/tvMin"
-                style="@style/CardText.DarkDarkGray.Bold"
+                style="@style/CardMovieMin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAllCaps="true"
@@ -164,8 +164,9 @@
 
         <ImageView
             android:id="@+id/ivLike"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/likeAnimImageSize"
+            android:layout_height="@dimen/likeAnimImageSize"
+            android:contentDescription="@string/likeAnim"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

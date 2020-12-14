@@ -4,35 +4,34 @@ import androidx.room.Room
 import com.aacademy.homework.MyApp
 import com.aacademy.homework.data.local.dao.AppDatabase
 import com.aacademy.homework.data.model.MovieDetailWithActors
-import com.aacademy.homework.data.model.MoviePreviewWithTags
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Single
+import com.aacademy.homework.data.model.MoviePreviewWithGenres
 
-object FakeLocalRepository {
+object LocalSource {
 
     private val database: AppDatabase by lazy {
         Room.databaseBuilder(MyApp.INSTANCE, AppDatabase::class.java, "sqlite.db")
+            .fallbackToDestructiveMigration()
 //            .createFromAsset("sqlite.db")
             .build()
     }
 
-    fun getAllMoviePreviews(): Single<List<MoviePreviewWithTags>> {
+    suspend fun getAllMoviePreviews(): List<MoviePreviewWithGenres> {
         return database.moviePreviewDao().getAllMovies()
     }
 
-    fun getMovieDetail(id: Int): Single<List<MovieDetailWithActors>> {
+    suspend fun getMovieDetail(id: Long): List<MovieDetailWithActors> {
         return database.movieDetailDao().getMovieDetail(id)
     }
 
-    fun setMovieLiked(id: Int, isLiked: Boolean): Completable {
+    suspend fun setMovieLiked(id: Long, isLiked: Boolean) {
         return database.moviePreviewDao().setMovieLiked(id, isLiked)
     }
 
-    fun cacheMoviePreviewsWithTags(moviePreviewsWithTags: List<MoviePreviewWithTags>) {
+    suspend fun cacheMoviePreviewsWithTags(moviePreviewsWithTags: List<MoviePreviewWithGenres>) {
         database.moviePreviewDao().insert(moviePreviewsWithTags)
     }
 
-    fun cacheMovieDetailWithActors(movieDetailWithActors: MovieDetailWithActors) {
+    suspend fun cacheMovieDetailWithActors(movieDetailWithActors: MovieDetailWithActors) {
         database.movieDetailDao().insert(movieDetailWithActors)
     }
 }

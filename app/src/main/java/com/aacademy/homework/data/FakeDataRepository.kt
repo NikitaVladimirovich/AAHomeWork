@@ -1,29 +1,21 @@
 package com.aacademy.homework.data
 
-import com.aacademy.homework.data.api.FakeApiRepository
-import com.aacademy.homework.data.local.FakeLocalRepository
+import com.aacademy.homework.data.api.FakeApiSource
+import com.aacademy.homework.data.local.LocalSource
 import com.aacademy.homework.data.model.MovieDetailWithActors
-import com.aacademy.homework.data.model.MoviePreviewWithTags
-import io.reactivex.rxjava3.core.Single
+import com.aacademy.homework.data.model.MoviePreviewWithGenres
 
 object FakeDataRepository {
 
-    fun getAllPreviews(): Single<List<MoviePreviewWithTags>> {
-        return FakeLocalRepository.getAllMoviePreviews()
-            .flatMap {
-                if (it.isEmpty()) {
-                    FakeApiRepository.getAllMoviePreviews()
-                } else {
-                    Single.just(it)
-                }
+    suspend fun getAllPreviews(): List<MoviePreviewWithGenres> {
+        return LocalSource.getAllMoviePreviews()
+            .let {
+                if (it.isEmpty()) FakeApiSource.getAllMoviePreviews() else it
             }
     }
 
-    fun getMovieDetail(id: Int): Single<MovieDetailWithActors> = FakeLocalRepository.getMovieDetail(id)
-        .flatMap {
-            if (it.isEmpty())
-                FakeApiRepository.getMovieDetail(id)
-            else
-                Single.just(it.first())
+    suspend fun getMovieDetail(id: Long): MovieDetailWithActors = LocalSource.getMovieDetail(id)
+        .let {
+            if (it.isEmpty()) FakeApiSource.getMovieDetail(id) else it.first()
         }
 }

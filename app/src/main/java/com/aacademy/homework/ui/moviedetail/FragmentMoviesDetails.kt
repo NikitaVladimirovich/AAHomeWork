@@ -1,92 +1,40 @@
 package com.aacademy.homework.ui.moviedetail
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aacademy.homework.R
-import com.aacademy.homework.data.FakeDataRepository
-import com.aacademy.homework.data.model.MoviePreviewWithTags
 import com.aacademy.homework.databinding.FragmentMoviesDetailsBinding
 import com.aacademy.homework.ui.activities.MainActivity
+import com.aacademy.homework.ui.activities.MoviesViewModel
+import com.aacademy.homework.utils.viewBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
-import timber.log.Timber
 
-class FragmentMoviesDetails : Fragment() {
+class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
 
-    private var _binding: FragmentMoviesDetailsBinding? = null
-    private val binding get() = _binding!!
-    private val compositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
+    private val binding by viewBinding(FragmentMoviesDetailsBinding::bind)
+    private val viewModel: MoviesViewModel by activityViewModels()
+    private val glide by lazy { Glide.with(this) }
+    private val castAdapter by lazy { CastAdapter(glide) }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentMoviesDetailsBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+    private var movieId = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        movieId = arguments?.getLong(MOVIE_ID_ARGUMENT) ?: 0
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        (activity as MainActivity?)?.let {
-            it.setSupportActionBar(binding.toolbar)
-            it.supportActionBar?.apply {
-                setDisplayHomeAsUpEnabled(true)
-                setDisplayShowHomeEnabled(true)
-            }
-        }
-        val glide = Glide.with(this)
-        val moviePreview = arguments?.get(MOVIE_PREVIEW_ARGUMENT) as MoviePreviewWithTags
-
-        val castAdapter = CastAdapter(glide)
-        castAdapter.setHasStableIds(true)
-        binding.rvCast.apply {
-            layoutManager = LinearLayoutManager(
-                context,
-                LinearLayoutManager.HORIZONTAL,
-                false
-            )
-            setHasFixedSize(true)
-            adapter = castAdapter
-        }
-
-        compositeDisposable.add(
-            FakeDataRepository.getMovieDetail(moviePreview.moviePreview.id)
-                .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    binding.tvStoryline.text = it.movieDetail.storyline
-                    castAdapter.actors = it.cast
-                }, {
-                    Timber.e(it, "Error when load movie detail")
-                })
-        )
-
-        glide.load(moviePreview.moviePreview.coverPath)
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .into(binding.ivCover)
-
-        binding.collapsingToolbar.title = moviePreview.moviePreview.title
-        binding.tvAgeLimit.text = getString(R.string.ageLimitFormat).format(moviePreview.moviePreview.ageLimit)
-        binding.tvTags.text = moviePreview.tags.joinToString(", ") { it.name }
-        binding.tvReviews.text = getString(R.string.reviewsFormat).format(moviePreview.moviePreview.reviews)
-        binding.rbRating.rating = moviePreview.moviePreview.rating.toFloat()
+        savedInstanceState ?: viewModel.getMovieDetail(movieId)
+        initViews()
+        subscribe()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -94,18 +42,61 @@ class FragmentMoviesDetails : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        compositeDisposable.dispose()
+    private fun initViews() {
+        binding.apply {
+            (activity as MainActivity).let {
+                it.setSupportActionBar(toolbar)
+                it.supportActionBar?.apply {
+                    setDisplayHomeAsUpEnabled(true)
+                    setDisplayShowHomeEnabled(true)
+                }
+            }
+
+            castAdapter.setHasStableIds(true)
+            rvCast.apply {
+                layoutManager = LinearLayoutManager(
+                    context,
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+                )
+                setHasFixedSize(true)
+                adapter = castAdapter
+            }
+        }
+    }
+
+    private fun subscribe() {
+        viewModel.moviesPreview.observe(viewLifecycleOwner) { moviePreviews ->
+            moviePreviews.first { it.moviePreview.id == movieId }.let { moviePreview ->
+                binding.apply {
+                    glide.load(moviePreview.moviePreview.backdrop)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(ivCover)
+                    collapsingToolbar.title = moviePreview.moviePreview.title
+                    tvAgeLimit.text =
+                        getString(R.string.ageLimitFormat).format(moviePreview.moviePreview.ageLimit)
+                    tvTags.text = moviePreview.genres.joinToString(", ") { it.name }
+                    tvReviews.text = getString(R.string.reviewsFormat).format(moviePreview.moviePreview.reviews)
+                    rbRating.rating = moviePreview.moviePreview.rating / 2
+                }
+            }
+        }
+
+        viewModel.movieDetail.observe(viewLifecycleOwner) {
+            if (it.movieDetail.id == movieId) {
+                binding.tvStoryline.text = it.movieDetail.overview
+                castAdapter.actors = it.actors
+            }
+        }
     }
 
     companion object {
 
-        private const val MOVIE_PREVIEW_ARGUMENT = "MoviePreview"
+        private const val MOVIE_ID_ARGUMENT = "MovieId"
 
-        fun newInstance(moviePreview: MoviePreviewWithTags): FragmentMoviesDetails {
+        fun newInstance(movieId: Long): FragmentMoviesDetails {
             val args = Bundle()
-            args.putParcelable(MOVIE_PREVIEW_ARGUMENT, moviePreview)
+            args.putLong(MOVIE_ID_ARGUMENT, movieId)
             val fragment = FragmentMoviesDetails()
             fragment.arguments = args
             return fragment

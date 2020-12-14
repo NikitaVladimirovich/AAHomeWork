@@ -32,8 +32,8 @@ class CastAdapter(val glide: RequestManager) : RecyclerView.Adapter<CastViewHold
     inner class CastViewHolder(private val binding: LayoutCastItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(actor: Actor) {
-            binding.tvNameCast.text = "${actor.firstName} ${actor.lastName}"
-            glide.load(actor.photoPath)
+            binding.tvNameCast.text = actor.name
+            glide.load(actor.picture)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(binding.ivPhotoCast)
         }
