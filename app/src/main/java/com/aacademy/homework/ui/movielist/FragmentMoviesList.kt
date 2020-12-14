@@ -3,7 +3,6 @@ package com.aacademy.homework.ui.movielist
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -43,14 +42,6 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.movie_list, menu)
         super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            // R.id.add -> movieAdapter.insertItem(getRandomMovie())
-            R.id.remove -> movieAdapter.removeLastItem()
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

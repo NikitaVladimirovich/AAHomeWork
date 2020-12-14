@@ -17,6 +17,7 @@ object Versions {
     const val constraintlayout_version = "2.0.4"
     const val serialization_version = "1.0.1"
     const val timber_version = "4.7.1"
+    const val preference_ktx_version = "1.1.1"
 
     //Test
     const val junit = "4.13.1"
