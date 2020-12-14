@@ -9,4 +9,17 @@
     <declare-styleable name="AutofitRecyclerView">
         <attr name="minItemWidth" format="dimension" />
     </declare-styleable>
+
+    <!--Color setting-->
+    <attr name="colorBackground" format="reference" />
+    <attr name="colorCardStroke" format="reference" />
+    <attr name="colorAccentPink" format="reference" />
+    <attr name="colorText" format="reference" />
+    <attr name="colorCastNameText" format="reference" />
+    <attr name="colorSectionText" format="reference" />
+    <attr name="colorTextShadow" format="reference" />
+    <attr name="colorReviewsText" format="reference" />
+    <attr name="colorMinText" format="reference" />
+    <attr name="colorMovieMaskStart" format="reference" />
+    <attr name="colorMovieMaskEnd" format="reference" />
 </resources>

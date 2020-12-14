@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darkBlue"
+    android:background="?attr/colorBackground"
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/colorBackground"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
@@ -18,15 +19,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
-            app:collapsedTitleTextAppearance="@style/HeaderText.LightGray.Bold.Collapsed"
+            app:collapsedTitleTextAppearance="@style/DetailMovieCollapsingTitle.Collapsed"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleTextAppearance="@style/HeaderText.LightGray.Bold"
+            app:expandedTitleTextAppearance="@style/DetailMovieCollapsingTitle"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:maxLines="2">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:fitsSystemWindows="true">
 
                 <ImageView
                     android:id="@+id/ivCover"
@@ -53,8 +55,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:fitsSystemWindows="false"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
+                android:theme="@style/AppTheme.PopupOverlay"
+                app:layout_collapseMode="pin" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -85,7 +87,7 @@
 
             <TextView
                 android:id="@+id/tvAgeLimit"
-                style="@style/SubText.White.Bold"
+                style="@style/AgeLimit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space"
@@ -97,12 +99,13 @@
 
             <TextView
                 android:id="@+id/tvTags"
-                style="@style/MainText.Pink.Normal"
+                style="@style/DetailMovieTag"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/space"
                 android:layout_marginTop="@dimen/space"
                 app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
-                app:layout_constraintRight_toLeftOf="@+id/guideVerticalRight"
+                app:layout_constraintRight_toLeftOf="@+id/tvAgeLimit"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Action, Adventure, Fantasy" />
 
@@ -128,7 +131,7 @@
 
             <TextView
                 android:id="@+id/tvReviews"
-                style="@style/MainText.DarkGray.Bold"
+                style="@style/DetailMovieReviews"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space2x"
@@ -141,7 +144,7 @@
 
             <TextView
                 android:id="@+id/tvStorylineHeader"
-                style="@style/MainText.LightLightGray.Bold"
+                style="@style/DetailMovieSectionTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space6x"
@@ -152,7 +155,7 @@
 
             <TextView
                 android:id="@+id/tvStoryline"
-                style="@style/MainText.White.Normal"
+                style="@style/DetailMovieStoryline"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space"
@@ -164,7 +167,7 @@
 
             <TextView
                 android:id="@+id/tvCast"
-                style="@style/MainText.LightLightGray.Bold"
+                style="@style/DetailMovieSectionTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space6x"

@@ -1,26 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
+    <!--Base-->
     <style name="CardText" parent="">
         <item name="android:textSize">@dimen/textSizeCard</item>
         <item name="fontFamily">sans-serif-light</item>
+        <item name="android:lines">1</item>
+        <item name="android:ellipsize">end</item>
         <item name="android:lineSpacingExtra">3sp</item>
-    </style>
-
-    <style name="CardText.Pink.Normal" parent="CardText">
-        <item name="android:textColor">@color/pink</item>
     </style>
 
     <style name="CardText.Bold" parent="CardText">
         <item name="fontFamily">sans-serif-black</item>
-    </style>
-
-    <style name="CardText.DarkGray.Bold" parent="CardText.Bold">
-        <item name="android:textColor">@color/darkGray</item>
-    </style>
-
-    <style name="CardText.DarkDarkGray.Bold" parent="CardText.Bold">
-        <item name="android:textColor">@color/darkDarkGray</item>
     </style>
 
     <style name="SubText" parent="">
@@ -33,31 +24,8 @@
         <item name="fontFamily">sans-serif-black</item>
     </style>
 
-    <style name="SubText.White.Normal" parent="SubText">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:lineSpacingExtra">2sp</item>
-    </style>
-
-    <style name="SubText.Pink.Normal" parent="SubText">
-        <item name="android:textColor">@color/pink</item>
-        <item name="android:lineSpacingExtra">2sp</item>
-    </style>
-
-    <style name="SubText.White.Bold" parent="SubText.Bold">
-        <item name="android:textColor">@color/white</item>
-    </style>
-
-    <style name="SubText.LightGray.Bold" parent="SubText.Bold">
-        <item name="android:textColor">@color/lightGray</item>
-        <item name="android:lineSpacingExtra">2sp</item>
-    </style>
-
-    <style name="SubText.DarkDarkGray.Bold" parent="SubText.Bold">
-        <item name="android:textColor">@color/darkGray</item>
-        <item name="android:lineSpacingExtra">2sp</item>
-    </style>
-
     <style name="MainText" parent="">
+        <item name="android:ellipsize">end</item>
         <item name="android:textSize">@dimen/textSizeMain</item>
         <item name="fontFamily">sans-serif-light</item>
         <item name="android:lineSpacingExtra">4sp</item>
@@ -67,48 +35,12 @@
         <item name="fontFamily">sans-serif-black</item>
     </style>
 
-    <style name="MainText.Pink.Normal" parent="MainText">
-        <item name="android:textColor">@color/pink</item>
+    <style name="AgeLimit" parent="SubText.Bold">
+        <item name="android:textColor">?attr/colorText</item>
     </style>
 
-    <style name="MainText.Pink.Bold" parent="MainText.Bold">
-        <item name="android:textColor">@color/pink</item>
-    </style>
-
-    <style name="MainText.DarkGray.Bold" parent="MainText.Bold">
-        <item name="android:textColor">@color/darkGray</item>
-    </style>
-
-    <style name="MainText.White.Normal" parent="MainText">
-        <item name="android:textColor">@color/white</item>
-    </style>
-
-    <style name="MainText.White.Bold" parent="MainText.Bold">
-        <item name="android:textColor">@color/white</item>
-    </style>
-
-    <style name="MainText.LightLightGray.Bold" parent="MainText.Bold">
-        <item name="android:textColor">@color/lightlightGray</item>
-        <item name="android:shadowColor">#80000000</item>
-        <item name="android:shadowDy">6</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowRadius">12</item>
-    </style>
-
-    <style name="HeaderText.LightGray.Bold" parent="">
-        <item name="fontFamily">sans-serif-black</item>
-        <item name="android:textColor">@color/lightGray</item>
-        <item name="android:letterSpacing" tools:targetApi="lollipop">-0.01</item>
-        <item name="android:lineSpacingExtra">0sp</item>
-        <item name="android:shadowColor">#80000000</item>
-        <item name="android:shadowDy">6</item>
-        <item name="android:shadowRadius">12</item>
-        <item name="android:textSize">@dimen/textSizeHeader</item>
-    </style>
-
-    <style name="HeaderText.LightGray.Bold.Collapsed" parent="HeaderText.LightGray.Bold">
-        <item name="android:lines">1</item>
-        <item name="android:textSize">@dimen/textSizeMain</item>
+    <style name="ToolbarTitle" parent="MainText.Bold">
+        <item name="android:textColor">?attr/colorText</item>
     </style>
 
     <style name="RatingBar" parent="">
@@ -119,12 +51,79 @@
         <item name="android:button">@drawable/checkbox_selector</item>
     </style>
 
-    <style name="ImageView.Rounded.Appearance" parent="">
+    <style name="CastCard.ImageAppearance" parent="">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">4dp</item>
+        <item name="cornerSize">@dimen/space</item>
+    </style>
+
+    <style name="MovieCard.ImageAppearance" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">@dimen/movieCardCoverCornerRadius</item>
+        <item name="cornerSizeTopRight">@dimen/movieCardCoverCornerRadius</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat">
+        <item name="android:tint">?attr/colorText</item>
+    </style>
+
+    <!--MovieCard-->
+    <style name="CardMovieTag" parent="CardText">
+        <item name="android:textColor">?attr/colorAccentPink</item>
+    </style>
+
+    <style name="CardMovieReview" parent="CardText.Bold">
+        <item name="android:textColor">?attr/colorReviewsText</item>
+    </style>
+
+    <style name="CardMovieMin" parent="CardText.Bold">
+        <item name="android:textColor">?attr/colorMinText</item>
+    </style>
+
+    <style name="CardMovieName" parent="MainText.Bold">
+        <item name="android:lines">1</item>
+        <item name="android:textColor">?attr/colorSectionText</item>
+    </style>
+
+    <!--CastCard-->
+    <style name="CastName" parent="SubText.Bold">
+        <item name="android:textColor">?attr/colorCastNameText</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+    </style>
+
+    <!--MovieDetail-->
+    <style name="DetailMovieTag" parent="MainText">
+        <item name="android:lines">1</item>
+        <item name="android:textColor">?attr/colorAccentPink</item>
+    </style>
+
+    <style name="DetailMovieReviews" parent="MainText.Bold">
+        <item name="android:textColor">?attr/colorReviewsText</item>
+    </style>
+
+    <style name="DetailMovieStoryline" parent="MainText">
+        <item name="android:textColor">?attr/colorText</item>
+    </style>
+
+    <style name="DetailMovieSectionTitle" parent="MainText.Bold">
+        <item name="android:textColor">?attr/colorSectionText</item>
+        <item name="android:shadowColor">?attr/colorTextShadow</item>
+        <item name="android:shadowDy">6</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowRadius">12</item>
+    </style>
+
+    <style name="DetailMovieCollapsingTitle" parent="">
+        <item name="fontFamily">sans-serif-black</item>
+        <item name="android:textColor">?attr/colorSectionText</item>
+        <item name="android:letterSpacing">-0.01</item>
+        <item name="android:lineSpacingExtra">0sp</item>
+        <item name="android:textSize">@dimen/textSizeHeader</item>
+    </style>
+
+    <style name="DetailMovieCollapsingTitle.Collapsed" parent="DetailMovieCollapsingTitle">
+        <item name="android:lines">1</item>
+        <item name="android:textSize">@dimen/textSizeMain</item>
+    </style>
 </resources>

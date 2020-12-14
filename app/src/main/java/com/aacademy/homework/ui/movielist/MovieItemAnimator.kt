@@ -1,7 +1,7 @@
 package com.aacademy.homework.ui.movielist
 
 import android.animation.Animator
-import android.animation.Animator.AnimatorListener
+import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
@@ -21,7 +21,7 @@ class MovieItemAnimator : DefaultItemAnimator() {
 
     companion object {
 
-        val ACTION_FILM_LIKED = "ACTION_FILM_LIKED"
+        const val ACTION_FILM_LIKED = "ACTION_FILM_LIKED"
     }
 
     override fun canReuseUpdatedViewHolder(viewHolder: ViewHolder): Boolean {
@@ -73,7 +73,8 @@ class MovieItemAnimator : DefaultItemAnimator() {
         scaleLikeIcon.interpolator = DECELERATE_INTERPOLATOR
         scaleLikeIcon.duration = 400
         val scaleLikeBackground: ObjectAnimator = ObjectAnimator.ofPropertyValuesHolder(
-            holder.itemView, PropertyValuesHolder.ofFloat(SCALE_X, 1.0f, 0.95f, 1.0f),
+            holder.itemView,
+            PropertyValuesHolder.ofFloat(SCALE_X, 1.0f, 0.95f, 1.0f),
             PropertyValuesHolder.ofFloat(SCALE_Y, 1.0f, 0.95f, 1.0f)
         )
         scaleLikeBackground.interpolator = AccelerateDecelerateInterpolator()
@@ -86,32 +87,32 @@ class MovieItemAnimator : DefaultItemAnimator() {
         val animatorSet = AnimatorSet()
         val startY = holder.itemView.y
         val scaleBackground: ObjectAnimator = ObjectAnimator.ofPropertyValuesHolder(
-            holder.itemView, PropertyValuesHolder.ofFloat("y", startY, holder.itemView.y + 150.0f)
+            holder.itemView,
+            PropertyValuesHolder.ofFloat("y", startY, holder.itemView.y + 150.0f)
         )
         scaleBackground.interpolator = DECELERATE_INTERPOLATOR
         scaleBackground.duration = 600
         val fadeBackground: ObjectAnimator = ObjectAnimator.ofPropertyValuesHolder(
-            holder.itemView, PropertyValuesHolder.ofFloat(ALPHA, 1.0f, 0.0f)
+            holder.itemView,
+            PropertyValuesHolder.ofFloat(ALPHA, 1.0f, 0.0f)
         )
         fadeBackground.interpolator = DECELERATE_INTERPOLATOR
         fadeBackground.duration = 600
 
-        animatorSet.addListener(object : AnimatorListener {
-            override fun onAnimationStart(animator: Animator) {
-                dispatchRemoveStarting(holder)
-            }
+        animatorSet.addListener(
+            object : AnimatorListenerAdapter() {
+                override fun onAnimationStart(animator: Animator?) {
+                    super.onAnimationStart(animator)
+                    dispatchRemoveStarting(holder)
+                }
 
-            override fun onAnimationRepeat(animation: Animator?) {
+                override fun onAnimationEnd(animator: Animator?) {
+                    super.onAnimationEnd(animator)
+                    dispatchRemoveFinished(holder)
+                    holder.itemView.y = startY
+                }
             }
-
-            override fun onAnimationEnd(animator: Animator) {
-                dispatchRemoveFinished(holder)
-                holder.itemView.y = startY
-            }
-
-            override fun onAnimationCancel(animation: Animator?) {
-            }
-        })
+        )
         animatorSet.playTogether(scaleBackground, fadeBackground)
         animatorSet.start()
         return true
@@ -130,30 +131,30 @@ class MovieItemAnimator : DefaultItemAnimator() {
     override fun animateAdd(holder: ViewHolder): Boolean {
         val animatorSet = AnimatorSet()
         val scaleBackground: ObjectAnimator = ObjectAnimator.ofPropertyValuesHolder(
-            holder.itemView, PropertyValuesHolder.ofFloat("y", holder.itemView.y + 150.0f, holder.itemView.y)
+            holder.itemView,
+            PropertyValuesHolder.ofFloat("y", holder.itemView.y + 150.0f, holder.itemView.y)
         )
         scaleBackground.interpolator = DECELERATE_INTERPOLATOR
         scaleBackground.duration = 600
         val fadeBackground: ObjectAnimator = ObjectAnimator.ofPropertyValuesHolder(
-            holder.itemView, PropertyValuesHolder.ofFloat(ALPHA, 0.0f, 1.0f)
+            holder.itemView,
+            PropertyValuesHolder.ofFloat(ALPHA, 0.0f, 1.0f)
         )
         fadeBackground.interpolator = DECELERATE_INTERPOLATOR
         fadeBackground.duration = 600
-        animatorSet.addListener(object : AnimatorListener {
-            override fun onAnimationStart(animator: Animator) {
-                dispatchAddStarting(holder)
-            }
+        animatorSet.addListener(
+            object : AnimatorListenerAdapter() {
+                override fun onAnimationStart(animator: Animator?) {
+                    super.onAnimationStart(animator)
+                    dispatchAddStarting(holder)
+                }
 
-            override fun onAnimationRepeat(animation: Animator?) {
+                override fun onAnimationEnd(animator: Animator?) {
+                    super.onAnimationEnd(animator)
+                    dispatchAddFinished(holder)
+                }
             }
-
-            override fun onAnimationEnd(animator: Animator) {
-                dispatchAddFinished(holder)
-            }
-
-            override fun onAnimationCancel(animation: Animator?) {
-            }
-        })
+        )
         animatorSet.playTogether(scaleBackground, fadeBackground)
         animatorSet.start()
         return true

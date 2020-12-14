@@ -1,17 +1,42 @@
 package com.aacademy.homework.data.local.dao
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.aacademy.homework.data.local.model.MoviePreviewWithTags
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Single
+import androidx.room.Transaction
+import com.aacademy.homework.data.model.Genre
+import com.aacademy.homework.data.model.MoviePreview
+import com.aacademy.homework.data.model.MoviePreviewWithGenres
+import com.aacademy.homework.data.model.MovieTag
 
 @Dao
 interface MoviePreviewDao {
 
+    @Transaction
     @Query("SELECT * FROM moviepreview")
-    fun getAllMovies(): Single<List<MoviePreviewWithTags>>
+    suspend fun getAllMovies(): List<MoviePreviewWithGenres>
 
     @Query("UPDATE moviepreview SET isLiked = :isLiked WHERE id = :id")
-    fun setMovieLiked(id: Int, isLiked: Boolean): Completable
+    suspend fun setMovieLiked(id: Long, isLiked: Boolean)
+
+    @Transaction
+    suspend fun insert(moviePreviewsWithTags: List<MoviePreviewWithGenres>) {
+        for (moviePreview in moviePreviewsWithTags) {
+            insert(moviePreview.moviePreview)
+            for (tag in moviePreview.genres) {
+                insert(tag)
+                insert(MovieTag(moviePreview.moviePreview.id, tag.id))
+            }
+        }
+    }
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(moviePreview: MoviePreview)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(genre: Genre)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(movieTag: MovieTag)
 }

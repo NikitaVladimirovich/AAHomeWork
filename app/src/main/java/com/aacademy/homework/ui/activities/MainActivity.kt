@@ -4,26 +4,20 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.WindowCompat
 import com.aacademy.homework.R.anim
 import com.aacademy.homework.R.id
-import com.aacademy.homework.data.local.model.MoviePreviewWithTags
 import com.aacademy.homework.databinding.ActivityMainBinding
 import com.aacademy.homework.ui.moviedetail.FragmentMoviesDetails
 import com.aacademy.homework.ui.movielist.FragmentMoviesList
+import com.aacademy.homework.utils.viewBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private var _binding: ActivityMainBinding? = null
-    private val binding: ActivityMainBinding
-        get() = _binding!!
+    private val binding by viewBinding(ActivityMainBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         if (savedInstanceState == null)
             supportFragmentManager
@@ -46,12 +40,7 @@ class MainActivity : AppCompatActivity() {
         title = ""
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
-
-    fun openMovieDetail(moviePreview: MoviePreviewWithTags) {
+    fun openMovieDetail(movieId: Long) {
         supportFragmentManager
             .beginTransaction()
             .setCustomAnimations(
@@ -60,7 +49,7 @@ class MainActivity : AppCompatActivity() {
                 anim.fade_in,
                 anim.fade_out
             )
-            .add(id.flContainer, FragmentMoviesDetails.newInstance(moviePreview), FRAGMENT_TAG)
+            .add(id.flContainer, FragmentMoviesDetails.newInstance(movieId), FRAGMENT_TAG)
             .addToBackStack(null)
             .commit()
     }
