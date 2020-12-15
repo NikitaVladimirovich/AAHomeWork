@@ -19,7 +19,6 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.appcompat.widget.Toolbar
 import androidx.preference.PreferenceManager
 import com.aacademy.homework.MyApp.Companion.THEME
-import com.aacademy.homework.R
 import com.aacademy.homework.R.anim
 import com.aacademy.homework.R.id
 import com.aacademy.homework.databinding.ActivityMainBinding
@@ -34,8 +33,10 @@ class MainActivity : AppCompatActivity() {
 
     private val binding by viewBinding(ActivityMainBinding::inflate)
 
+    private var detailsFragmentOpened = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (bitmap == null) delegate.localNightMode = prefs.getInt(THEME, MODE_NIGHT_UNSPECIFIED)
+        delegate.localNightMode = prefs.getInt(THEME, MODE_NIGHT_UNSPECIFIED)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
@@ -48,10 +49,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val backStackEntryCount = supportFragmentManager.backStackEntryCount
-        if (backStackEntryCount == 0) {
+        if (supportFragmentManager.backStackEntryCount == 0) {
             finishAfterTransition()
         } else {
+            detailsFragmentOpened = false
             super.onBackPressed()
         }
     }
@@ -72,48 +73,50 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun animateThemeChangeIfNeeded() {
-        if (bitmap != null) {
-            val screenshot = findViewById<ImageView>(R.id.screenshot)
-            screenshot.setOnClickListener { }
-            screenshot.setImageBitmap(bitmap)
-            screenshot.scaleType = ImageView.ScaleType.MATRIX
-            screenshot.visibility = View.VISIBLE
+        if (intent.hasExtra(BITMAP)) {
+            val image = intent.getParcelableExtra<Bitmap>(BITMAP)
+            intent.removeExtra(BITMAP)
+            binding.screenshot.apply {
+                setOnClickListener { }
+                setImageBitmap(image)
+                scaleType = ImageView.ScaleType.MATRIX
+                visibility = View.VISIBLE
 
-            val listener = object : View.OnAttachStateChangeListener {
-                override fun onViewAttachedToWindow(v: View?) {
-                    val anim = ViewAnimationUtils.createCircularReveal(
-                        screenshot,
-                        intent.getIntExtra(POSITION_X, 0),
-                        intent.getIntExtra(POSITION_Y, 0),
-                        intent.getFloatExtra(RADIUS, 0f),
-                        0f
-                    )
-                    anim.duration = 1000
-                    anim.interpolator = AccelerateDecelerateInterpolator()
-                    anim.addListener(
-                        object : AnimatorListenerAdapter() {
-                            override fun onAnimationEnd(animation: Animator?) {
-                                super.onAnimationEnd(animation)
-                                screenshot.setImageDrawable(null)
-                                screenshot.visibility = View.GONE
-                                bitmap?.recycle()
-                                bitmap = null
+                val listener = object : View.OnAttachStateChangeListener {
+                    override fun onViewAttachedToWindow(v: View?) {
+                        val anim = ViewAnimationUtils.createCircularReveal(
+                            this@apply,
+                            intent.getIntExtra(POSITION_X, 0),
+                            intent.getIntExtra(POSITION_Y, 0),
+                            intent.getFloatExtra(RADIUS, 0f),
+                            0f
+                        )
+                        anim.duration = 1000
+                        anim.interpolator = AccelerateDecelerateInterpolator()
+                        anim.addListener(
+                            object : AnimatorListenerAdapter() {
+                                override fun onAnimationEnd(animation: Animator?) {
+                                    super.onAnimationEnd(animation)
+                                    setImageDrawable(null)
+                                    visibility = View.GONE
+                                }
                             }
-                        }
-                    )
-                    anim.start()
-                }
+                        )
+                        anim.start()
+                    }
 
-                override fun onViewDetachedFromWindow(v: View?) {}
+                    override fun onViewDetachedFromWindow(v: View?) {}
+                }
+                addOnAttachStateChangeListener(listener)
             }
-            screenshot.addOnAttachStateChangeListener(listener)
         }
     }
 
     private fun changeTheme(view: View) {
+        if (detailsFragmentOpened) return
         val w = binding.flContainer.measuredWidth
         val h = binding.flContainer.measuredHeight
-        bitmap = Bitmap.createBitmap(w, h, ARGB_8888)
+        val bitmap = Bitmap.createBitmap(w, h, ARGB_8888)
         val canvas = Canvas(bitmap!!)
         binding.flContainer.draw(canvas)
 
@@ -123,6 +126,7 @@ class MainActivity : AppCompatActivity() {
             putExtra(POSITION_X, (location[0] + view.measuredWidth / 2))
             putExtra(POSITION_Y, (location[1] + view.measuredHeight / 2))
             putExtra(RADIUS, sqrt((w * w + h * h).toDouble()).toFloat())
+            putExtra(BITMAP, bitmap)
             addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
         }
 
@@ -134,17 +138,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun openMovieDetail(movieId: Long) {
-        supportFragmentManager
-            .beginTransaction()
-            .setCustomAnimations(
-                anim.fade_in,
-                anim.fade_out,
-                anim.fade_in,
-                anim.fade_out
-            )
-            .add(id.flContainer, FragmentMoviesDetails.newInstance(movieId), FRAGMENT_TAG)
-            .addToBackStack(null)
-            .commit()
+        if (!detailsFragmentOpened) {
+            detailsFragmentOpened = true
+            supportFragmentManager
+                .beginTransaction()
+                .setCustomAnimations(
+                    anim.fade_in,
+                    anim.fade_out,
+                    anim.fade_in,
+                    anim.fade_out
+                )
+                .add(id.flContainer, FragmentMoviesDetails.newInstance(movieId), FRAGMENT_TAG)
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     companion object {
@@ -153,6 +160,6 @@ class MainActivity : AppCompatActivity() {
         private const val POSITION_X = "x"
         private const val POSITION_Y = "y"
         private const val RADIUS = "radius"
-        var bitmap: Bitmap? = null
+        private const val BITMAP = "bitmap"
     }
 }
