@@ -1,8 +1,6 @@
 package com.aacademy.homework.ui.movielist
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -34,16 +32,6 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
         )
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.movie_list, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
@@ -53,6 +41,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
     private fun initViews() {
         binding.apply {
             (activity as MainActivity).setSupportActionBar(toolbar)
+            toolbar.inflateMenu(R.menu.movie_list)
             movieAdapter.setHasStableIds(true)
             rvMovies.apply {
                 setHasFixedSize(true)

@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.graphics.Bitmap.Config.ARGB_8888
 import android.graphics.Canvas
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewAnimationUtils
@@ -19,6 +20,7 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.appcompat.widget.Toolbar
 import androidx.preference.PreferenceManager
 import com.aacademy.homework.MyApp.Companion.THEME
+import com.aacademy.homework.R
 import com.aacademy.homework.R.anim
 import com.aacademy.homework.R.id
 import com.aacademy.homework.databinding.ActivityMainBinding
@@ -55,6 +57,11 @@ class MainActivity : AppCompatActivity() {
             detailsFragmentOpened = false
             super.onBackPressed()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.movie_list, menu)
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
