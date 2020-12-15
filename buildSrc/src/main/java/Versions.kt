@@ -17,6 +17,9 @@ object Versions {
     const val constraintlayout_version = "2.0.4"
     const val serialization_version = "1.0.1"
     const val timber_version = "4.7.1"
+    const val retrofit_version = "2.9.0"
+    const val serialization_converter_version = "0.8.0"
+    const val okhttp3 = "4.9.0"
 
     //Test
     const val junit = "4.13.1"

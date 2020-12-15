@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aacademy.homework.data.FakeDataRepository
-import com.aacademy.homework.data.local.LocalSource
+import com.aacademy.homework.data.DataRepositoryImpl
+import com.aacademy.homework.data.local.LocalSourceImpl
 import com.aacademy.homework.data.model.MovieDetailWithActors
 import com.aacademy.homework.data.model.MoviePreviewWithGenres
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -26,22 +26,23 @@ class MoviesViewModel : ViewModel() {
     }
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
-            _moviesPreview.postValue(FakeDataRepository.getAllPreviews())
+        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+            val d = DataRepositoryImpl.getAllPreviews()
+            _moviesPreview.postValue(d)
         }
     }
 
     fun getMovieDetail(id: Long) {
         if (movieDetail.value?.movieDetail?.id != id) {
             viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
-                _movieDetail.postValue(FakeDataRepository.getMovieDetail(id))
+                _movieDetail.postValue(DataRepositoryImpl.getMovieDetail(id))
             }
         }
     }
 
     fun setMovieLiked(id: Long, isLiked: Boolean) {
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
-            LocalSource.setMovieLiked(id, isLiked)
+            LocalSourceImpl.setMovieLiked(id, isLiked)
         }
     }
 }

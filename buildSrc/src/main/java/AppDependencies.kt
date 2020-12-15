@@ -2,21 +2,21 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 
 object AppDependencies {
 
-    //Stdlib
+    // Stdlib
     private const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin_version}"
 
-    //Android UI
+    // Android UI
     private const val appcompat = "androidx.appcompat:appcompat:${Versions.appcompat_version}"
     private const val coreKtx = "androidx.core:core-ktx:${Versions.core_ktx_version}"
     private const val constraintLayout =
         "androidx.constraintlayout:constraintlayout:${Versions.constraintlayout_version}"
     private const val material = "com.google.android.material:material:${Versions.material_version}"
 
-    //Glide
+    // Glide
     private const val glide = "com.github.bumptech.glide:glide:${Versions.glide_version}"
     private const val glideCompiler = "com.github.bumptech.glide:compiler:${Versions.glide_version}"
 
-    //Room
+    // Room
     private const val room = "androidx.room:room-runtime:${Versions.roomVersion}"
     private const val roomCompiler = "androidx.room:room-compiler:${Versions.roomVersion}"
     private const val roomKtx = "androidx.room:room-ktx:${Versions.roomVersion}"
@@ -33,7 +33,7 @@ object AppDependencies {
     private const val lifecycleJava8 =
         "androidx.lifecycle:lifecycle-common-java8:${Versions.lifecycle_version}"
 
-    //Fragment KTX
+    // Fragment KTX
     private const val fragmentKtx =
         "androidx.fragment:fragment-ktx:${Versions.fragment_ktx_version}"
 
@@ -41,14 +41,23 @@ object AppDependencies {
     private const val leakcanary =
         "com.squareup.leakcanary:leakcanary-android:${Versions.leakcanary_version}"
 
-    //Serialization
+    // Serialization
     private const val serialization =
         "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization_version}"
 
-    //Timber
+    // Timber
     private const val timber = "com.jakewharton.timber:timber:${Versions.timber_version}"
 
-    //Test libs
+    // Retrofit
+    private const val retrofit2 = "com.squareup.retrofit2:retrofit:${Versions.retrofit_version}"
+    private const val converterSerialization =
+        "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.serialization_converter_version}"
+
+    // OkHttp3
+    private const val okhttp3 = "com.squareup.okhttp3:okhttp:${Versions.okhttp3}"
+    private const val okhttp3_logging_interceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.okhttp3}"
+
+    // Test libs
     private const val junit = "junit:junit:${Versions.junit}"
     private const val extJUnit = "androidx.test.ext:junit:${Versions.extJunit}"
     private const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espresso}"
@@ -70,6 +79,10 @@ object AppDependencies {
         add(leakcanary)
         add(serialization)
         add(timber)
+        add(retrofit2)
+        add(converterSerialization)
+        add(okhttp3)
+        add(okhttp3_logging_interceptor)
     }
 
     val kaptLibraries = arrayListOf<String>().apply {
@@ -87,7 +100,7 @@ object AppDependencies {
     }
 }
 
-//util functions for adding the different type dependencies from build.gradle file
+// util functions for adding the different type dependencies from build.gradle file
 fun DependencyHandler.kapt(list: List<String>) {
     list.forEach { dependency ->
         add("kapt", dependency)
