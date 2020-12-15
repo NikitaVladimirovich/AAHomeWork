@@ -1,22 +1,24 @@
 package com.aacademy.homework.data
 
-import com.aacademy.homework.data.api.ApiSourceImpl
-import com.aacademy.homework.data.local.LocalSourceImpl
+import com.aacademy.homework.data.api.ApiSource
+import com.aacademy.homework.data.local.LocalSource
 import com.aacademy.homework.data.model.MovieDetail
 import com.aacademy.homework.data.model.MovieDetailWithActors
 import com.aacademy.homework.data.model.MoviePreview
 import com.aacademy.homework.data.model.MoviePreviewWithGenres
 import kotlinx.serialization.ExperimentalSerializationApi
+import javax.inject.Inject
 
 @ExperimentalSerializationApi
-object DataRepositoryImpl : DataRepository {
+class DataRepositoryImpl @Inject constructor(private val apiSource: ApiSource, private val localSource: LocalSource) :
+    DataRepository {
 
     override suspend fun getAllPreviews(): List<MoviePreviewWithGenres> =
-        LocalSourceImpl.getAllMoviePreviews()
+        localSource.getAllMoviePreviews()
             .let {
                 if (it.isNotEmpty()) return it else {
-                    val jsonMovies = ApiSourceImpl.getMovies()
-                    val genres = ApiSourceImpl.getGenres().associateBy { it.id }
+                    val jsonMovies = apiSource.getMovies()
+                    val genres = apiSource.getGenres().associateBy { genre -> genre.id }
                     val result = jsonMovies.map { jsonMovie ->
                         MoviePreviewWithGenres(
                             MoviePreview(
@@ -29,32 +31,36 @@ object DataRepositoryImpl : DataRepository {
                                 runtime = jsonMovie.runtime,
                                 reviews = jsonMovie.voteCount
                             ),
-                            genres = jsonMovie.genreIds.map {
-                                genres[it] ?: throw IllegalArgumentException("Genre not found")
+                            genres = jsonMovie.genreIds.map { id ->
+                                genres[id] ?: throw IllegalArgumentException("Genre not found")
                             }
                         )
                     }
-                    LocalSourceImpl.cacheMoviePreviewsWithGenres(result)
+                    localSource.cacheMoviePreviewsWithGenres(result)
                     return result
                 }
             }
 
-    override suspend fun getMovieDetail(id: Long): MovieDetailWithActors = LocalSourceImpl.getMovieDetail(id)
+    override suspend fun getMovieDetail(id: Long): MovieDetailWithActors = localSource.getMovieDetail(id)
         .let {
             if (it.isNotEmpty()) it.first() else {
-                val jsonMovie = ApiSourceImpl.getMovies().first { it.id == id }
-                val actors = ApiSourceImpl.getActors().associateBy { it.id }
+                val jsonMovie = apiSource.getMovies().first { movie -> movie.id == id }
+                val actors = apiSource.getActors().associateBy { actor -> actor.id }
                 val result = MovieDetailWithActors(
                     MovieDetail(
                         id = jsonMovie.id,
                         overview = jsonMovie.overview,
                     ),
-                    actors = jsonMovie.actorsIds.map {
-                        actors[it] ?: throw IllegalArgumentException("Actor not found")
+                    actors = jsonMovie.actorsIds.map { id ->
+                        actors[id] ?: throw IllegalArgumentException("Actor not found")
                     }
                 )
-                LocalSourceImpl.cacheMovieDetailWithActors(result)
+                localSource.cacheMovieDetailWithActors(result)
                 return result
             }
         }
+
+    override suspend fun setMovieLiked(id: Long, isLiked: Boolean) {
+        localSource.setMovieLiked(id, isLiked)
+    }
 }

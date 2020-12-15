@@ -10,7 +10,9 @@ import com.aacademy.homework.databinding.ActivityMainBinding
 import com.aacademy.homework.ui.moviedetail.FragmentMoviesDetails
 import com.aacademy.homework.ui.movielist.FragmentMoviesList
 import com.aacademy.homework.utils.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private val binding by viewBinding(ActivityMainBinding::inflate)

@@ -11,16 +11,21 @@ import com.aacademy.homework.R
 import com.aacademy.homework.databinding.FragmentMoviesDetailsBinding
 import com.aacademy.homework.ui.activities.MainActivity
 import com.aacademy.homework.ui.activities.MoviesViewModel
+import com.aacademy.homework.utils.extensions.loadImage
 import com.aacademy.homework.utils.viewBinding
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.RequestManager
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
 
     private val binding by viewBinding(FragmentMoviesDetailsBinding::bind)
     private val viewModel: MoviesViewModel by activityViewModels()
-    private val glide by lazy { Glide.with(this) }
-    private val castAdapter by lazy { CastAdapter(glide) }
+
+    @Inject
+    lateinit var glide: RequestManager
+    private val castAdapter by lazy { CastAdapter() }
 
     private var movieId = 0L
 
@@ -69,8 +74,7 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
         viewModel.moviesPreview.observe(viewLifecycleOwner) { moviePreviews ->
             moviePreviews.first { it.moviePreview.id == movieId }.let { moviePreview ->
                 binding.apply {
-                    glide.load(moviePreview.moviePreview.backdrop)
-                        .transition(DrawableTransitionOptions.withCrossFade())
+                    glide.loadImage(moviePreview.moviePreview.backdrop)
                         .into(ivCover)
                     collapsingToolbar.title = moviePreview.moviePreview.title
                     tvAgeLimit.text =

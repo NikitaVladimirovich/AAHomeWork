@@ -57,6 +57,15 @@ object AppDependencies {
     private const val okhttp3 = "com.squareup.okhttp3:okhttp:${Versions.okhttp3}"
     private const val okhttp3_logging_interceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.okhttp3}"
 
+    // Hilt
+    private const val hiltAndroid = "com.google.dagger:hilt-android:${Versions.hilt_version}"
+    private const val hiltAndroidCompiler =
+        "com.google.dagger:hilt-android-compiler:${Versions.hilt_version}"
+    private const val hiltLifecycleViewModel =
+        "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.hilt_compiler_version}"
+    private const val hiltCompiler =
+        "androidx.hilt:hilt-compiler:${Versions.hilt_compiler_version}"
+
     // Test libs
     private const val junit = "junit:junit:${Versions.junit}"
     private const val extJUnit = "androidx.test.ext:junit:${Versions.extJunit}"
@@ -83,11 +92,15 @@ object AppDependencies {
         add(converterSerialization)
         add(okhttp3)
         add(okhttp3_logging_interceptor)
+        add(hiltAndroid)
+        add(hiltLifecycleViewModel)
     }
 
     val kaptLibraries = arrayListOf<String>().apply {
         add(roomCompiler)
         add(glideCompiler)
+        add(hiltAndroidCompiler)
+        add(hiltCompiler)
     }
 
     val androidTestLibraries = arrayListOf<String>().apply {
