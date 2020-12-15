@@ -80,12 +80,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun animateThemeChangeIfNeeded() {
-        if (intent.hasExtra(BITMAP)) {
-            val image = intent.getParcelableExtra<Bitmap>(BITMAP)
-            intent.removeExtra(BITMAP)
+        if (bitmap != null) {
             binding.screenshot.apply {
                 setOnClickListener { }
-                setImageBitmap(image)
+                setImageBitmap(bitmap)
+                bitmap = null
+
                 scaleType = ImageView.ScaleType.MATRIX
                 visibility = View.VISIBLE
 
@@ -123,8 +123,8 @@ class MainActivity : AppCompatActivity() {
         if (detailsFragmentOpened) return
         val w = binding.flContainer.measuredWidth
         val h = binding.flContainer.measuredHeight
-        val bitmap = Bitmap.createBitmap(w, h, ARGB_8888)
-        val canvas = Canvas(bitmap!!)
+        val bm = Bitmap.createBitmap(w, h, ARGB_8888)
+        val canvas = Canvas(bm)
         binding.flContainer.draw(canvas)
 
         val location = IntArray(2)
@@ -133,7 +133,7 @@ class MainActivity : AppCompatActivity() {
             putExtra(POSITION_X, (location[0] + view.measuredWidth / 2))
             putExtra(POSITION_Y, (location[1] + view.measuredHeight / 2))
             putExtra(RADIUS, sqrt((w * w + h * h).toDouble()).toFloat())
-            putExtra(BITMAP, bitmap)
+            bitmap = bm
             addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
         }
 
@@ -167,6 +167,6 @@ class MainActivity : AppCompatActivity() {
         private const val POSITION_X = "x"
         private const val POSITION_Y = "y"
         private const val RADIUS = "radius"
-        private const val BITMAP = "bitmap"
+        private var bitmap: Bitmap? = null
     }
 }
