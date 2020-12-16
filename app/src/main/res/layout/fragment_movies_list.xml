@@ -39,6 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
+        android:visibility="gone"
         android:fitsSystemWindows="true"
         android:paddingBottom="@dimen/space5x"
         android:paddingEnd="@dimen/space1.5x"

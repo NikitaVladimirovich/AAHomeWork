@@ -78,7 +78,6 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
         viewModel.moviesPreview.observe(viewLifecycleOwner) { resource ->
             when (resource.status) {
                 SUCCESS -> {
-                    hideLoading()
                     resource.data!!.first { it.moviePreview.id == movieId }.let { moviePreview ->
                         binding.apply {
                             glide.loadImage(moviePreview.moviePreview.backdrop)
@@ -96,8 +95,7 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
             }
         }
 
-        viewModel.movieDetail.observe(viewLifecycleOwner)
-        { resource ->
+        viewModel.movieDetail.observe(viewLifecycleOwner) { resource ->
             when (resource.status) {
                 SUCCESS -> {
                     hideLoading()

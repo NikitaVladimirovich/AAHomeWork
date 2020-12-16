@@ -5,13 +5,17 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.View.VISIBLE
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.aacademy.homework.R
 import com.aacademy.homework.databinding.FragmentMoviesListBinding
 import com.aacademy.homework.ui.activities.MainActivity
 import com.aacademy.homework.ui.activities.MoviesViewModel
+import com.aacademy.homework.ui.movielist.MovieAdapter.Companion.ITEM_EMPTY
 import com.aacademy.homework.ui.views.DragManageAdapter
 import com.aacademy.homework.utils.Status.ERROR
 import com.aacademy.homework.utils.Status.LOADING
@@ -72,8 +76,17 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
                 setHasFixedSize(true)
                 adapter = movieAdapter
                 itemAnimator = MovieItemAnimator()
+                (layoutManager as? GridLayoutManager)?.let {
+                    it.spanSizeLookup = object : SpanSizeLookup() {
+                        override fun getSpanSize(position: Int): Int {
+                            return when (movieAdapter.getItemViewType(position)) {
+                                ITEM_EMPTY -> it.spanCount
+                                else -> 1
+                            }
+                        }
+                    }
+                }
             }
-
             ItemTouchHelper(DragManageAdapter(moveCallback = movieAdapter::swapItems)).attachToRecyclerView(rvMovies)
         }
     }
@@ -86,6 +99,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
                     SUCCESS -> {
                         hideLoading()
                         movieAdapter.moviePreviews = resource.data!!
+                        binding.rvMovies.visibility = VISIBLE
                     }
                     ERROR -> {
                         hideLoading()

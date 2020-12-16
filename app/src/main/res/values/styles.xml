@@ -127,4 +127,11 @@
         <item name="android:lines">1</item>
         <item name="android:textSize">@dimen/textSizeMain</item>
     </style>
+
+    <style name="NothingFoundText" parent="">
+        <item name="fontFamily">sans-serif</item>
+        <item name="android:textColor">?attr/colorText</item>
+        <item name="android:textSize">@dimen/textSizeNothingFound</item>
+        <item name="android:gravity">center</item>
+    </style>
 </resources>
