@@ -13,9 +13,8 @@ import com.aacademy.homework.ui.activities.MainActivity
 import com.aacademy.homework.ui.activities.MoviesViewModel
 import com.aacademy.homework.utils.extensions.loadImage
 import com.aacademy.homework.utils.viewBinding
-import com.bumptech.glide.RequestManager
+import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
@@ -23,9 +22,8 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
     private val binding by viewBinding(FragmentMoviesDetailsBinding::bind)
     private val viewModel: MoviesViewModel by activityViewModels()
 
-    @Inject
-    lateinit var glide: RequestManager
-    private val castAdapter by lazy { CastAdapter() }
+    private val glide by lazy { Glide.with(this) }
+    private val castAdapter by lazy { CastAdapter(glide) }
 
     private var movieId = 0L
 

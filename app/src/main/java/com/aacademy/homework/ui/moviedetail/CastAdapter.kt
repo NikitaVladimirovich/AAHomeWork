@@ -3,19 +3,13 @@ package com.aacademy.homework.ui.moviedetail
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.aacademy.homework.MyApp
 import com.aacademy.homework.data.model.Actor
 import com.aacademy.homework.databinding.LayoutCastItemBinding
-import com.aacademy.homework.di.GlideEntryPoint
 import com.aacademy.homework.ui.moviedetail.CastAdapter.CastViewHolder
 import com.aacademy.homework.utils.extensions.loadImage
 import com.bumptech.glide.RequestManager
-import dagger.hilt.android.EntryPointAccessors
 
-class CastAdapter : RecyclerView.Adapter<CastViewHolder>() {
-
-    private val glide: RequestManager =
-        EntryPointAccessors.fromApplication(MyApp.INSTANCE, GlideEntryPoint::class.java).glide()
+class CastAdapter(val glide: RequestManager) : RecyclerView.Adapter<CastViewHolder>() {
 
     var actors: List<Actor> = emptyList()
         set(value) {

@@ -14,6 +14,7 @@ import com.aacademy.homework.ui.activities.MainActivity
 import com.aacademy.homework.ui.activities.MoviesViewModel
 import com.aacademy.homework.ui.views.DragManageAdapter
 import com.aacademy.homework.utils.viewBinding
+import com.bumptech.glide.Glide
 
 class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
@@ -23,6 +24,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
     private val movieAdapter by lazy {
         MovieAdapter(
+            Glide.with(this),
             resources,
             {
                 (activity as MainActivity).openMovieDetail(it)

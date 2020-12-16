@@ -45,6 +45,7 @@
 
     <style name="RatingBar" parent="">
         <item name="android:progressDrawable">@drawable/ratingbar_selector</item>
+        <item name="android:stepSize">0.5</item>
     </style>
 
     <style name="LikeCheckBox" parent="">

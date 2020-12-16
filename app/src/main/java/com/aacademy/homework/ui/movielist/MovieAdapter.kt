@@ -7,26 +7,21 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.aacademy.homework.MyApp
 import com.aacademy.homework.R.string
 import com.aacademy.homework.data.model.MoviePreviewWithGenres
 import com.aacademy.homework.databinding.LayoutMovieItemBinding
-import com.aacademy.homework.di.GlideEntryPoint
 import com.aacademy.homework.ui.movielist.MovieAdapter.MovieViewHolder
 import com.aacademy.homework.ui.movielist.MovieItemAnimator.LikeViewHolder
 import com.aacademy.homework.utils.extensions.loadImage
 import com.bumptech.glide.RequestManager
-import dagger.hilt.android.EntryPointAccessors
 import java.util.Collections
 
 class MovieAdapter(
+    private val glide: RequestManager,
     private val resources: Resources,
     private val itemClickListener: (Long) -> Unit,
     private val likeStateChangeListener: (Long, Boolean) -> Unit
 ) : RecyclerView.Adapter<MovieViewHolder>() {
-
-    private val glide: RequestManager =
-        EntryPointAccessors.fromApplication(MyApp.INSTANCE, GlideEntryPoint::class.java).glide()
 
     private val diffCallback = object : DiffUtil.ItemCallback<MoviePreviewWithGenres>() {
         override fun areItemsTheSame(oldItem: MoviePreviewWithGenres, newItem: MoviePreviewWithGenres): Boolean =

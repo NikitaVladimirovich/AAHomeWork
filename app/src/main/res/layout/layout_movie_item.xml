@@ -109,7 +109,6 @@
             android:indeterminate="false"
             android:isIndicator="true"
             android:numStars="5"
-            android:stepSize="0.01"
             app:drawableHeight="@dimen/space2x"
             app:drawableWidth="@dimen/space2x"
             app:innerPadding="@dimen/space0.5x"
