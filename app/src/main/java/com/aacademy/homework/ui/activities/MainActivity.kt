@@ -30,6 +30,15 @@ class MainActivity : AppCompatActivity() {
                 .commit()
     }
 
+    override fun onBackPressed() {
+        if (supportFragmentManager.backStackEntryCount == 0) {
+            finishAfterTransition()
+        } else {
+            hideLoading()
+            super.onBackPressed()
+        }
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {

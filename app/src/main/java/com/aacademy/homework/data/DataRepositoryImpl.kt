@@ -13,34 +13,37 @@ import javax.inject.Inject
 class DataRepositoryImpl @Inject constructor(private val apiSource: ApiSource, private val localSource: LocalSource) :
     DataRepository {
 
-    override suspend fun getAllPreviews(): List<MoviePreviewWithGenres> =
-        localSource.getAllMoviePreviews()
+    override suspend fun getAllPreviews(withCache: Boolean): List<MoviePreviewWithGenres> =
+        if (withCache) localSource.getAllMoviePreviews()
             .let {
-                if (it.isNotEmpty()) return it else {
-                    Thread.sleep(2000)
-                    val jsonMovies = apiSource.getMovies()
-                    val genres = apiSource.getGenres().associateBy { genre -> genre.id }
-                    val result = jsonMovies.map { jsonMovie ->
-                        MoviePreviewWithGenres(
-                            MoviePreview(
-                                id = jsonMovie.id,
-                                title = jsonMovie.title,
-                                poster = jsonMovie.posterPicture,
-                                backdrop = jsonMovie.backdropPicture,
-                                rating = jsonMovie.ratings,
-                                ageLimit = if (jsonMovie.adult) 16 else 13,
-                                runtime = jsonMovie.runtime,
-                                reviews = jsonMovie.voteCount
-                            ),
-                            genres = jsonMovie.genreIds.map { id ->
-                                genres[id] ?: throw IllegalArgumentException("Genre not found")
-                            }
-                        )
-                    }
-                    localSource.cacheMoviePreviewsWithGenres(result)
-                    return result
-                }
+                if (it.isNotEmpty()) return it else loadPreviewsWithCaching()
             }
+        else loadPreviewsWithCaching()
+
+    private suspend fun loadPreviewsWithCaching(): List<MoviePreviewWithGenres> {
+        Thread.sleep(5000)
+        val jsonMovies = apiSource.getMovies()
+        val genres = apiSource.getGenres().associateBy { genre -> genre.id }
+        val result = jsonMovies.map { jsonMovie ->
+            MoviePreviewWithGenres(
+                MoviePreview(
+                    id = jsonMovie.id,
+                    title = jsonMovie.title,
+                    poster = jsonMovie.posterPicture,
+                    backdrop = jsonMovie.backdropPicture,
+                    rating = jsonMovie.ratings,
+                    ageLimit = if (jsonMovie.adult) 16 else 13,
+                    runtime = jsonMovie.runtime,
+                    reviews = jsonMovie.voteCount
+                ),
+                genres = jsonMovie.genreIds.map { id ->
+                    genres[id] ?: throw IllegalArgumentException("Genre not found")
+                }
+            )
+        }
+        localSource.cacheMoviePreviewsWithGenres(result)
+        return result
+    }
 
     override suspend fun getMovieDetail(id: Long): MovieDetailWithActors = localSource.getMovieDetail(id)
         .let {

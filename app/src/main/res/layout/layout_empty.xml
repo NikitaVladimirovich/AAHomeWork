@@ -21,7 +21,7 @@
         style="@style/NothingFoundText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nothing Found!"
+        android:text="Nothing found!\nOr went something wrong!"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image" />
 

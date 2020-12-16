@@ -22,6 +22,7 @@ object Versions {
     const val okhttp3 = "4.9.0"
     const val hilt_version = "2.30.1-alpha"
     const val hilt_compiler_version = "1.0.0-alpha02"
+    const val swipetorefresh_version = "1.0.0"
 
     //Test
     const val junit = "4.13.1"

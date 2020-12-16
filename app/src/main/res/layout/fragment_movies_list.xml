@@ -34,18 +34,34 @@
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.aacademy.homework.ui.views.AutofitRecyclerView android:id="@+id/rvMovies"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:visibility="gone"
-        android:fitsSystemWindows="true"
-        android:paddingBottom="@dimen/space5x"
-        android:paddingEnd="@dimen/space1.5x"
-        android:paddingStart="@dimen/space1.5x"
-        android:paddingTop="@dimen/space3x"
-        app:minItemWidth="@dimen/minMovieItemWidth"
-        tools:itemCount="1"
-        tools:listitem="@layout/layout_movie_item" />
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true">
+
+            <com.aacademy.homework.ui.views.AutofitRecyclerView android:id="@+id/rvMovies"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:fitsSystemWindows="true"
+                android:paddingBottom="@dimen/space5x"
+                android:paddingEnd="@dimen/space1.5x"
+                android:paddingStart="@dimen/space1.5x"
+                android:paddingTop="@dimen/space3x"
+                app:minItemWidth="@dimen/minMovieItemWidth"
+                tools:itemCount="1"
+                tools:listitem="@layout/layout_movie_item" />
+
+            <include
+                android:id="@+id/empty_view"
+                layout="@layout/layout_empty"
+                android:visibility="gone" />
+        </FrameLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>

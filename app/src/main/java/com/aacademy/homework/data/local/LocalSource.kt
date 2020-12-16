@@ -11,7 +11,7 @@ interface LocalSource {
 
     suspend fun setMovieLiked(id: Long, isLiked: Boolean)
 
-    suspend fun cacheMoviePreviewsWithGenres(moviePreviewsWithTags: List<MoviePreviewWithGenres>)
+    suspend fun cacheMoviePreviewsWithGenres(moviePreviewsWithGenres: List<MoviePreviewWithGenres>)
 
     suspend fun cacheMovieDetailWithActors(movieDetailWithActors: MovieDetailWithActors)
 }

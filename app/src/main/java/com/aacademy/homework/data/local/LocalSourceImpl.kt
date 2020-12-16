@@ -19,8 +19,9 @@ class LocalSourceImpl @Inject constructor(private val database: AppDatabase) : L
         return database.moviePreviewDao().setMovieLiked(id, isLiked)
     }
 
-    override suspend fun cacheMoviePreviewsWithGenres(moviePreviewsWithTags: List<MoviePreviewWithGenres>) {
-        database.moviePreviewDao().insert(moviePreviewsWithTags)
+    override suspend fun cacheMoviePreviewsWithGenres(moviePreviewsWithGenres: List<MoviePreviewWithGenres>) {
+        database.moviePreviewDao().clear()
+        database.moviePreviewDao().insert(moviePreviewsWithGenres)
     }
 
     override suspend fun cacheMovieDetailWithActors(movieDetailWithActors: MovieDetailWithActors) {

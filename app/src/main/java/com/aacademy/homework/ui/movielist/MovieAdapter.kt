@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.aacademy.homework.R.string
 import com.aacademy.homework.data.model.MoviePreviewWithGenres
-import com.aacademy.homework.databinding.LayoutEmptyBinding
 import com.aacademy.homework.databinding.LayoutMovieItemBinding
+import com.aacademy.homework.ui.movielist.MovieAdapter.MovieViewHolder
 import com.aacademy.homework.ui.movielist.MovieItemAnimator.LikeViewHolder
 import com.aacademy.homework.utils.extensions.loadImage
 import com.bumptech.glide.RequestManager
@@ -21,13 +21,7 @@ class MovieAdapter(
     private val resources: Resources,
     private val itemClickListener: (Long) -> Unit,
     private val likeStateChangeListener: (Long, Boolean) -> Unit
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    companion object {
-
-        const val ITEM_DATA = 1
-        const val ITEM_EMPTY = 2
-    }
+) : RecyclerView.Adapter<MovieViewHolder>() {
 
     private val diffCallback = object : DiffUtil.ItemCallback<MoviePreviewWithGenres>() {
         override fun areItemsTheSame(oldItem: MoviePreviewWithGenres, newItem: MoviePreviewWithGenres): Boolean =
@@ -43,36 +37,20 @@ class MovieAdapter(
         get() = differ.currentList
         set(value) = differ.submitList(value)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == ITEM_DATA)
-            MovieViewHolder(
-                LayoutMovieItemBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
-                )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder =
+        MovieViewHolder(
+            LayoutMovieItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
             )
-        else
-            EmptyViewHolder(
-                LayoutEmptyBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
-                )
-            )
+        )
+
+    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
+        holder.bind(moviePreviews[position])
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (holder) {
-            is MovieViewHolder -> holder.bind(moviePreviews[position])
-        }
-    }
-
-    override fun getItemCount(): Int = if (moviePreviews.isEmpty()) 1 else moviePreviews.size
-
-    override fun getItemViewType(position: Int): Int {
-        return if (moviePreviews.isEmpty()) ITEM_EMPTY else ITEM_DATA
-    }
+    override fun getItemCount(): Int = moviePreviews.size
 
     fun swapItems(fromPosition: Int, toPosition: Int) {
         val newMovies = moviePreviews.toMutableList()
@@ -104,10 +82,8 @@ class MovieAdapter(
     }
 
     override fun getItemId(position: Int): Long {
-        return if (getItemViewType(position) == ITEM_DATA) moviePreviews[position].moviePreview.id else 0
+        return moviePreviews[position].moviePreview.id
     }
-
-    inner class EmptyViewHolder(private val binding: LayoutEmptyBinding) : RecyclerView.ViewHolder(binding.root)
 
     inner class MovieViewHolder(private val binding: LayoutMovieItemBinding) : LikeViewHolder(binding) {
 
