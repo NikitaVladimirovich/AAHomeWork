@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import android.view.View.GONE
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,7 +12,12 @@ import com.aacademy.homework.R
 import com.aacademy.homework.databinding.FragmentMoviesDetailsBinding
 import com.aacademy.homework.ui.activities.MainActivity
 import com.aacademy.homework.ui.activities.MoviesViewModel
+import com.aacademy.homework.utils.Status.ERROR
+import com.aacademy.homework.utils.Status.LOADING
+import com.aacademy.homework.utils.Status.SUCCESS
+import com.aacademy.homework.utils.extensions.hideLoading
 import com.aacademy.homework.utils.extensions.loadImage
+import com.aacademy.homework.utils.extensions.showLoading
 import com.aacademy.homework.utils.viewBinding
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,25 +75,46 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
     }
 
     private fun subscribe() {
-        viewModel.moviesPreview.observe(viewLifecycleOwner) { moviePreviews ->
-            moviePreviews.first { it.moviePreview.id == movieId }.let { moviePreview ->
-                binding.apply {
-                    glide.loadImage(moviePreview.moviePreview.backdrop)
-                        .into(ivCover)
-                    collapsingToolbar.title = moviePreview.moviePreview.title
-                    tvAgeLimit.text =
-                        getString(R.string.ageLimitFormat).format(moviePreview.moviePreview.ageLimit)
-                    tvTags.text = moviePreview.genres.joinToString(", ") { it.name }
-                    tvReviews.text = getString(R.string.reviewsFormat).format(moviePreview.moviePreview.reviews)
-                    rbRating.rating = moviePreview.moviePreview.rating / 2
+        viewModel.moviesPreview.observe(viewLifecycleOwner) { resource ->
+            when (resource.status) {
+                SUCCESS -> {
+                    hideLoading()
+                    resource.data!!.first { it.moviePreview.id == movieId }.let { moviePreview ->
+                        binding.apply {
+                            glide.loadImage(moviePreview.moviePreview.backdrop)
+                                .into(ivCover)
+                            collapsingToolbar.title = moviePreview.moviePreview.title
+                            tvAgeLimit.text =
+                                getString(R.string.ageLimitFormat).format(moviePreview.moviePreview.ageLimit)
+                            tvTags.text = moviePreview.genres.joinToString(", ") { it.name }
+                            tvReviews.text =
+                                getString(R.string.reviewsFormat).format(moviePreview.moviePreview.reviews)
+                            rbRating.rating = moviePreview.moviePreview.rating / 2
+                        }
+                    }
                 }
             }
         }
 
-        viewModel.movieDetail.observe(viewLifecycleOwner) {
-            if (it.movieDetail.id == movieId) {
-                binding.tvStoryline.text = it.movieDetail.overview
-                castAdapter.actors = it.actors
+        viewModel.movieDetail.observe(viewLifecycleOwner)
+        { resource ->
+            when (resource.status) {
+                SUCCESS -> {
+                    hideLoading()
+                    resource.data?.let {
+                        if (it.movieDetail.id == movieId) {
+                            binding.tvStoryline.text = it.movieDetail.overview
+                            if (it.actors.isNotEmpty())
+                                castAdapter.actors = it.actors
+                            else
+                                binding.tvCast.visibility = GONE
+                        }
+                    }
+                }
+                ERROR -> {
+                    hideLoading()
+                }
+                LOADING -> showLoading()
             }
         }
     }

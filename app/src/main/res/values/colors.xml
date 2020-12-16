@@ -22,4 +22,6 @@
     <color name="colorMovieMaskEnd">#00191926</color>
     <color name="colorCardStroke">#2E2D3C</color>
     <color name="colorCardStrokeLight">#D1D2C3</color>
+    <color name="colorProgressTint">#66000000</color>
+    <color name="colorProgressTintLight">#66FFFFFF</color>
 </resources>

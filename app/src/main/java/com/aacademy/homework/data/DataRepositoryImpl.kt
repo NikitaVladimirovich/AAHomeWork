@@ -17,6 +17,7 @@ class DataRepositoryImpl @Inject constructor(private val apiSource: ApiSource, p
         localSource.getAllMoviePreviews()
             .let {
                 if (it.isNotEmpty()) return it else {
+                    Thread.sleep(2000)
                     val jsonMovies = apiSource.getMovies()
                     val genres = apiSource.getGenres().associateBy { genre -> genre.id }
                     val result = jsonMovies.map { jsonMovie ->
@@ -44,6 +45,7 @@ class DataRepositoryImpl @Inject constructor(private val apiSource: ApiSource, p
     override suspend fun getMovieDetail(id: Long): MovieDetailWithActors = localSource.getMovieDetail(id)
         .let {
             if (it.isNotEmpty()) it.first() else {
+                Thread.sleep(2000)
                 val jsonMovie = apiSource.getMovies().first { movie -> movie.id == id }
                 val actors = apiSource.getActors().associateBy { actor -> actor.id }
                 val result = MovieDetailWithActors(

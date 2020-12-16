@@ -2,6 +2,8 @@ package com.aacademy.homework.ui.activities
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.aacademy.homework.R.anim
@@ -40,6 +42,14 @@ class MainActivity : AppCompatActivity() {
     override fun setSupportActionBar(toolbar: Toolbar?) {
         super.setSupportActionBar(toolbar)
         title = ""
+    }
+
+    fun showLoading() {
+        binding.progressView.visibility = VISIBLE
+    }
+
+    fun hideLoading() {
+        binding.progressView.visibility = GONE
     }
 
     fun openMovieDetail(movieId: Long) {

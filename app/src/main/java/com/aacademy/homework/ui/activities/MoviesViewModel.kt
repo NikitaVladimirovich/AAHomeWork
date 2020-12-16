@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.aacademy.homework.data.DataRepository
 import com.aacademy.homework.data.model.MovieDetailWithActors
 import com.aacademy.homework.data.model.MoviePreviewWithGenres
+import com.aacademy.homework.utils.Resource
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -17,34 +18,45 @@ class MoviesViewModel @ViewModelInject constructor(
     private val dataRepository: DataRepository
 ) : ViewModel() {
 
-    private val _moviesPreview = MutableLiveData<List<MoviePreviewWithGenres>>()
-    val moviesPreview: LiveData<List<MoviePreviewWithGenres>> = _moviesPreview
+    private val _moviesPreview = MutableLiveData<Resource<List<MoviePreviewWithGenres>>>()
+    val moviesPreview: LiveData<Resource<List<MoviePreviewWithGenres>>> = _moviesPreview
 
-    private val _movieDetail = MutableLiveData<MovieDetailWithActors>()
-    val movieDetail: LiveData<MovieDetailWithActors> = _movieDetail
+    private val _movieDetail = MutableLiveData<Resource<MovieDetailWithActors>>()
+    val movieDetail: LiveData<Resource<MovieDetailWithActors>> = _movieDetail
 
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+    private val moviesExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         Timber.e(throwable)
+        _moviesPreview.postValue(Resource.error(throwable.message ?: ""))
+    }
+
+    private val detailExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        Timber.e(throwable)
+        _movieDetail.postValue(Resource.error(throwable.message ?: ""))
     }
 
     init {
-        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
-            val d = dataRepository.getAllPreviews()
-            _moviesPreview.postValue(d)
+        viewModelScope.launch(Dispatchers.IO + moviesExceptionHandler) {
+            _moviesPreview.postValue(Resource.loading())
+            _moviesPreview.postValue(Resource.success(dataRepository.getAllPreviews()))
         }
     }
 
     fun getMovieDetail(id: Long) {
-        if (movieDetail.value?.movieDetail?.id != id) {
-            viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
-                _movieDetail.postValue(dataRepository.getMovieDetail(id))
+        if (movieDetail.value?.data?.movieDetail?.id != id) {
+            viewModelScope.launch(Dispatchers.IO + detailExceptionHandler) {
+                _movieDetail.postValue(Resource.loading())
+                _movieDetail.postValue(Resource.success(dataRepository.getMovieDetail(id)))
             }
         }
     }
 
     fun setMovieLiked(id: Long, isLiked: Boolean) {
-        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
-            dataRepository.setMovieLiked(id, isLiked)
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                dataRepository.setMovieLiked(id, isLiked)
+            } catch (thr: Throwable) {
+                Timber.e(thr)
+            }
         }
     }
 }

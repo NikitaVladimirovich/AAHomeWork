@@ -24,5 +24,6 @@
         <item name="colorMinText">@color/colorMinTextLight</item>
         <item name="colorMovieMaskStart">@color/colorMovieMaskStartLight</item>
         <item name="colorMovieMaskEnd">@color/colorMovieMaskEnd</item>
+        <item name="colorProgressTint">@color/colorProgressTintLight</item>
     </style>
 </resources>

@@ -13,6 +13,11 @@ import com.aacademy.homework.databinding.FragmentMoviesListBinding
 import com.aacademy.homework.ui.activities.MainActivity
 import com.aacademy.homework.ui.activities.MoviesViewModel
 import com.aacademy.homework.ui.views.DragManageAdapter
+import com.aacademy.homework.utils.Status.ERROR
+import com.aacademy.homework.utils.Status.LOADING
+import com.aacademy.homework.utils.Status.SUCCESS
+import com.aacademy.homework.utils.extensions.hideLoading
+import com.aacademy.homework.utils.extensions.showLoading
 import com.aacademy.homework.utils.viewBinding
 import com.bumptech.glide.Glide
 
@@ -76,8 +81,17 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
     private fun subscribe() {
         viewModel.moviesPreview.observe(
             viewLifecycleOwner,
-            {
-                movieAdapter.moviePreviews = it
+            { resource ->
+                when (resource.status) {
+                    SUCCESS -> {
+                        hideLoading()
+                        movieAdapter.moviePreviews = resource.data!!
+                    }
+                    ERROR -> {
+                        hideLoading()
+                    }
+                    LOADING -> showLoading()
+                }
             }
         )
     }
