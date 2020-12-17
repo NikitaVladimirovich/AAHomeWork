@@ -34,38 +34,40 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
             val rad = arguments?.getFloat(RADIUS)!!
             arguments = null
 
-            view.addOnLayoutChangeListener(object : OnLayoutChangeListener {
-                override fun onLayoutChange(
-                    v: View,
-                    left: Int,
-                    top: Int,
-                    right: Int,
-                    bottom: Int,
-                    oldLeft: Int,
-                    oldTop: Int,
-                    oldRight: Int,
-                    oldBottom: Int
-                ) {
-                    v.removeOnLayoutChangeListener(this)
-                    val anim = ViewAnimationUtils.createCircularReveal(v, x, y, 0f, rad)
-                    anim.duration = 1000
-                    anim.interpolator = AccelerateDecelerateInterpolator()
-                    anim.addListener(
-                        object : AnimatorListenerAdapter() {
-                            override fun onAnimationEnd(animation: Animator?) {
-                                super.onAnimationEnd(animation)
-                                v.isClickable = true
-                            }
+            view.addOnLayoutChangeListener(
+                object : OnLayoutChangeListener {
+                    override fun onLayoutChange(
+                        v: View,
+                        left: Int,
+                        top: Int,
+                        right: Int,
+                        bottom: Int,
+                        oldLeft: Int,
+                        oldTop: Int,
+                        oldRight: Int,
+                        oldBottom: Int
+                    ) {
+                        v.removeOnLayoutChangeListener(this)
+                        val anim = ViewAnimationUtils.createCircularReveal(v, x, y, 0f, rad)
+                        anim.duration = 1000
+                        anim.interpolator = AccelerateDecelerateInterpolator()
+                        anim.addListener(
+                            object : AnimatorListenerAdapter() {
+                                override fun onAnimationEnd(animation: Animator?) {
+                                    super.onAnimationEnd(animation)
+                                    v.isClickable = true
+                                }
 
-                            override fun onAnimationStart(animation: Animator?, isReverse: Boolean) {
-                                super.onAnimationStart(animation, isReverse)
-                                v.isClickable = false
+                                override fun onAnimationStart(animation: Animator?, isReverse: Boolean) {
+                                    super.onAnimationStart(animation, isReverse)
+                                    v.isClickable = false
+                                }
                             }
-                        }
-                    )
-                    anim.start()
+                        )
+                        anim.start()
+                    }
                 }
-            })
+            )
         }
 
         initViews()
