@@ -1,12 +1,7 @@
 package com.aacademy.homework.ui.movielist
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
 import android.view.View
-import android.view.View.OnLayoutChangeListener
-import android.view.ViewAnimationUtils
-import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -15,6 +10,7 @@ import com.aacademy.homework.databinding.FragmentMoviesListBinding
 import com.aacademy.homework.ui.activities.MainActivity
 import com.aacademy.homework.ui.activities.MoviesViewModel
 import com.aacademy.homework.ui.views.DragManageAdapter
+import com.aacademy.homework.utils.extensions.startCircularReveal
 import com.aacademy.homework.utils.viewBinding
 import com.bumptech.glide.Glide
 
@@ -29,45 +25,12 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (arguments != null) {
-            val x = arguments?.getInt(POSITION_X)!!
-            val y = arguments?.getInt(POSITION_Y)!!
-            val rad = arguments?.getFloat(RADIUS)!!
-            arguments = null
-
-            view.addOnLayoutChangeListener(
-                object : OnLayoutChangeListener {
-                    override fun onLayoutChange(
-                        v: View,
-                        left: Int,
-                        top: Int,
-                        right: Int,
-                        bottom: Int,
-                        oldLeft: Int,
-                        oldTop: Int,
-                        oldRight: Int,
-                        oldBottom: Int
-                    ) {
-                        v.removeOnLayoutChangeListener(this)
-                        val anim = ViewAnimationUtils.createCircularReveal(v, x, y, 0f, rad)
-                        anim.duration = 1000
-                        anim.interpolator = AccelerateDecelerateInterpolator()
-                        anim.addListener(
-                            object : AnimatorListenerAdapter() {
-                                override fun onAnimationEnd(animation: Animator?) {
-                                    super.onAnimationEnd(animation)
-                                    v.isClickable = true
-                                }
-
-                                override fun onAnimationStart(animation: Animator?, isReverse: Boolean) {
-                                    super.onAnimationStart(animation, isReverse)
-                                    v.isClickable = false
-                                }
-                            }
-                        )
-                        anim.start()
-                    }
-                }
+            view.startCircularReveal(
+                arguments?.getInt(POSITION_X)!!,
+                arguments?.getInt(POSITION_Y)!!,
+                arguments?.getFloat(RADIUS)!!
             )
+            arguments = null
         }
 
         initViews()

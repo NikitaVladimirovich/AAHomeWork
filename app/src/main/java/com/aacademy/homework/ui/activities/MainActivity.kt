@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_UNSPECIFIED
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import com.aacademy.homework.MyApp.Companion.THEME
 import com.aacademy.homework.R
@@ -23,6 +24,9 @@ import com.aacademy.homework.databinding.ActivityMainBinding
 import com.aacademy.homework.ui.moviedetail.FragmentMoviesDetails
 import com.aacademy.homework.ui.movielist.FragmentMoviesList
 import com.aacademy.homework.utils.viewBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.math.sqrt
 
 class MainActivity : AppCompatActivity() {
@@ -82,7 +86,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun changeTheme(view: View) {
         if (detailsFragmentOpened) return
-        Thread {
+        lifecycleScope.launch(Dispatchers.IO) {
             val w = binding.flContainer.measuredWidth
             val h = binding.flContainer.measuredHeight
             val bitmap = Bitmap.createBitmap(w, h, ARGB_8888)
@@ -97,7 +101,7 @@ class MainActivity : AppCompatActivity() {
                 else -> MODE_NIGHT_YES
             }
 
-            runOnUiThread {
+            withContext(Dispatchers.Main) {
                 binding.screenshot.apply {
                     setOnClickListener { }
                     scaleType = ImageView.ScaleType.MATRIX
@@ -119,7 +123,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             prefs.edit().putInt(THEME, delegate.localNightMode).apply()
-        }.start()
+        }
     }
 
     fun openMovieDetail(movieId: Long) {
