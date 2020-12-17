@@ -1,17 +1,13 @@
 package com.aacademy.homework.ui.activities
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Bitmap.Config.ARGB_8888
 import android.graphics.Canvas
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewAnimationUtils
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
@@ -46,8 +42,6 @@ class MainActivity : AppCompatActivity() {
             .beginTransaction()
             .add(id.flContainer, FragmentMoviesList.newInstance(), FRAGMENT_TAG)
             .commit()
-
-        animateThemeChangeIfNeeded()
     }
 
     override fun onBackPressed() {
@@ -64,12 +58,19 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    var lastTimeOptionsItemSelected: Long = 0
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (SystemClock.elapsedRealtime() - lastTimeOptionsItemSelected < 1000) {
+            return super.onOptionsItemSelected(item)
+        }
+        lastTimeOptionsItemSelected = SystemClock.elapsedRealtime()
         when (item.itemId) {
             android.R.id.home -> {
                 onBackPressed()
             }
-            id.theme -> changeTheme(findViewById(id.theme))
+            id.theme -> {
+                changeTheme(findViewById(id.theme))
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -79,69 +80,46 @@ class MainActivity : AppCompatActivity() {
         title = ""
     }
 
-    private fun animateThemeChangeIfNeeded() {
-        if (bitmap != null) {
-            binding.screenshot.apply {
-                setOnClickListener { }
-                setImageBitmap(bitmap)
-                bitmap = null
-
-                scaleType = ImageView.ScaleType.MATRIX
-                visibility = View.VISIBLE
-
-                val listener = object : View.OnAttachStateChangeListener {
-                    override fun onViewAttachedToWindow(v: View?) {
-                        val anim = ViewAnimationUtils.createCircularReveal(
-                            this@apply,
-                            intent.getIntExtra(POSITION_X, 0),
-                            intent.getIntExtra(POSITION_Y, 0),
-                            intent.getFloatExtra(RADIUS, 0f),
-                            0f
-                        )
-                        anim.duration = 1000
-                        anim.interpolator = AccelerateDecelerateInterpolator()
-                        anim.addListener(
-                            object : AnimatorListenerAdapter() {
-                                override fun onAnimationEnd(animation: Animator?) {
-                                    super.onAnimationEnd(animation)
-                                    setImageDrawable(null)
-                                    visibility = View.GONE
-                                }
-                            }
-                        )
-                        anim.start()
-                    }
-
-                    override fun onViewDetachedFromWindow(v: View?) {}
-                }
-                addOnAttachStateChangeListener(listener)
-            }
-        }
-    }
-
     private fun changeTheme(view: View) {
         if (detailsFragmentOpened) return
-        val w = binding.flContainer.measuredWidth
-        val h = binding.flContainer.measuredHeight
-        val bm = Bitmap.createBitmap(w, h, ARGB_8888)
-        val canvas = Canvas(bm)
-        binding.flContainer.draw(canvas)
+        Thread {
+            val w = binding.flContainer.measuredWidth
+            val h = binding.flContainer.measuredHeight
+            val bitmap = Bitmap.createBitmap(w, h, ARGB_8888)
+            val canvas = Canvas(bitmap)
+            binding.flContainer.draw(canvas)
 
-        val location = IntArray(2)
-        view.getLocationOnScreen(location)
-        intent.apply {
-            putExtra(POSITION_X, (location[0] + view.measuredWidth / 2))
-            putExtra(POSITION_Y, (location[1] + view.measuredHeight / 2))
-            putExtra(RADIUS, sqrt((w * w + h * h).toDouble()).toFloat())
-            bitmap = bm
-            addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-        }
+            val location = IntArray(2)
+            view.getLocationOnScreen(location)
 
-        delegate.localNightMode = when (delegate.localNightMode) {
-            MODE_NIGHT_YES -> MODE_NIGHT_NO
-            else -> MODE_NIGHT_YES
-        }
-        prefs.edit().putInt(THEME, delegate.localNightMode).apply()
+            delegate.localNightMode = when (delegate.localNightMode) {
+                MODE_NIGHT_YES -> MODE_NIGHT_NO
+                else -> MODE_NIGHT_YES
+            }
+
+            runOnUiThread {
+                binding.screenshot.apply {
+                    setOnClickListener { }
+                    scaleType = ImageView.ScaleType.MATRIX
+                    setImageBitmap(bitmap)
+                }
+            }
+
+            supportFragmentManager.findFragmentByTag(FRAGMENT_TAG)?.let { fr ->
+                fr.arguments = FragmentMoviesList.createBundle(
+                    location[0] + view.measuredWidth / 2,
+                    location[1] + view.measuredHeight / 2,
+                    sqrt((w * w + h * h).toDouble()).toFloat()
+                )
+                supportFragmentManager
+                    .beginTransaction()
+                    .detach(fr)
+                    .attach(fr)
+                    .commit()
+            }
+
+            prefs.edit().putInt(THEME, delegate.localNightMode).apply()
+        }.start()
     }
 
     fun openMovieDetail(movieId: Long) {
@@ -164,9 +142,5 @@ class MainActivity : AppCompatActivity() {
     companion object {
 
         private const val FRAGMENT_TAG = "FragmentTag"
-        private const val POSITION_X = "x"
-        private const val POSITION_Y = "y"
-        private const val RADIUS = "radius"
-        private var bitmap: Bitmap? = null
     }
 }
