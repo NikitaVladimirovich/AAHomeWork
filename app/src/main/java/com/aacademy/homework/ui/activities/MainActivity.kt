@@ -62,18 +62,17 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    var lastTimeOptionsItemSelected: Long = 0
+    private var lastTimeOptionsItemSelected: Long = 0
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (SystemClock.elapsedRealtime() - lastTimeOptionsItemSelected < 1000) {
-            return super.onOptionsItemSelected(item)
-        }
-        lastTimeOptionsItemSelected = SystemClock.elapsedRealtime()
         when (item.itemId) {
             android.R.id.home -> {
                 onBackPressed()
             }
             id.theme -> {
-                changeTheme(findViewById(id.theme))
+                if (SystemClock.elapsedRealtime() - lastTimeOptionsItemSelected > 1000) {
+                    lastTimeOptionsItemSelected = SystemClock.elapsedRealtime()
+                    changeTheme(findViewById(id.theme))
+                }
             }
         }
         return super.onOptionsItemSelected(item)
