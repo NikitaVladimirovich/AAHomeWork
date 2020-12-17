@@ -80,9 +80,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
                 movieAdapter.moviePreviews = emptyList()
                 viewModel.refreshMoviesPreviews()
             }
-            errorView.reloadListener = {
-                viewModel.refreshMoviesPreviews()
-            }
+            errorView.reloadListener = { viewModel.refreshMoviesPreviews() }
         }
     }
 

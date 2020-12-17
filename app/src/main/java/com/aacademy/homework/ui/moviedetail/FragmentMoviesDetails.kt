@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -71,6 +72,7 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
                 setHasFixedSize(true)
                 adapter = castAdapter
             }
+            binding.errorView.reloadListener = { viewModel.getMovieDetail(movieId) }
         }
     }
 
@@ -102,17 +104,29 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
                     resource.data?.let {
                         if (it.movieDetail.id == movieId) {
                             binding.tvStoryline.text = it.movieDetail.overview
-                            if (it.actors.isNotEmpty())
+                            binding.tvStorylineHeader.visibility = VISIBLE
+                            binding.tvStoryline.visibility = VISIBLE
+                            binding.rvCast.visibility = VISIBLE
+                            if (it.actors.isNotEmpty()) {
+                                binding.tvCast.visibility = VISIBLE
                                 castAdapter.actors = it.actors
-                            else
+                            } else
                                 binding.tvCast.visibility = GONE
                         }
                     }
                 }
                 ERROR -> {
                     hideLoading()
+                    binding.tvStorylineHeader.visibility = GONE
+                    binding.tvStoryline.visibility = GONE
+                    binding.rvCast.visibility = GONE
+                    binding.tvCast.visibility = GONE
+                    binding.errorView.visibility = VISIBLE
                 }
-                LOADING -> showLoading()
+                LOADING -> {
+                    binding.errorView.visibility = GONE
+                    showLoading()
+                }
             }
         }
     }

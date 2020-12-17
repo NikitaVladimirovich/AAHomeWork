@@ -196,6 +196,13 @@
                 app:layout_constraintTop_toBottomOf="@id/tvCast"
                 app:spanCount="4"
                 tools:listitem="@layout/layout_cast_item" />
+
+            <com.aacademy.homework.ui.views.ErrorView
+                android:id="@+id/error_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvStorylineHeader" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
