@@ -80,6 +80,9 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
                 movieAdapter.moviePreviews = emptyList()
                 viewModel.refreshMoviesPreviews()
             }
+            errorView.reloadListener = {
+                viewModel.refreshMoviesPreviews()
+            }
         }
     }
 
@@ -93,15 +96,15 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
                         binding.swipeRefresh.isRefreshing = false
                         movieAdapter.moviePreviews = resource.data!!
                         if (resource.data.isNullOrEmpty())
-                            binding.emptyView.root.visibility = VISIBLE
+                            binding.emptyView.visibility = VISIBLE
                     }
                     ERROR -> {
                         hideLoading()
-                        binding.emptyView.root.visibility = VISIBLE
-                        binding.rvMovies.visibility = GONE
+                        binding.errorView.visibility = VISIBLE
                     }
                     LOADING -> {
-                        binding.emptyView.root.visibility = GONE
+                        binding.emptyView.visibility = GONE
+                        binding.errorView.visibility = GONE
                         if (!binding.swipeRefresh.isRefreshing) {
                             showLoading()
                         }

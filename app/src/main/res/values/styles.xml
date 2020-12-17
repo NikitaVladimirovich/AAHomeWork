@@ -134,4 +134,22 @@
         <item name="android:textSize">@dimen/textSizeNothingFound</item>
         <item name="android:gravity">center</item>
     </style>
+
+    <style name="ReloadButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="shapeAppearanceOverlay">@style/MaterialView.Circle.Appearance</item>
+        <item name="backgroundTint">?attr/colorAccentPink</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="strokeWidth">0dp</item>
+        <item name="fontFamily">sans-serif-black</item>
+        <item name="android:layout_marginTop">@dimen/space5x</item>
+        <item name="android:textSize">@dimen/textSizeMain</item>
+        <item name="android:padding">@dimen/space3x</item>
+    </style>
+
+    <style name="MaterialView.Circle.Appearance" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

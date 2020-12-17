@@ -58,10 +58,18 @@
                 tools:itemCount="1"
                 tools:listitem="@layout/layout_movie_item" />
 
-            <include
+            <com.aacademy.homework.ui.views.EmptyView
                 android:id="@+id/empty_view"
-                layout="@layout/layout_empty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:visibility="gone" />
+
+            <com.aacademy.homework.ui.views.ErrorView
+                android:id="@+id/error_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+
         </FrameLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>
