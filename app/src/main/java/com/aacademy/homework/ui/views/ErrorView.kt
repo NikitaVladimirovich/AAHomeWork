@@ -6,24 +6,16 @@ import android.view.LayoutInflater
 import android.widget.RelativeLayout
 import com.aacademy.homework.databinding.LayoutErrorBinding
 
-class ErrorView : RelativeLayout {
+class ErrorView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : RelativeLayout(context, attrs, defStyleAttr) {
 
     private val binding = LayoutErrorBinding.inflate(LayoutInflater.from(context), this, true)
     var reloadListener: (() -> Unit)? = null
 
-    constructor(context: Context) : super(context) {
-        init()
-    }
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        init()
-    }
-
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        init()
-    }
-
-    private fun init() {
+    init {
         binding.reload.setOnClickListener { reloadListener?.invoke() }
     }
 }

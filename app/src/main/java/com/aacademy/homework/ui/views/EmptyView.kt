@@ -6,21 +6,13 @@ import android.view.LayoutInflater
 import android.widget.RelativeLayout
 import com.aacademy.homework.databinding.LayoutEmptyBinding
 
-class EmptyView : RelativeLayout {
+class EmptyView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : RelativeLayout(context, attrs, defStyleAttr) {
 
-    constructor(context: Context) : super(context) {
-        init()
-    }
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        init()
-    }
-
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        init()
-    }
-
-    private fun init() {
+    init {
         LayoutEmptyBinding.inflate(LayoutInflater.from(context), this, true)
     }
 }
