@@ -200,6 +200,7 @@
             <com.aacademy.homework.ui.views.ErrorView
                 android:id="@+id/error_view"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tvStorylineHeader" />

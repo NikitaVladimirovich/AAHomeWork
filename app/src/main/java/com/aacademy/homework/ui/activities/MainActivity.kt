@@ -11,6 +11,7 @@ import com.aacademy.homework.R.id
 import com.aacademy.homework.databinding.ActivityMainBinding
 import com.aacademy.homework.ui.moviedetail.FragmentMoviesDetails
 import com.aacademy.homework.ui.movielist.FragmentMoviesList
+import com.aacademy.homework.utils.extensions.open
 import com.aacademy.homework.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,11 +24,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        if (savedInstanceState == null)
-            supportFragmentManager
-                .beginTransaction()
-                .add(id.flContainer, FragmentMoviesList.newInstance(), FRAGMENT_TAG)
-                .commit()
+        savedInstanceState ?: supportFragmentManager.open {
+            add(id.flContainer, FragmentMoviesList.newInstance(), FRAGMENT_TAG)
+        }
     }
 
     override fun onBackPressed() {
@@ -62,17 +61,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun openMovieDetail(movieId: Long) {
-        supportFragmentManager
-            .beginTransaction()
-            .setCustomAnimations(
+        supportFragmentManager.open {
+            setCustomAnimations(
                 anim.fade_in,
                 anim.fade_out,
                 anim.fade_in,
                 anim.fade_out
             )
-            .add(id.flContainer, FragmentMoviesDetails.newInstance(movieId), FRAGMENT_TAG)
-            .addToBackStack(null)
-            .commit()
+            add(id.flContainer, FragmentMoviesDetails.newInstance(movieId), FRAGMENT_TAG)
+            addToBackStack(null)
+        }
     }
 
     companion object {
