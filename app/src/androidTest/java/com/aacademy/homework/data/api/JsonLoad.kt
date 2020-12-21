@@ -1,9 +1,9 @@
 package com.aacademy.homework.data.api
 
 import android.content.Context
+import com.aacademy.homework.data.api.model.JsonMovie
 import com.aacademy.homework.data.model.Actor
 import com.aacademy.homework.data.model.Genre
-import com.aacademy.homework.data.model.JsonMovie
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.decodeFromString

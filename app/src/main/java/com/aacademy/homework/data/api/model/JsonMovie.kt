@@ -1,4 +1,4 @@
-package com.aacademy.homework.data.model
+package com.aacademy.homework.data.api.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

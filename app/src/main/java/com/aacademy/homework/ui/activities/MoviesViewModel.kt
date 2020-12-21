@@ -44,7 +44,7 @@ class MoviesViewModel @ViewModelInject constructor(
     fun refreshMoviesPreviews() {
         viewModelScope.launch(Dispatchers.IO + moviesExceptionHandler) {
             _moviesPreview.postValue(Resource.loading())
-            _moviesPreview.postValue(Resource.success(dataRepository.getAllPreviews(false)))
+            _moviesPreview.postValue(Resource.success(dataRepository.loadAllPreviews()))
         }
     }
 
