@@ -12,6 +12,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.Collections
 
 class MoviesViewModel : ViewModel() {
 
@@ -43,5 +44,20 @@ class MoviesViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
             LocalSource.setMovieLiked(id, isLiked)
         }
+    }
+
+    fun swapItems(fromPosition: Int, toPosition: Int) {
+        val newMovies = moviesPreview.value!!.toMutableList()
+        if (fromPosition < toPosition) {
+            for (i in fromPosition until toPosition) {
+                Collections.swap(newMovies, i, i + 1)
+            }
+        } else {
+            for (i in fromPosition downTo (toPosition + 1)) {
+                Collections.swap(newMovies, i, i - 1)
+            }
+        }
+
+        _moviesPreview.postValue(newMovies)
     }
 }

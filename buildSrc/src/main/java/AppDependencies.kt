@@ -48,6 +48,10 @@ object AppDependencies {
     //Timber
     private const val timber = "com.jakewharton.timber:timber:${Versions.timber_version}"
 
+    // Preference KTX
+    private const val preferenceKtx =
+        "androidx.preference:preference-ktx:${Versions.preference_ktx_version}"
+
     //Test libs
     private const val junit = "junit:junit:${Versions.junit}"
     private const val extJUnit = "androidx.test.ext:junit:${Versions.extJunit}"
@@ -70,6 +74,7 @@ object AppDependencies {
         add(leakcanary)
         add(serialization)
         add(timber)
+        add(preferenceKtx)
     }
 
     val kaptLibraries = arrayListOf<String>().apply {

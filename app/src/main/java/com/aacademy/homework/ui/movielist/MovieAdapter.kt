@@ -14,7 +14,6 @@ import com.aacademy.homework.ui.movielist.MovieAdapter.MovieViewHolder
 import com.aacademy.homework.ui.movielist.MovieItemAnimator.LikeViewHolder
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import java.util.Collections
 
 class MovieAdapter(
     val glide: RequestManager,
@@ -47,21 +46,6 @@ class MovieAdapter(
     }
 
     override fun getItemCount(): Int = moviePreviews.size
-
-    fun swapItems(fromPosition: Int, toPosition: Int) {
-        val newMovies = moviePreviews.toMutableList()
-        if (fromPosition < toPosition) {
-            for (i in fromPosition until toPosition) {
-                Collections.swap(newMovies, i, i + 1)
-            }
-        } else {
-            for (i in fromPosition downTo (toPosition + 1)) {
-                Collections.swap(newMovies, i, i - 1)
-            }
-        }
-
-        moviePreviews = newMovies
-    }
 
     fun insertItem(movie: MoviePreviewWithGenres) {
         val newMovies = moviePreviews.toMutableList()

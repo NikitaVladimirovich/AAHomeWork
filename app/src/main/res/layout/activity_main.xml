@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.aacademy.homework.ui.views.FitSystemWindowsLayout android:id="@+id/flContainer"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
-    tools:context=".ui.activities.MainActivity" />
+    tools:context=".ui.activities.MainActivity">
+
+    <ImageView
+        android:id="@+id/screenshot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/screenshot" />
+
+    <com.aacademy.homework.ui.views.FitSystemWindowsLayout
+        android:id="@+id/flContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</FrameLayout>

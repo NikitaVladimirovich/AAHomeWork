@@ -7,6 +7,6 @@
     <string name="minFormat">%d min</string>
     <string name="moviesList">Movies list</string>
     <string name="likeAnim">likeAnim</string>
-    <string name="add">Add</string>
-    <string name="remove">Remove</string>
+    <string name="theme">Theme</string>
+    <string name="screenshot">screenshot</string>
 </resources>
