@@ -1,4 +1,4 @@
-package com.aacademy.homework.utils.extensions
+package com.aacademy.homework.extensions
 
 import android.graphics.drawable.Drawable
 import com.bumptech.glide.RequestBuilder

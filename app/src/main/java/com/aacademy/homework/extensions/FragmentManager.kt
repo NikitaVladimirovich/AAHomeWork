@@ -1,4 +1,4 @@
-package com.aacademy.homework.utils.extensions
+package com.aacademy.homework.extensions
 
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction

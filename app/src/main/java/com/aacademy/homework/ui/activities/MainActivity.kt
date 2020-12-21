@@ -9,10 +9,10 @@ import androidx.appcompat.widget.Toolbar
 import com.aacademy.homework.R.anim
 import com.aacademy.homework.R.id
 import com.aacademy.homework.databinding.ActivityMainBinding
+import com.aacademy.homework.extensions.open
+import com.aacademy.homework.extensions.viewBinding
 import com.aacademy.homework.ui.moviedetail.FragmentMoviesDetails
 import com.aacademy.homework.ui.movielist.FragmentMoviesList
-import com.aacademy.homework.utils.extensions.open
-import com.aacademy.homework.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

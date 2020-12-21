@@ -1,4 +1,4 @@
-package com.aacademy.homework.utils.extensions
+package com.aacademy.homework.extensions
 
 import androidx.fragment.app.Fragment
 import com.aacademy.homework.ui.activities.MainActivity

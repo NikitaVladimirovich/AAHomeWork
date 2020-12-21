@@ -1,4 +1,4 @@
-package com.aacademy.homework.utils
+package com.aacademy.homework.foundations
 
 data class Resource<out T>(val status: Status, val data: T?, val message: String?) {
 

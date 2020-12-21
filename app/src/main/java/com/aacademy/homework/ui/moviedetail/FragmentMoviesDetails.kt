@@ -11,15 +11,15 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aacademy.homework.R
 import com.aacademy.homework.databinding.FragmentMoviesDetailsBinding
+import com.aacademy.homework.extensions.hideLoading
+import com.aacademy.homework.extensions.loadImage
+import com.aacademy.homework.extensions.showLoading
+import com.aacademy.homework.extensions.viewBinding
+import com.aacademy.homework.foundations.Status.ERROR
+import com.aacademy.homework.foundations.Status.LOADING
+import com.aacademy.homework.foundations.Status.SUCCESS
 import com.aacademy.homework.ui.activities.MainActivity
 import com.aacademy.homework.ui.activities.MoviesViewModel
-import com.aacademy.homework.utils.Status.ERROR
-import com.aacademy.homework.utils.Status.LOADING
-import com.aacademy.homework.utils.Status.SUCCESS
-import com.aacademy.homework.utils.extensions.hideLoading
-import com.aacademy.homework.utils.extensions.loadImage
-import com.aacademy.homework.utils.extensions.showLoading
-import com.aacademy.homework.utils.viewBinding
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 

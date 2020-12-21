@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.aacademy.homework.data.DataRepository
 import com.aacademy.homework.data.model.MovieDetailWithActors
 import com.aacademy.homework.data.model.MoviePreviewWithGenres
-import com.aacademy.homework.utils.Resource
+import com.aacademy.homework.foundations.Resource
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aacademy.homework.R.string
 import com.aacademy.homework.data.model.MoviePreviewWithGenres
 import com.aacademy.homework.databinding.LayoutMovieItemBinding
+import com.aacademy.homework.extensions.loadImage
 import com.aacademy.homework.ui.movielist.MovieAdapter.MovieViewHolder
 import com.aacademy.homework.ui.movielist.MovieItemAnimator.LikeViewHolder
-import com.aacademy.homework.utils.extensions.loadImage
 import com.bumptech.glide.RequestManager
 import java.util.Collections
 
