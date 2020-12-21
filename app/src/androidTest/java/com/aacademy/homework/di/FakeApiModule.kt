@@ -1,11 +1,7 @@
 package com.aacademy.homework.di
 
-import com.aacademy.homework.data.DataRepository
-import com.aacademy.homework.data.DataRepositoryImpl
 import com.aacademy.homework.data.api.ApiSource
 import com.aacademy.homework.data.api.FakeApiSourceImpl
-import com.aacademy.homework.data.local.LocalSource
-import com.aacademy.homework.data.local.LocalSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,14 +11,8 @@ import kotlinx.serialization.ExperimentalSerializationApi
 @ExperimentalSerializationApi
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class AppModule {
-
-    @Binds
-    abstract fun bindDataRepository(dataRepositoryImpl: DataRepositoryImpl): DataRepository
+abstract class FakeApiModule {
 
     @Binds
     abstract fun bindApiSource(apiSourceImpl: FakeApiSourceImpl): ApiSource
-
-    @Binds
-    abstract fun bindLocalSource(localSourceImpl: LocalSourceImpl): LocalSource
 }
