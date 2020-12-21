@@ -13,14 +13,13 @@ import javax.inject.Inject
 class DataRepositoryImpl @Inject constructor(private val apiSource: ApiSource, private val localSource: LocalSource) :
     DataRepository {
 
-    override suspend fun getAllPreviews(withCache: Boolean): List<MoviePreviewWithGenres> =
-        if (withCache) localSource.getAllMoviePreviews()
+    override suspend fun getAllPreviews(): List<MoviePreviewWithGenres> =
+        localSource.getAllMoviePreviews()
             .let {
-                if (it.isNotEmpty()) return it else loadPreviewsWithCaching()
+                if (it.isNotEmpty()) return it else loadAllPreviews()
             }
-        else loadPreviewsWithCaching()
 
-    private suspend fun loadPreviewsWithCaching(): List<MoviePreviewWithGenres> {
+    override suspend fun loadAllPreviews(): List<MoviePreviewWithGenres> {
         Thread.sleep(5000)
         val jsonMovies = apiSource.getMovies()
         val genres = apiSource.getGenres().associateBy { genre -> genre.id }

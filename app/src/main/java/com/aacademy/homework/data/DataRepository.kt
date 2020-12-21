@@ -5,7 +5,9 @@ import com.aacademy.homework.data.model.MoviePreviewWithGenres
 
 interface DataRepository {
 
-    suspend fun getAllPreviews(withCache: Boolean = true): List<MoviePreviewWithGenres>
+    suspend fun getAllPreviews(): List<MoviePreviewWithGenres>
+
+    suspend fun loadAllPreviews(): List<MoviePreviewWithGenres>
 
     suspend fun getMovieDetail(id: Long): MovieDetailWithActors
 
