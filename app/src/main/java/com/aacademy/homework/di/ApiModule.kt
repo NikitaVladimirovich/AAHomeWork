@@ -1,10 +1,8 @@
 package com.aacademy.homework.di
 
 import android.content.Context
-import androidx.room.Room
 import com.aacademy.homework.BuildConfig
 import com.aacademy.homework.data.api.MoviesService
-import com.aacademy.homework.data.local.dao.AppDatabase
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -25,14 +23,7 @@ import retrofit2.Retrofit
 @ExperimentalSerializationApi
 @Module
 @InstallIn(SingletonComponent::class)
-object DataModule {
-
-    @Provides
-    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
-        return Room.databaseBuilder(context, AppDatabase::class.java, "sqlite.db")
-            .fallbackToDestructiveMigration()
-            .build()
-    }
+object ApiModule {
 
     @Provides
     fun provideMoviesService(
