@@ -1,9 +1,12 @@
 package com.aacademy.homework.data.model
 
+import android.os.Parcelable
 import androidx.room.Embedded
 import androidx.room.Junction
 import androidx.room.Relation
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class MoviePreviewWithGenres(
     @Embedded val moviePreview: MoviePreview,
     @Relation(
@@ -17,4 +20,4 @@ data class MoviePreviewWithGenres(
         )
     )
     val genres: List<Genre>
-)
+) : Parcelable

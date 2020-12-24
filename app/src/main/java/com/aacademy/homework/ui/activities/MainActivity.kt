@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.aacademy.homework.R.anim
 import com.aacademy.homework.R.id
+import com.aacademy.homework.data.model.MoviePreviewWithGenres
 import com.aacademy.homework.databinding.ActivityMainBinding
 import com.aacademy.homework.extensions.open
 import com.aacademy.homework.extensions.viewBinding
@@ -60,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         binding.progressView.visibility = GONE
     }
 
-    fun openMovieDetail(movieId: Long) {
+    fun openMovieDetail(moviePreview: MoviePreviewWithGenres) {
         supportFragmentManager.open {
             setCustomAnimations(
                 anim.fade_in,
@@ -68,7 +69,7 @@ class MainActivity : AppCompatActivity() {
                 anim.fade_in,
                 anim.fade_out
             )
-            add(id.flContainer, FragmentMoviesDetails.newInstance(movieId), FRAGMENT_TAG)
+            add(id.flContainer, FragmentMoviesDetails.newInstance(moviePreview), FRAGMENT_TAG)
             addToBackStack(null)
         }
     }

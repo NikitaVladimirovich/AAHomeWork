@@ -19,7 +19,7 @@ import java.util.Collections
 class MovieAdapter(
     private val glide: RequestManager,
     private val resources: Resources,
-    private val itemClickListener: (Long) -> Unit,
+    private val itemClickListener: (MoviePreviewWithGenres) -> Unit,
     private val likeStateChangeListener: (Long, Boolean) -> Unit
 ) : RecyclerView.Adapter<MovieViewHolder>() {
 
@@ -108,7 +108,7 @@ class MovieAdapter(
             binding.llLike.setOnClickListener {
                 binding.cbLike.isChecked = !moviePreview.moviePreview.isLiked
             }
-            binding.root.setOnClickListener { itemClickListener(moviePreview.moviePreview.id) }
+            binding.root.setOnClickListener { itemClickListener(moviePreview) }
         }
 
         override val ivLike: View
