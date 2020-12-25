@@ -45,7 +45,7 @@ class FragmentMoviesDetails @Inject constructor() : Fragment(R.layout.fragment_m
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
+        menu.findItem(R.id.theme).isVisible = false
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -58,6 +58,8 @@ class FragmentMoviesDetails @Inject constructor() : Fragment(R.layout.fragment_m
                     setDisplayShowHomeEnabled(true)
                 }
             }
+
+            toolbar.menu.clear()
 
             castAdapter.setHasStableIds(true)
             rvCast.apply {

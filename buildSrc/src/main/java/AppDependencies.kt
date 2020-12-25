@@ -50,6 +50,10 @@ object AppDependencies {
     // Timber
     private const val timber = "com.jakewharton.timber:timber:${Versions.timber_version}"
 
+    // Preference KTX
+    private const val preferenceKtx =
+        "androidx.preference:preference-ktx:${Versions.preference_ktx_version}"
+
     // Retrofit
     private const val retrofit2 = "com.squareup.retrofit2:retrofit:${Versions.retrofit_version}"
     private const val converterSerialization =
@@ -91,6 +95,7 @@ object AppDependencies {
         add(leakcanary)
         add(serialization)
         add(timber)
+        add(preferenceKtx)
         add(retrofit2)
         add(converterSerialization)
         add(okhttp3)

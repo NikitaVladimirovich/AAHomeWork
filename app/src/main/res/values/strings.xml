@@ -7,9 +7,9 @@
     <string name="minFormat">%d min</string>
     <string name="moviesList">Movies list</string>
     <string name="likeAnim">likeAnim</string>
-    <string name="add">Add</string>
-    <string name="remove">Remove</string>
     <string name="something_went_wrong">Something went wrong!</string>
     <string name="reload">Reload</string>
     <string name="nothing_found">Nothing found!</string>
+    <string name="theme">Theme</string>
+    <string name="screenshot">screenshot</string>
 </resources>

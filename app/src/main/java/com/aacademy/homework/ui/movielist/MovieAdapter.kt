@@ -52,21 +52,6 @@ class MovieAdapter(
 
     override fun getItemCount(): Int = moviePreviews.size
 
-    fun swapItems(fromPosition: Int, toPosition: Int) {
-        val newMovies = moviePreviews.toMutableList()
-        if (fromPosition < toPosition) {
-            for (i in fromPosition until toPosition) {
-                Collections.swap(newMovies, i, i + 1)
-            }
-        } else {
-            for (i in fromPosition downTo (toPosition + 1)) {
-                Collections.swap(newMovies, i, i - 1)
-            }
-        }
-
-        moviePreviews = newMovies
-    }
-
     fun insertItem(movie: MoviePreviewWithGenres) {
         val newMovies = moviePreviews.toMutableList()
         newMovies.add(movie)
