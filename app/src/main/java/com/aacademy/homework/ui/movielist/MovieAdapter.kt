@@ -14,7 +14,6 @@ import com.aacademy.homework.extensions.loadImage
 import com.aacademy.homework.ui.movielist.MovieAdapter.MovieViewHolder
 import com.aacademy.homework.ui.movielist.MovieItemAnimator.LikeViewHolder
 import com.bumptech.glide.RequestManager
-import java.util.Collections
 
 class MovieAdapter(
     private val glide: RequestManager,
@@ -51,20 +50,6 @@ class MovieAdapter(
     }
 
     override fun getItemCount(): Int = moviePreviews.size
-
-    fun insertItem(movie: MoviePreviewWithGenres) {
-        val newMovies = moviePreviews.toMutableList()
-        newMovies.add(movie)
-        moviePreviews = newMovies
-    }
-
-    fun removeLastItem() {
-        if (moviePreviews.isEmpty()) return
-        val newMovies = moviePreviews.toMutableList()
-        newMovies.removeLast()
-        moviePreviews = newMovies
-        notifyItemRemoved(moviePreviews.size)
-    }
 
     override fun getItemId(position: Int): Long {
         return moviePreviews[position].moviePreview.id

@@ -11,14 +11,13 @@ import com.aacademy.homework.R
 import com.aacademy.homework.databinding.FragmentMoviesListBinding
 import com.aacademy.homework.extensions.hideLoading
 import com.aacademy.homework.extensions.showLoading
+import com.aacademy.homework.extensions.startCircularReveal
 import com.aacademy.homework.extensions.viewBinding
 import com.aacademy.homework.foundations.Status.ERROR
 import com.aacademy.homework.foundations.Status.LOADING
 import com.aacademy.homework.foundations.Status.SUCCESS
 import com.aacademy.homework.ui.activities.MainActivity
 import com.aacademy.homework.ui.views.DragManageAdapter
-import com.aacademy.homework.utils.extensions.startCircularReveal
-import com.aacademy.homework.utils.viewBinding
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -67,7 +66,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
                 adapter = movieAdapter
                 itemAnimator = MovieItemAnimator()
             }
-            ItemTouchHelper(DragManageAdapter(moveCallback = movieAdapter::swapItems)).attachToRecyclerView(rvMovies)
+            ItemTouchHelper(DragManageAdapter(moveCallback = viewModel::swapItems)).attachToRecyclerView(rvMovies)
             swipeRefresh.setOnRefreshListener {
                 movieAdapter.moviePreviews = emptyList()
                 viewModel.refreshMoviesPreviews()

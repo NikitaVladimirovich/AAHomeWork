@@ -7,18 +7,17 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
-import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_UNSPECIFIED
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
-import com.aacademy.homework.MyApp.Companion.THEME
+import com.aacademy.homework.MoviesApp.Companion.THEME
 import com.aacademy.homework.R
 import com.aacademy.homework.R.anim
 import com.aacademy.homework.R.id
@@ -29,7 +28,6 @@ import com.aacademy.homework.extensions.viewBinding
 import com.aacademy.homework.ui.moviedetail.FragmentMoviesDetails
 import com.aacademy.homework.ui.movielist.FragmentMoviesList
 import dagger.hilt.android.AndroidEntryPoint
-import com.aacademy.homework.utils.viewBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -45,7 +43,7 @@ class MainActivity : AppCompatActivity() {
     private var detailsFragmentOpened = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        delegate.localNightMode = prefs.getInt(THEME, MODE_NIGHT_UNSPECIFIED)
+        delegate.localNightMode = prefs.getInt(THEME, MODE_NIGHT_YES)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
