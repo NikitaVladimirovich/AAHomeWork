@@ -19,12 +19,14 @@ import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.logging.HttpLoggingInterceptor.Level
 import retrofit2.Converter
 import retrofit2.Retrofit
+import javax.inject.Singleton
 
 @ExperimentalSerializationApi
 @Module
 @InstallIn(SingletonComponent::class)
 object ApiModule {
 
+    @Singleton
     @Provides
     fun provideMoviesService(
         okHttpClient: OkHttpClient,
@@ -37,6 +39,7 @@ object ApiModule {
             .create(MoviesService::class.java)
     }
 
+    @Singleton
     @Provides
     fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
@@ -44,6 +47,7 @@ object ApiModule {
             .build()
     }
 
+    @Singleton
     @Provides
     fun provideConverterFactory(): Converter.Factory {
         return Json { ignoreUnknownKeys = true }.asConverterFactory("application/json".toMediaType())
