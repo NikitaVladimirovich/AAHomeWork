@@ -27,4 +27,3 @@ object PreferencesModule {
         return PreferenceManager.getDefaultSharedPreferences(applicationContext)
     }
 }
-
