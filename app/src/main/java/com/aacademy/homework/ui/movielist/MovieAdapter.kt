@@ -10,18 +10,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aacademy.homework.R.string
 import com.aacademy.homework.data.model.MoviePreviewWithGenres
 import com.aacademy.homework.databinding.LayoutMovieItemBinding
+import com.aacademy.homework.extensions.loadImage
 import com.aacademy.homework.ui.movielist.MovieAdapter.MovieViewHolder
 import com.aacademy.homework.ui.movielist.MovieItemAnimator.LikeViewHolder
 import com.bumptech.glide.RequestManager
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
 class MovieAdapter(
-    val glide: RequestManager,
-    val resources: Resources,
-    val itemClickListener: (Long) -> Unit,
-    val likeStateChangeListener: (Long, Boolean) -> Unit
-) :
-    RecyclerView.Adapter<MovieViewHolder>() {
+    private val glide: RequestManager,
+    private val resources: Resources,
+    private val itemClickListener: (MoviePreviewWithGenres) -> Unit,
+    private val likeStateChangeListener: (Long, Boolean) -> Unit
+) : RecyclerView.Adapter<MovieViewHolder>() {
 
     private val diffCallback = object : DiffUtil.ItemCallback<MoviePreviewWithGenres>() {
         override fun areItemsTheSame(oldItem: MoviePreviewWithGenres, newItem: MoviePreviewWithGenres): Boolean =
@@ -37,29 +36,20 @@ class MovieAdapter(
         get() = differ.currentList
         set(value) = differ.submitList(value)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder = MovieViewHolder(
-        LayoutMovieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-    )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder =
+        MovieViewHolder(
+            LayoutMovieItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.bind(moviePreview = moviePreviews[position])
+        holder.bind(moviePreviews[position])
     }
 
     override fun getItemCount(): Int = moviePreviews.size
-
-    fun insertItem(movie: MoviePreviewWithGenres) {
-        val newMovies = moviePreviews.toMutableList()
-        newMovies.add(movie)
-        moviePreviews = newMovies
-    }
-
-    fun removeLastItem() {
-        if (moviePreviews.isEmpty()) return
-        val newMovies = moviePreviews.toMutableList()
-        newMovies.removeLast()
-        moviePreviews = newMovies
-        notifyItemRemoved(moviePreviews.size)
-    }
 
     override fun getItemId(position: Int): Long {
         return moviePreviews[position].moviePreview.id
@@ -69,8 +59,7 @@ class MovieAdapter(
 
         fun bind(moviePreview: MoviePreviewWithGenres) {
             binding.tvName.text = moviePreview.moviePreview.title
-            glide.load(moviePreview.moviePreview.poster)
-                .transition(DrawableTransitionOptions.withCrossFade())
+            glide.loadImage(moviePreview.moviePreview.poster)
                 .into(binding.ivCover)
             binding.tvAgeLimit.text =
                 resources.getString(string.ageLimitFormat).format(moviePreview.moviePreview.ageLimit)
@@ -89,7 +78,7 @@ class MovieAdapter(
             binding.llLike.setOnClickListener {
                 binding.cbLike.isChecked = !moviePreview.moviePreview.isLiked
             }
-            binding.root.setOnClickListener { itemClickListener(moviePreview.moviePreview.id) }
+            binding.root.setOnClickListener { itemClickListener(moviePreview) }
         }
 
         override val ivLike: View

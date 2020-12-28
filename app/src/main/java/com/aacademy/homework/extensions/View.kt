@@ -1,4 +1,4 @@
-package com.aacademy.homework.utils.extensions
+package com.aacademy.homework.extensions
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter

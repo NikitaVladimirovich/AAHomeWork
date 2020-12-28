@@ -1,4 +1,4 @@
-package com.aacademy.homework.utils
+package com.aacademy.homework.extensions
 
 import android.view.LayoutInflater
 import android.view.View

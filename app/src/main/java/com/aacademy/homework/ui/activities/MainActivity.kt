@@ -8,44 +8,49 @@ import android.os.SystemClock
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
-import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_UNSPECIFIED
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
-import androidx.preference.PreferenceManager
-import com.aacademy.homework.MyApp.Companion.THEME
 import com.aacademy.homework.R
 import com.aacademy.homework.R.anim
 import com.aacademy.homework.R.id
+import com.aacademy.homework.data.model.MoviePreviewWithGenres
+import com.aacademy.homework.data.preferences.MyPreference
 import com.aacademy.homework.databinding.ActivityMainBinding
+import com.aacademy.homework.extensions.open
+import com.aacademy.homework.extensions.viewBinding
 import com.aacademy.homework.ui.moviedetail.FragmentMoviesDetails
 import com.aacademy.homework.ui.movielist.FragmentMoviesList
-import com.aacademy.homework.utils.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 import kotlin.math.sqrt
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val prefs by lazy { PreferenceManager.getDefaultSharedPreferences(applicationContext) }
+    @Inject
+    lateinit var prefs: MyPreference
 
     private val binding by viewBinding(ActivityMainBinding::inflate)
 
     private var detailsFragmentOpened = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        delegate.localNightMode = prefs.getInt(THEME, MODE_NIGHT_UNSPECIFIED)
         super.onCreate(savedInstanceState)
+        delegate.localNightMode = prefs.appTheme
         setContentView(binding.root)
 
-        savedInstanceState ?: supportFragmentManager
-            .beginTransaction()
-            .add(id.flContainer, FragmentMoviesList.newInstance(), FRAGMENT_TAG)
-            .commit()
+        savedInstanceState ?: supportFragmentManager.open {
+            add(id.flContainer, FragmentMoviesList.newInstance(), FRAGMENT_TAG)
+        }
     }
 
     override fun onBackPressed() {
@@ -81,6 +86,14 @@ class MainActivity : AppCompatActivity() {
     override fun setSupportActionBar(toolbar: Toolbar?) {
         super.setSupportActionBar(toolbar)
         title = ""
+    }
+
+    fun showLoading() {
+        binding.progressView.visibility = VISIBLE
+    }
+
+    fun hideLoading() {
+        binding.progressView.visibility = GONE
     }
 
     private fun changeTheme(view: View) {
@@ -121,24 +134,20 @@ class MainActivity : AppCompatActivity() {
                     .commit()
             }
 
-            prefs.edit().putInt(THEME, delegate.localNightMode).apply()
+            prefs.appTheme = delegate.localNightMode
         }
     }
 
-    fun openMovieDetail(movieId: Long) {
-        if (!detailsFragmentOpened) {
-            detailsFragmentOpened = true
-            supportFragmentManager
-                .beginTransaction()
-                .setCustomAnimations(
-                    anim.fade_in,
-                    anim.fade_out,
-                    anim.fade_in,
-                    anim.fade_out
-                )
-                .add(id.flContainer, FragmentMoviesDetails.newInstance(movieId), FRAGMENT_TAG)
-                .addToBackStack(null)
-                .commit()
+    fun openMovieDetail(moviePreview: MoviePreviewWithGenres) {
+        supportFragmentManager.open {
+            setCustomAnimations(
+                anim.fade_in,
+                anim.fade_out,
+                anim.fade_in,
+                anim.fade_out
+            )
+            add(id.flContainer, FragmentMoviesDetails.newInstance(moviePreview), FRAGMENT_TAG)
+            addToBackStack(null)
         }
     }
 
