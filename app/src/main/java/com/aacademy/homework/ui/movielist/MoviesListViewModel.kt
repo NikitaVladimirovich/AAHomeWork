@@ -8,14 +8,15 @@ import androidx.lifecycle.viewModelScope
 import com.aacademy.homework.data.DataRepository
 import com.aacademy.homework.data.model.MoviePreview
 import com.aacademy.homework.foundations.Resource
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.Collections
 
 class MoviesListViewModel @ViewModelInject constructor(
-    private val dataRepository: DataRepository
+    private val dataRepository: DataRepository,
+    private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _moviesPreview = MutableLiveData<Resource<List<MoviePreview>>>()
@@ -27,21 +28,21 @@ class MoviesListViewModel @ViewModelInject constructor(
     }
 
     init {
-        viewModelScope.launch(Dispatchers.IO + moviesExceptionHandler) {
+        viewModelScope.launch(dispatcher + moviesExceptionHandler) {
             _moviesPreview.postValue(Resource.loading())
             _moviesPreview.postValue(Resource.success(dataRepository.getAllPreviews()))
         }
     }
 
     fun refreshMoviesPreviews() {
-        viewModelScope.launch(Dispatchers.IO + moviesExceptionHandler) {
+        viewModelScope.launch(dispatcher + moviesExceptionHandler) {
             _moviesPreview.postValue(Resource.loading())
             _moviesPreview.postValue(Resource.success(dataRepository.loadAllPreviews()))
         }
     }
 
     fun setMovieLiked(id: Long, isLiked: Boolean) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatcher) {
             try {
                 dataRepository.setMovieLiked(id, isLiked)
             } catch (thr: Throwable) {

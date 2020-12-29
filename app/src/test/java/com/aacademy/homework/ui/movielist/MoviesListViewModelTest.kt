@@ -1,19 +1,15 @@
-package com.aacademy.homework.ui.moviedetail
+package com.aacademy.homework.ui.movielist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import androidx.lifecycle.SavedStateHandle
 import com.aacademy.homework.MainCoroutineScopeRule
 import com.aacademy.homework.data.DataRepository
-import com.aacademy.homework.data.model.MovieDetail
 import com.aacademy.homework.data.model.MoviePreview
 import com.aacademy.homework.foundations.Resource
-import com.aacademy.homework.ui.moviedetail.FragmentMoviesDetails.Companion.MOVIE_PREVIEW_ARGUMENT
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockkClass
 import io.mockk.verify
 import io.mockk.verifyOrder
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -24,7 +20,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class MovieDetailViewModelTest {
+class MoviesListViewModelTest {
 
     @get:Rule
     val coroutineScope = MainCoroutineScopeRule()
@@ -32,47 +28,41 @@ class MovieDetailViewModelTest {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var viewModel: MovieDetailViewModel
+    private lateinit var viewModel: MoviesListViewModel
 
     @MockK
     private lateinit var dataRepository: DataRepository
 
-    private lateinit var savedStateHandle: SavedStateHandle
-
     @MockK
-    lateinit var moviesObserverMockito: Observer<Resource<MovieDetail>>
+    lateinit var moviesObserverMockito: Observer<Resource<List<MoviePreview>>>
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
         every { moviesObserverMockito.onChanged(any()) } answers {}
-        savedStateHandle = SavedStateHandle()
-        val moviePreview = mockkClass(MoviePreview::class)
-        every { moviePreview.id } returns 0
-        savedStateHandle.set(MOVIE_PREVIEW_ARGUMENT, moviePreview)
-        coEvery { dataRepository.getMovieDetail(any()) } throws Exception()
-        viewModel = MovieDetailViewModel(dataRepository, savedStateHandle, TestCoroutineDispatcher())
-        viewModel.movieDetail.observeForever(moviesObserverMockito)
+        coEvery { dataRepository.getAllPreviews() } returns emptyList()
+        viewModel = MoviesListViewModel(dataRepository, TestCoroutineDispatcher())
+        viewModel.moviesPreview.observeForever(moviesObserverMockito)
     }
 
     @After
     fun clear() {
-        viewModel.movieDetail.removeObserver(moviesObserverMockito)
+        viewModel.moviesPreview.removeObserver(moviesObserverMockito)
     }
 
     @Test
-    fun `should return error after init`() {
+    fun `should return empty data after init`() {
         verify {
-            moviesObserverMockito.onChanged(Resource.error(""))
+            moviesObserverMockito.onChanged(Resource.success(emptyList()))
         }
     }
 
     @Test
     fun `should return error when repository throw exception`() {
         val message = "Test"
-        coEvery { dataRepository.getMovieDetail(any()) } throws Exception(message)
+        coEvery { dataRepository.loadAllPreviews() } throws Exception(message)
 
-        viewModel.reloadData()
+        viewModel.refreshMoviesPreviews()
         verifyOrder {
             moviesObserverMockito.onChanged(Resource.loading())
             moviesObserverMockito.onChanged(Resource.error(message))
@@ -81,13 +71,13 @@ class MovieDetailViewModelTest {
 
     @Test
     fun `should return success when repository return data`() {
-        val data = mockkClass(MovieDetail::class)
-        coEvery { dataRepository.getMovieDetail(any()) } returns data
+        coEvery { dataRepository.loadAllPreviews() } returns emptyList()
 
-        viewModel.reloadData()
+        viewModel.refreshMoviesPreviews()
         verifyOrder {
+            moviesObserverMockito.onChanged(Resource.success(emptyList()))
             moviesObserverMockito.onChanged(Resource.loading())
-            moviesObserverMockito.onChanged(Resource.success(data))
+            moviesObserverMockito.onChanged(Resource.success(emptyList()))
         }
     }
 }
