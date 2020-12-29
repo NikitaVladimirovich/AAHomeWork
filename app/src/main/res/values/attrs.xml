@@ -22,4 +22,5 @@
     <attr name="colorMinText" format="reference" />
     <attr name="colorMovieMaskStart" format="reference" />
     <attr name="colorMovieMaskEnd" format="reference" />
+    <attr name="colorProgressTint" format="reference" />
 </resources>

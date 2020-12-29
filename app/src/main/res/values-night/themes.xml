@@ -12,6 +12,8 @@
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowBackground">@color/colorBackground</item>
+        <item name="android:windowEnableSplitTouch">false</item>
+        <item name="android:splitMotionEvents">false</item>
 
         <item name="colorBackground">@color/colorBackground</item>
         <item name="colorCardStroke">@color/colorCardStroke</item>
@@ -24,5 +26,6 @@
         <item name="colorMinText">@color/colorMinText</item>
         <item name="colorMovieMaskStart">@color/colorMovieMaskStart</item>
         <item name="colorMovieMaskEnd">@color/colorMovieMaskEnd</item>
+        <item name="colorProgressTint">@color/colorProgressTint</item>
     </style>
 </resources>

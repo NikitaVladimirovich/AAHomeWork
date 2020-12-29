@@ -6,9 +6,9 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import com.aacademy.homework.data.model.Genre
+import com.aacademy.homework.data.model.MovieGenre
 import com.aacademy.homework.data.model.MoviePreview
 import com.aacademy.homework.data.model.MoviePreviewWithGenres
-import com.aacademy.homework.data.model.MovieTag
 
 @Dao
 interface MoviePreviewDao {
@@ -26,7 +26,7 @@ interface MoviePreviewDao {
             insert(moviePreview.moviePreview)
             for (tag in moviePreview.genres) {
                 insert(tag)
-                insert(MovieTag(moviePreview.moviePreview.id, tag.id))
+                insert(MovieGenre(moviePreview.moviePreview.id, tag.id))
             }
         }
     }
@@ -38,5 +38,21 @@ interface MoviePreviewDao {
     suspend fun insert(genre: Genre)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(movieTag: MovieTag)
+    suspend fun insert(movieGenre: MovieGenre)
+
+    @Transaction
+    suspend fun clear() {
+        clearMoviesPreviews()
+        clearGenres()
+        clearMoviesGenres()
+    }
+
+    @Query("DELETE FROM moviepreview")
+    suspend fun clearMoviesPreviews()
+
+    @Query("DELETE FROM genre")
+    suspend fun clearGenres()
+
+    @Query("DELETE FROM moviegenre")
+    suspend fun clearMoviesGenres()
 }
