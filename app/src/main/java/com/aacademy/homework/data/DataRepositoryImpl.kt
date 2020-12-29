@@ -1,10 +1,15 @@
 package com.aacademy.homework.data
 
 import com.aacademy.homework.data.api.ApiSource
+import com.aacademy.homework.data.api.model.JsonMovie
 import com.aacademy.homework.data.local.LocalSource
+import com.aacademy.homework.data.model.Actor
+import com.aacademy.homework.data.model.Genre
 import com.aacademy.homework.data.model.MovieDetail
 import com.aacademy.homework.data.model.MoviePreview
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Inject
 
@@ -19,9 +24,17 @@ class DataRepositoryImpl @Inject constructor(private val apiSource: ApiSource, p
             }
 
     override suspend fun loadAllPreviews(): List<MoviePreview> {
-        delay(5000)
-        val jsonMovies = apiSource.getMovies()
-        val genres = apiSource.getGenres().associateBy { genre -> genre.id }
+        delay(2000)
+        var jsonMovies = listOf<JsonMovie>()
+        var genres = mapOf<Long, Genre>()
+        coroutineScope {
+            launch {
+                jsonMovies = apiSource.getMovies()
+            }
+            launch {
+                genres = apiSource.getGenres().associateBy { genre -> genre.id }
+            }
+        }
         val result = jsonMovies.map { jsonMovie ->
             MoviePreview(
                 id = jsonMovie.id,
@@ -45,8 +58,16 @@ class DataRepositoryImpl @Inject constructor(private val apiSource: ApiSource, p
         .let {
             if (it.isNotEmpty()) it.first() else {
                 delay(2000)
-                val jsonMovie = apiSource.getMovies().first { movie -> movie.id == id }
-                val actors = apiSource.getActors().associateBy { actor -> actor.id }
+                lateinit var jsonMovie: JsonMovie
+                var actors = mapOf<Long, Actor>()
+                coroutineScope {
+                    launch {
+                        jsonMovie = apiSource.getMovies().first { movie -> movie.id == id }
+                    }
+                    launch {
+                        actors = apiSource.getActors().associateBy { actor -> actor.id }
+                    }
+                }
                 val result = MovieDetail(
                     id = jsonMovie.id,
                     overview = jsonMovie.overview,
