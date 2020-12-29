@@ -9,7 +9,8 @@ The branch was created to perform the tasks of [Android Academy Fundamentals](ht
 | :three: | [Here](https://www.youtube.com/watch?v=Gb71h-cEUZs) | :+1:
 | :four: | [Here](https://www.youtube.com/watch?v=7WR0d4bsIIc) | :+1:
 | :five: | [Here](https://www.youtube.com/watch?v=iWiSQydw1qk) | :+1:
-| :six: | [Here](https://www.youtube.com/watch?v=7QEW_YUyzBY) | :-1:
+| :six: | [Here](https://www.youtube.com/watch?v=ZOIuKFLwJzA) | :+1:
+| :seven: | [Here](https://www.youtube.com/watch?v=7QEW_YUyzBY) | :-1:
 
 
 ## Program of the course:
