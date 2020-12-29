@@ -9,13 +9,19 @@ import com.aacademy.homework.data.model.MovieDetail
 import com.aacademy.homework.data.model.MoviePreview
 import com.aacademy.homework.foundations.Resource
 import com.aacademy.homework.ui.moviedetail.FragmentMoviesDetails.Companion.MOVIE_PREVIEW_ARGUMENT
-import io.mockk.*
+import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockkClass
+import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
-import org.junit.*
-import org.junit.runner.*
-import org.mockito.junit.*
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.junit.MockitoJUnitRunner
 
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
