@@ -12,14 +12,15 @@ import com.aacademy.homework.data.model.MovieDetailWithActors
 import com.aacademy.homework.data.model.MoviePreviewWithGenres
 import com.aacademy.homework.foundations.Resource
 import com.aacademy.homework.ui.moviedetail.FragmentMoviesDetails.Companion.MOVIE_PREVIEW_ARGUMENT
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class MovieDetailViewModel @ViewModelInject constructor(
     private val dataRepository: DataRepository,
-    @Assisted private val savedStateHandle: SavedStateHandle
+    @Assisted private val savedStateHandle: SavedStateHandle,
+    private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     val moviePreview: MoviePreviewWithGenres = savedStateHandle.get(MOVIE_PREVIEW_ARGUMENT)!!
@@ -37,7 +38,7 @@ class MovieDetailViewModel @ViewModelInject constructor(
     }
 
     fun reloadData() {
-        viewModelScope.launch(Dispatchers.IO + detailExceptionHandler) {
+        viewModelScope.launch(dispatcher + detailExceptionHandler) {
             _movieDetail.postValue(Resource.loading())
             _movieDetail.postValue(Resource.success(dataRepository.getMovieDetail(moviePreview.moviePreview.id)))
         }
