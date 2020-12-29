@@ -3,10 +3,13 @@ package com.aacademy.homework.data.model
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.aacademy.homework.data.local.dao.Converters
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 @Entity
+@TypeConverters(Converters::class)
 data class MoviePreview(
     @PrimaryKey val id: Long,
     val title: String,
@@ -16,5 +19,6 @@ data class MoviePreview(
     val rating: Float,
     val reviews: Int,
     val runtime: Int,
+    val genres: List<Genre>,
     var isLiked: Boolean = false
 ) : Parcelable

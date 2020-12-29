@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aacademy.homework.data.DataRepository
-import com.aacademy.homework.data.model.MoviePreviewWithGenres
+import com.aacademy.homework.data.model.MoviePreview
 import com.aacademy.homework.foundations.Resource
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
@@ -18,8 +18,8 @@ class MoviesListViewModel @ViewModelInject constructor(
     private val dataRepository: DataRepository
 ) : ViewModel() {
 
-    private val _moviesPreview = MutableLiveData<Resource<List<MoviePreviewWithGenres>>>()
-    val moviesPreview: LiveData<Resource<List<MoviePreviewWithGenres>>> = _moviesPreview
+    private val _moviesPreview = MutableLiveData<Resource<List<MoviePreview>>>()
+    val moviesPreview: LiveData<Resource<List<MoviePreview>>> = _moviesPreview
 
     private val moviesExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         Timber.e(throwable)

@@ -8,8 +8,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aacademy.homework.data.DataRepository
-import com.aacademy.homework.data.model.MovieDetailWithActors
-import com.aacademy.homework.data.model.MoviePreviewWithGenres
+import com.aacademy.homework.data.model.MovieDetail
+import com.aacademy.homework.data.model.MoviePreview
 import com.aacademy.homework.foundations.Resource
 import com.aacademy.homework.ui.moviedetail.FragmentMoviesDetails.Companion.MOVIE_PREVIEW_ARGUMENT
 import kotlinx.coroutines.CoroutineDispatcher
@@ -23,10 +23,10 @@ class MovieDetailViewModel @ViewModelInject constructor(
     private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    val moviePreview: MoviePreviewWithGenres = savedStateHandle.get(MOVIE_PREVIEW_ARGUMENT)!!
+    val moviePreview: MoviePreview = savedStateHandle.get(MOVIE_PREVIEW_ARGUMENT)!!
 
-    private val _movieDetail = MutableLiveData<Resource<MovieDetailWithActors>>()
-    val movieDetail: LiveData<Resource<MovieDetailWithActors>> = _movieDetail
+    private val _movieDetail = MutableLiveData<Resource<MovieDetail>>()
+    val movieDetail: LiveData<Resource<MovieDetail>> = _movieDetail
 
     private val detailExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         Timber.e(throwable)
@@ -40,7 +40,7 @@ class MovieDetailViewModel @ViewModelInject constructor(
     fun reloadData() {
         viewModelScope.launch(dispatcher + detailExceptionHandler) {
             _movieDetail.postValue(Resource.loading())
-            _movieDetail.postValue(Resource.success(dataRepository.getMovieDetail(moviePreview.moviePreview.id)))
+            _movieDetail.postValue(Resource.success(dataRepository.getMovieDetail(moviePreview.id)))
         }
     }
 }

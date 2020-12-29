@@ -5,9 +5,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.SavedStateHandle
 import com.aacademy.homework.MainCoroutineScopeRule
 import com.aacademy.homework.data.DataRepository
-import com.aacademy.homework.data.model.MovieDetailWithActors
+import com.aacademy.homework.data.model.MovieDetail
 import com.aacademy.homework.data.model.MoviePreview
-import com.aacademy.homework.data.model.MoviePreviewWithGenres
 import com.aacademy.homework.foundations.Resource
 import com.aacademy.homework.ui.moviedetail.FragmentMoviesDetails.Companion.MOVIE_PREVIEW_ARGUMENT
 import io.mockk.*
@@ -36,7 +35,7 @@ class MovieDetailViewModelTest {
     private lateinit var savedStateHandle: SavedStateHandle
 
     @MockK
-    lateinit var moviesObserverMockito: Observer<Resource<MovieDetailWithActors>>
+    lateinit var moviesObserverMockito: Observer<Resource<MovieDetail>>
 
     @Before
     fun setup() {
@@ -45,7 +44,7 @@ class MovieDetailViewModelTest {
         savedStateHandle = SavedStateHandle()
         val moviePreview = mockkClass(MoviePreview::class)
         every { moviePreview.id } returns 0
-        savedStateHandle.set(MOVIE_PREVIEW_ARGUMENT, MoviePreviewWithGenres(moviePreview, emptyList()))
+        savedStateHandle.set(MOVIE_PREVIEW_ARGUMENT, moviePreview)
         viewModel = MovieDetailViewModel(dataRepository, savedStateHandle, TestCoroutineDispatcher())
     }
 
@@ -64,7 +63,7 @@ class MovieDetailViewModelTest {
 
     @Test
     fun `should return success when repository return data`() {
-        val data = mockkClass(MovieDetailWithActors::class)
+        val data = mockkClass(MovieDetail::class)
         coEvery { dataRepository.getMovieDetail(any()) } returns data
 
         viewModel.movieDetail.observeForever(moviesObserverMockito)
