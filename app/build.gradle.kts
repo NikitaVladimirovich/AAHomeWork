@@ -20,6 +20,8 @@ android {
         versionName = AppConfig.versionName
 
         testInstrumentationRunner = AppConfig.androidTestInstrumentation
+
+        buildConfigField("String", "API_KEY", ApiConfig.apiKey)
     }
 
     buildTypes {
