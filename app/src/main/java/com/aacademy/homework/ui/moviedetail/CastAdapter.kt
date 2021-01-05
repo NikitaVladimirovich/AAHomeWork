@@ -3,6 +3,7 @@ package com.aacademy.homework.ui.moviedetail
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.aacademy.homework.R
 import com.aacademy.homework.data.model.Actor
 import com.aacademy.homework.databinding.LayoutCastItemBinding
 import com.aacademy.homework.extensions.loadImage
@@ -34,6 +35,7 @@ class CastAdapter(val glide: RequestManager) : RecyclerView.Adapter<CastViewHold
         fun bind(actor: Actor) {
             binding.tvNameCast.text = actor.name
             glide.loadImage(actor.picture)
+                .placeholder(R.drawable.actor_photo_placeholder)
                 .into(binding.ivPhotoCast)
         }
     }

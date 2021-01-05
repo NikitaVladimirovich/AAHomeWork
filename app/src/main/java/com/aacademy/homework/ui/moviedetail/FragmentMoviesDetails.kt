@@ -79,6 +79,7 @@ class FragmentMoviesDetails @Inject constructor() : Fragment(R.layout.fragment_m
         viewModel.moviePreview.let { moviePreview ->
             binding.apply {
                 glide.loadImage(moviePreview.backdrop)
+                    .placeholder(R.drawable.film_poster_placeholder)
                     .into(ivCover)
                 collapsingToolbar.title = moviePreview.title
                 tvAgeLimit.text =

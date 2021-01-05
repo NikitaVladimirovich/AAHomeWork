@@ -50,7 +50,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/MovieCard.ImageAppearance"
             tools:ignore="ContentDescription"
-            tools:srcCompat="@drawable/orig" />
+            tools:srcCompat="@drawable/film_poster_placeholder" />
 
         <View
             android:layout_width="0dp"

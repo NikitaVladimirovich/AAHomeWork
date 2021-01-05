@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.aacademy.homework.R
 import com.aacademy.homework.R.string
 import com.aacademy.homework.data.model.MoviePreview
 import com.aacademy.homework.databinding.LayoutMovieItemBinding
@@ -60,6 +61,7 @@ class MovieAdapter(
         fun bind(moviePreview: MoviePreview) {
             binding.tvName.text = moviePreview.title
             glide.loadImage(moviePreview.poster)
+                .placeholder(R.drawable.film_poster_placeholder)
                 .into(binding.ivCover)
             binding.tvAgeLimit.text =
                 resources.getString(string.ageLimitFormat).format(moviePreview.ageLimit)
