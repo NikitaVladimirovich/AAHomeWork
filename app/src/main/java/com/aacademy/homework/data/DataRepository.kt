@@ -1,15 +1,15 @@
 package com.aacademy.homework.data
 
-import com.aacademy.homework.data.model.MovieDetailWithActors
-import com.aacademy.homework.data.model.MoviePreviewWithGenres
+import com.aacademy.homework.data.model.MovieDetail
+import com.aacademy.homework.data.model.MoviePreview
 
 interface DataRepository {
 
-    suspend fun getAllPreviews(): List<MoviePreviewWithGenres>
+    suspend fun getAllPreviews(): List<MoviePreview>
 
-    suspend fun loadAllPreviews(): List<MoviePreviewWithGenres>
+    suspend fun loadAllPreviews(): List<MoviePreview>
 
-    suspend fun getMovieDetail(id: Long): MovieDetailWithActors
+    suspend fun getMovieDetail(id: Long): MovieDetail
 
     suspend fun setMovieLiked(id: Long, isLiked: Boolean)
 }

@@ -1,17 +1,17 @@
 package com.aacademy.homework.data.local
 
-import com.aacademy.homework.data.model.MovieDetailWithActors
-import com.aacademy.homework.data.model.MoviePreviewWithGenres
+import com.aacademy.homework.data.model.MovieDetail
+import com.aacademy.homework.data.model.MoviePreview
 
 interface LocalSource {
 
-    suspend fun getAllMoviePreviews(): List<MoviePreviewWithGenres>
+    suspend fun getAllMoviePreviews(): List<MoviePreview>
 
-    suspend fun getMovieDetail(id: Long): List<MovieDetailWithActors>
+    suspend fun getMovieDetail(id: Long): List<MovieDetail>
 
     suspend fun setMovieLiked(id: Long, isLiked: Boolean)
 
-    suspend fun cacheMoviePreviewsWithGenres(moviePreviewsWithGenres: List<MoviePreviewWithGenres>)
+    suspend fun cacheMoviePreviews(moviePreviews: List<MoviePreview>)
 
-    suspend fun cacheMovieDetailWithActors(movieDetailWithActors: MovieDetailWithActors)
+    suspend fun cacheMovieDetail(movieDetail: MovieDetail)
 }

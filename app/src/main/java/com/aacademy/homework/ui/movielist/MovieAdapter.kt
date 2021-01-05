@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.aacademy.homework.R.string
-import com.aacademy.homework.data.model.MoviePreviewWithGenres
+import com.aacademy.homework.data.model.MoviePreview
 import com.aacademy.homework.databinding.LayoutMovieItemBinding
 import com.aacademy.homework.extensions.loadImage
 import com.aacademy.homework.ui.movielist.MovieAdapter.MovieViewHolder
@@ -18,21 +18,21 @@ import com.bumptech.glide.RequestManager
 class MovieAdapter(
     private val glide: RequestManager,
     private val resources: Resources,
-    private val itemClickListener: (MoviePreviewWithGenres) -> Unit,
+    private val itemClickListener: (MoviePreview) -> Unit,
     private val likeStateChangeListener: (Long, Boolean) -> Unit
 ) : RecyclerView.Adapter<MovieViewHolder>() {
 
-    private val diffCallback = object : DiffUtil.ItemCallback<MoviePreviewWithGenres>() {
-        override fun areItemsTheSame(oldItem: MoviePreviewWithGenres, newItem: MoviePreviewWithGenres): Boolean =
-            oldItem.moviePreview.id == newItem.moviePreview.id
+    private val diffCallback = object : DiffUtil.ItemCallback<MoviePreview>() {
+        override fun areItemsTheSame(oldItem: MoviePreview, newItem: MoviePreview): Boolean =
+            oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: MoviePreviewWithGenres, newItem: MoviePreviewWithGenres): Boolean =
+        override fun areContentsTheSame(oldItem: MoviePreview, newItem: MoviePreview): Boolean =
             oldItem.hashCode() == newItem.hashCode()
     }
 
     private val differ = AsyncListDiffer(this, diffCallback)
 
-    var moviePreviews: List<MoviePreviewWithGenres>
+    var moviePreviews: List<MoviePreview>
         get() = differ.currentList
         set(value) = differ.submitList(value)
 
@@ -52,31 +52,31 @@ class MovieAdapter(
     override fun getItemCount(): Int = moviePreviews.size
 
     override fun getItemId(position: Int): Long {
-        return moviePreviews[position].moviePreview.id
+        return moviePreviews[position].id
     }
 
     inner class MovieViewHolder(private val binding: LayoutMovieItemBinding) : LikeViewHolder(binding) {
 
-        fun bind(moviePreview: MoviePreviewWithGenres) {
-            binding.tvName.text = moviePreview.moviePreview.title
-            glide.loadImage(moviePreview.moviePreview.poster)
+        fun bind(moviePreview: MoviePreview) {
+            binding.tvName.text = moviePreview.title
+            glide.loadImage(moviePreview.poster)
                 .into(binding.ivCover)
             binding.tvAgeLimit.text =
-                resources.getString(string.ageLimitFormat).format(moviePreview.moviePreview.ageLimit)
+                resources.getString(string.ageLimitFormat).format(moviePreview.ageLimit)
             binding.tvTags.text = moviePreview.genres.take(3).joinToString(", ") { it.name }
             binding.tvReviews.text =
-                resources.getString(string.reviewsFormat).format(moviePreview.moviePreview.reviews)
-            binding.rbRating.rating = moviePreview.moviePreview.rating / 2
-            binding.tvMin.text = resources.getString(string.minFormat).format(moviePreview.moviePreview.runtime)
+                resources.getString(string.reviewsFormat).format(moviePreview.reviews)
+            binding.rbRating.rating = moviePreview.rating / 2
+            binding.tvMin.text = resources.getString(string.minFormat).format(moviePreview.runtime)
             binding.cbLike.setOnCheckedChangeListener(null)
-            binding.cbLike.isChecked = moviePreview.moviePreview.isLiked
+            binding.cbLike.isChecked = moviePreview.isLiked
             binding.cbLike.setOnCheckedChangeListener { _, isChecked ->
-                moviePreview.moviePreview.isLiked = isChecked
-                likeStateChangeListener.invoke(moviePreview.moviePreview.id, isChecked)
+                moviePreview.isLiked = isChecked
+                likeStateChangeListener.invoke(moviePreview.id, isChecked)
                 if (isChecked) notifyItemChanged(adapterPosition, MovieItemAnimator.ACTION_FILM_LIKED)
             }
             binding.llLike.setOnClickListener {
-                binding.cbLike.isChecked = !moviePreview.moviePreview.isLiked
+                binding.cbLike.isChecked = !moviePreview.isLiked
             }
             binding.root.setOnClickListener { itemClickListener(moviePreview) }
         }
