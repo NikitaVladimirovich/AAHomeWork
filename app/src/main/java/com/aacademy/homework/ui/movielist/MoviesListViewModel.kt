@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aacademy.homework.data.DataRepository
-import com.aacademy.homework.data.model.MoviePreview
+import com.aacademy.homework.data.model.Movie
 import com.aacademy.homework.foundations.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -19,25 +19,25 @@ class MoviesListViewModel @ViewModelInject constructor(
     private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    private val _moviesPreview = MutableLiveData<Resource<List<MoviePreview>>>()
-    val moviesPreview: LiveData<Resource<List<MoviePreview>>> = _moviesPreview
+    private val _movies = MutableLiveData<Resource<List<Movie>>>()
+    val movies: LiveData<Resource<List<Movie>>> = _movies
 
     private val moviesExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         Timber.e(throwable)
-        _moviesPreview.postValue(Resource.error(throwable.message ?: ""))
+        _movies.postValue(Resource.error(throwable.message ?: ""))
     }
 
     init {
         viewModelScope.launch(dispatcher + moviesExceptionHandler) {
-            _moviesPreview.postValue(Resource.loading())
-            _moviesPreview.postValue(Resource.success(dataRepository.getAllPreviews()))
+            _movies.postValue(Resource.loading())
+            _movies.postValue(Resource.success(dataRepository.getAllPreviews()))
         }
     }
 
     fun refreshMoviesPreviews() {
         viewModelScope.launch(dispatcher + moviesExceptionHandler) {
-            _moviesPreview.postValue(Resource.loading())
-            _moviesPreview.postValue(Resource.success(dataRepository.loadAllPreviews()))
+            _movies.postValue(Resource.loading())
+            _movies.postValue(Resource.success(dataRepository.loadAllPreviews()))
         }
     }
 
@@ -52,7 +52,7 @@ class MoviesListViewModel @ViewModelInject constructor(
     }
 
     fun swapItems(fromPosition: Int, toPosition: Int) {
-        val newMovies = moviesPreview.value!!.data!!.toMutableList()
+        val newMovies = movies.value!!.data!!.toMutableList()
         if (fromPosition < toPosition) {
             for (i in fromPosition until toPosition) {
                 Collections.swap(newMovies, i, i + 1)
@@ -63,6 +63,6 @@ class MoviesListViewModel @ViewModelInject constructor(
             }
         }
 
-        _moviesPreview.postValue(Resource.success(newMovies))
+        _movies.postValue(Resource.success(newMovies))
     }
 }

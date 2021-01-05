@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.aacademy.homework.MainCoroutineScopeRule
 import com.aacademy.homework.data.DataRepository
-import com.aacademy.homework.data.model.MoviePreview
+import com.aacademy.homework.data.model.Movie
 import com.aacademy.homework.foundations.Resource
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -34,7 +34,7 @@ class MoviesListViewModelTest {
     private lateinit var dataRepository: DataRepository
 
     @MockK
-    lateinit var moviesObserverMockito: Observer<Resource<List<MoviePreview>>>
+    lateinit var moviesObserverMockito: Observer<Resource<List<Movie>>>
 
     @Before
     fun setup() {
@@ -42,12 +42,12 @@ class MoviesListViewModelTest {
         every { moviesObserverMockito.onChanged(any()) } answers {}
         coEvery { dataRepository.getAllPreviews() } returns emptyList()
         viewModel = MoviesListViewModel(dataRepository, TestCoroutineDispatcher())
-        viewModel.moviesPreview.observeForever(moviesObserverMockito)
+        viewModel.movies.observeForever(moviesObserverMockito)
     }
 
     @After
     fun clear() {
-        viewModel.moviesPreview.removeObserver(moviesObserverMockito)
+        viewModel.movies.removeObserver(moviesObserverMockito)
     }
 
     @Test

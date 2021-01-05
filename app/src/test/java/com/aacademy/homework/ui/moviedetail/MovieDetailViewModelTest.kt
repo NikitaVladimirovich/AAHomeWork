@@ -5,8 +5,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.SavedStateHandle
 import com.aacademy.homework.MainCoroutineScopeRule
 import com.aacademy.homework.data.DataRepository
-import com.aacademy.homework.data.model.MovieDetail
-import com.aacademy.homework.data.model.MoviePreview
+import com.aacademy.homework.data.model.Actor
+import com.aacademy.homework.data.model.Movie
 import com.aacademy.homework.foundations.Resource
 import com.aacademy.homework.ui.moviedetail.FragmentMoviesDetails.Companion.MOVIE_PREVIEW_ARGUMENT
 import io.mockk.MockKAnnotations
@@ -40,24 +40,24 @@ class MovieDetailViewModelTest {
     private lateinit var savedStateHandle: SavedStateHandle
 
     @MockK
-    lateinit var moviesObserverMockito: Observer<Resource<MovieDetail>>
+    lateinit var moviesObserverMockito: Observer<Resource<List<Actor>>>
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
         every { moviesObserverMockito.onChanged(any()) } answers {}
         savedStateHandle = SavedStateHandle()
-        val moviePreview = mockkClass(MoviePreview::class)
+        val moviePreview = mockkClass(Movie::class)
         every { moviePreview.id } returns 0
         savedStateHandle.set(MOVIE_PREVIEW_ARGUMENT, moviePreview)
-        coEvery { dataRepository.getMovieDetail(any()) } throws Exception()
+        coEvery { dataRepository.getCast(any()) } throws Exception()
         viewModel = MovieDetailViewModel(dataRepository, savedStateHandle, TestCoroutineDispatcher())
-        viewModel.movieDetail.observeForever(moviesObserverMockito)
+        viewModel.cast.observeForever(moviesObserverMockito)
     }
 
     @After
     fun clear() {
-        viewModel.movieDetail.removeObserver(moviesObserverMockito)
+        viewModel.cast.removeObserver(moviesObserverMockito)
     }
 
     @Test
@@ -70,7 +70,7 @@ class MovieDetailViewModelTest {
     @Test
     fun `should return error when repository throw exception`() {
         val message = "Test"
-        coEvery { dataRepository.getMovieDetail(any()) } throws Exception(message)
+        coEvery { dataRepository.getCast(any()) } throws Exception(message)
 
         viewModel.reloadData()
         verifyOrder {
@@ -81,8 +81,8 @@ class MovieDetailViewModelTest {
 
     @Test
     fun `should return success when repository return data`() {
-        val data = mockkClass(MovieDetail::class)
-        coEvery { dataRepository.getMovieDetail(any()) } returns data
+        val data = emptyList<Actor>()
+        coEvery { dataRepository.getCast(any()) } returns data
 
         viewModel.reloadData()
         verifyOrder {

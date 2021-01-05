@@ -5,28 +5,28 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import com.aacademy.homework.data.model.MoviePreview
+import com.aacademy.homework.data.model.Movie
 
 @Dao
-interface MoviePreviewDao {
+interface MovieDao {
 
     @Transaction
-    @Query("SELECT * FROM moviepreview")
-    suspend fun getAllMovies(): List<MoviePreview>
+    @Query("SELECT * FROM movie")
+    suspend fun getAllMovies(): List<Movie>
 
-    @Query("UPDATE moviepreview SET isLiked = :isLiked WHERE id = :id")
+    @Query("UPDATE movie SET isLiked = :isLiked WHERE id = :id")
     suspend fun setMovieLiked(id: Long, isLiked: Boolean)
 
     @Transaction
-    suspend fun insert(moviePreviewsWithTags: List<MoviePreview>) {
+    suspend fun insert(moviePreviewsWithTags: List<Movie>) {
         for (moviePreview in moviePreviewsWithTags) {
             insert(moviePreview)
         }
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(moviePreview: MoviePreview)
+    suspend fun insert(movie: Movie)
 
-    @Query("DELETE FROM moviepreview")
+    @Query("DELETE FROM movie")
     suspend fun clearMoviesPreviews()
 }

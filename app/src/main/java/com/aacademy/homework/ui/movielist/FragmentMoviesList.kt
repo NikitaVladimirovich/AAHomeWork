@@ -68,7 +68,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
             }
             ItemTouchHelper(DragManageAdapter(moveCallback = viewModel::swapItems)).attachToRecyclerView(rvMovies)
             swipeRefresh.setOnRefreshListener {
-                movieAdapter.moviePreviews = emptyList()
+                movieAdapter.movies = emptyList()
                 viewModel.refreshMoviesPreviews()
             }
             errorView.reloadListener = { viewModel.refreshMoviesPreviews() }
@@ -76,14 +76,14 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
     }
 
     private fun subscribe() {
-        viewModel.moviesPreview.observe(
+        viewModel.movies.observe(
             viewLifecycleOwner,
             { resource ->
                 when (resource.status) {
                     SUCCESS -> {
                         hideLoading()
                         binding.swipeRefresh.isRefreshing = false
-                        movieAdapter.moviePreviews = resource.data!!
+                        movieAdapter.movies = resource.data!!
                         if (resource.data.isNullOrEmpty())
                             binding.emptyView.visibility = VISIBLE
                     }

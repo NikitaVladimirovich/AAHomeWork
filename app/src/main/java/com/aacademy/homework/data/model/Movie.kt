@@ -10,7 +10,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @Entity
 @TypeConverters(Converters::class)
-data class MoviePreview(
+data class Movie(
     @PrimaryKey val id: Long,
     val title: String,
     val poster: String,
@@ -20,5 +20,6 @@ data class MoviePreview(
     val reviews: Int,
     val runtime: Int,
     val genres: List<Genre>,
+    val overview: String,
     var isLiked: Boolean = false
 ) : Parcelable

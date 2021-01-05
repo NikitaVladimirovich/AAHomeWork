@@ -5,8 +5,7 @@ import com.aacademy.homework.data.api.model.JsonMovie
 import com.aacademy.homework.data.local.LocalSource
 import com.aacademy.homework.data.model.Actor
 import com.aacademy.homework.data.model.Genre
-import com.aacademy.homework.data.model.MovieDetail
-import com.aacademy.homework.data.model.MoviePreview
+import com.aacademy.homework.data.model.Movie
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -16,33 +15,34 @@ import javax.inject.Inject
 class DataRepositoryImpl @Inject constructor(private val apiSource: ApiSource, private val localSource: LocalSource) :
     DataRepository {
 
-    override suspend fun getAllPreviews(): List<MoviePreview> =
+    override suspend fun getAllPreviews(): List<Movie> =
         localSource.getAllMoviePreviews()
             .let {
                 if (it.isNotEmpty()) return it else loadAllPreviews()
             }
 
-    override suspend fun loadAllPreviews(): List<MoviePreview> {
+    override suspend fun loadAllPreviews(): List<Movie> {
         var jsonMovies = listOf<JsonMovie>()
         var genres = mapOf<Long, Genre>()
         coroutineScope {
             launch {
-                jsonMovies = apiSource.getMovies()
+                jsonMovies = apiSource.getPopularMovies().results
             }
             launch {
-                genres = apiSource.getGenres().associateBy { genre -> genre.id }
+                genres = apiSource.getGenres().genres.associateBy { genre -> genre.id }
             }
         }
         val result = jsonMovies.map { jsonMovie ->
-            MoviePreview(
+            Movie(
                 id = jsonMovie.id,
                 title = jsonMovie.title,
-                poster = jsonMovie.posterPicture,
-                backdrop = jsonMovie.backdropPicture,
+                poster = jsonMovie.posterPicture.orEmpty(),
+                backdrop = jsonMovie.backdropPicture.orEmpty(),
                 rating = jsonMovie.ratings,
                 ageLimit = if (jsonMovie.adult) 16 else 13,
-                runtime = jsonMovie.runtime,
+                runtime = 0,
                 reviews = jsonMovie.voteCount,
+                overview = jsonMovie.overview,
                 genres = jsonMovie.genreIds.map { id ->
                     genres[id] ?: throw IllegalArgumentException("Genre not found")
                 }
@@ -52,30 +52,15 @@ class DataRepositoryImpl @Inject constructor(private val apiSource: ApiSource, p
         return result
     }
 
-    override suspend fun getMovieDetail(id: Long): MovieDetail = localSource.getMovieDetail(id)
-        .let {
-            if (it.isNotEmpty()) it.first() else {
-                lateinit var jsonMovie: JsonMovie
-                var actors = mapOf<Long, Actor>()
-                coroutineScope {
-                    launch {
-                        jsonMovie = apiSource.getMovies().first { movie -> movie.id == id }
-                    }
-                    launch {
-                        actors = apiSource.getActors().associateBy { actor -> actor.id }
-                    }
-                }
-                val result = MovieDetail(
-                    id = jsonMovie.id,
-                    overview = jsonMovie.overview,
-                    actors = jsonMovie.actorsIds.map { id ->
-                        actors[id] ?: throw IllegalArgumentException("Actor not found")
-                    }
-                )
-                localSource.cacheMovieDetail(result)
-                return result
+    override suspend fun getCast(id: Long): List<Actor> {
+        var actors = emptyList<Actor>()
+        coroutineScope {
+            launch {
+                actors = apiSource.getActors(id).cast
             }
         }
+        return actors
+    }
 
     override suspend fun setMovieLiked(id: Long, isLiked: Boolean) {
         localSource.setMovieLiked(id, isLiked)

@@ -1,0 +1,12 @@
+package com.aacademy.homework.data.api.model
+
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class Configuration(
+    val images: Images,
+
+    @SerialName("change_keys")
+    val changeKeys: List<String>
+)

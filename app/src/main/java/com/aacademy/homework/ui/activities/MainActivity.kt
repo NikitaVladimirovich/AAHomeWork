@@ -19,7 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import com.aacademy.homework.R
 import com.aacademy.homework.R.anim
 import com.aacademy.homework.R.id
-import com.aacademy.homework.data.model.MoviePreview
+import com.aacademy.homework.data.model.Movie
 import com.aacademy.homework.data.preferences.MyPreference
 import com.aacademy.homework.databinding.ActivityMainBinding
 import com.aacademy.homework.extensions.open
@@ -138,7 +138,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun openMovieDetail(moviePreview: MoviePreview) {
+    fun openMovieDetail(movie: Movie) {
         supportFragmentManager.open {
             setCustomAnimations(
                 anim.fade_in,
@@ -146,7 +146,7 @@ class MainActivity : AppCompatActivity() {
                 anim.fade_in,
                 anim.fade_out
             )
-            add(id.flContainer, FragmentMoviesDetails.newInstance(moviePreview), FRAGMENT_TAG)
+            add(id.flContainer, FragmentMoviesDetails.newInstance(movie), FRAGMENT_TAG)
             addToBackStack(null)
         }
     }
