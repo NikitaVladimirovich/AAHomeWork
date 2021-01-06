@@ -4,8 +4,7 @@ import android.content.Context
 import com.aacademy.homework.BuildConfig
 import com.aacademy.homework.data.api.ApiKeyQueryInterceptor
 import com.aacademy.homework.data.api.MovieDBService
-import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestManager
+import com.aacademy.homework.data.api.NetworkInterceptor
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -14,6 +13,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
+import okhttp3.Cache
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -43,23 +43,27 @@ object ApiModule {
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(): OkHttpClient {
+    fun provideOkHttpClient(cache: Cache): OkHttpClient {
         return OkHttpClient.Builder()
             .apply {
+                cache(cache)
                 addInterceptor(HttpLoggingInterceptor().setLevel(if (BuildConfig.DEBUG) Level.BODY else Level.NONE))
                 addInterceptor(ApiKeyQueryInterceptor())
+                addNetworkInterceptor(NetworkInterceptor())
             }
             .build()
     }
 
     @Singleton
     @Provides
-    fun provideConverterFactory(): Converter.Factory {
-        return Json { ignoreUnknownKeys = true }.asConverterFactory("application/json".toMediaType())
+    fun provideCache(@ApplicationContext context: Context): Cache {
+        val cacheSize = 5 * 1024 * 1024.toLong()
+        return Cache(context.cacheDir, cacheSize)
     }
 
+    @Singleton
     @Provides
-    fun provideGlide(@ApplicationContext context: Context): RequestManager {
-        return Glide.with(context)
+    fun provideConverterFactory(): Converter.Factory {
+        return Json { ignoreUnknownKeys = true }.asConverterFactory("application/json".toMediaType())
     }
 }
