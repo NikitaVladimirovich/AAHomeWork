@@ -28,4 +28,8 @@
         <item name="colorMovieMaskEnd">@color/colorMovieMaskEnd</item>
         <item name="colorProgressTint">@color/colorProgressTintLight</item>
     </style>
+
+    <style name="Theme.AAHomeWork.Launcher">
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+    </style>
 </resources>

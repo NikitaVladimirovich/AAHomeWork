@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
     private var detailsFragmentOpened = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Theme_AAHomeWork)
         super.onCreate(savedInstanceState)
         delegate.localNightMode = prefs.appTheme
         setContentView(binding.root)
