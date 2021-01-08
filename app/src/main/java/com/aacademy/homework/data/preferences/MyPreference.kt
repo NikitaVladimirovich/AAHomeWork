@@ -19,7 +19,7 @@ class MyPreference @Inject constructor(private val prefs: SharedPreferences) {
         }
 
     var imageUrl: String
-        get() = prefs.getString(IMAGE_URL, "")!!//""https://image.tmdb.org/t/p/w342")!!
+        get() = prefs.getString(IMAGE_URL, "")!!
         set(value) {
             prefs.edit().putString(IMAGE_URL, value).apply()
         }

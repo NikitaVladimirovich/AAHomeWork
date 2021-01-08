@@ -11,4 +11,3 @@ interface GlideModuleEntryPoint {
 
     fun myPreference(): MyPreference
 }
-
