@@ -6,13 +6,18 @@ import com.aacademy.homework.data.local.LocalSource
 import com.aacademy.homework.data.model.Actor
 import com.aacademy.homework.data.model.Genre
 import com.aacademy.homework.data.model.Movie
+import com.aacademy.homework.data.preferences.MyPreference
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Inject
 
 @ExperimentalSerializationApi
-class DataRepositoryImpl @Inject constructor(private val apiSource: ApiSource, private val localSource: LocalSource) :
+class DataRepositoryImpl @Inject constructor(
+    private val apiSource: ApiSource,
+    private val localSource: LocalSource,
+    private val myPreference: MyPreference
+) :
     DataRepository {
 
     override suspend fun getAllPreviews(): List<Movie> =
@@ -30,6 +35,10 @@ class DataRepositoryImpl @Inject constructor(private val apiSource: ApiSource, p
             }
             launch {
                 genres = apiSource.getGenres().genres.associateBy { genre -> genre.id }
+            }
+            launch {
+                val configuration = apiSource.getConfiguration()
+                myPreference.imageUrl = "${configuration.images.secureBaseURL}w342"
             }
         }
         val result = jsonMovies.map { jsonMovie ->

@@ -60,7 +60,7 @@ class MovieAdapter(
 
         fun bind(movie: Movie) {
             binding.tvName.text = movie.title
-            glide.loadImage("https://image.tmdb.org/t/p/w342${movie.poster}")
+            glide.loadImage(movie.poster)
                 .placeholder(R.drawable.film_poster_placeholder)
                 .into(binding.ivCover)
             binding.tvAgeLimit.text =

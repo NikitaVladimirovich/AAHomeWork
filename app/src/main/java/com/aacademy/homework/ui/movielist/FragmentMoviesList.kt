@@ -89,6 +89,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
                     }
                     ERROR -> {
                         hideLoading()
+                        binding.swipeRefresh.isRefreshing = false
                         binding.errorView.visibility = VISIBLE
                     }
                     LOADING -> {

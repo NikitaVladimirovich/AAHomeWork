@@ -34,7 +34,7 @@ class CastAdapter(val glide: RequestManager) : RecyclerView.Adapter<CastViewHold
 
         fun bind(actor: Actor) {
             binding.tvNameCast.text = actor.name
-            glide.loadImage("https://image.tmdb.org/t/p/w342${actor.profilePath ?: ""}")
+            glide.loadImage(actor.profilePath ?: "")
                 .placeholder(R.drawable.actor_photo_placeholder)
                 .into(binding.ivPhotoCast)
         }
