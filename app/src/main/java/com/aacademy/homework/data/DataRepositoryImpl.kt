@@ -1,7 +1,7 @@
 package com.aacademy.homework.data
 
 import com.aacademy.homework.data.api.ApiSource
-import com.aacademy.homework.data.api.model.JsonMovie
+import com.aacademy.homework.data.api.model.MoviesResponse
 import com.aacademy.homework.data.local.LocalSource
 import com.aacademy.homework.data.model.Actor
 import com.aacademy.homework.data.model.Genre
@@ -20,28 +20,26 @@ class DataRepositoryImpl @Inject constructor(
 ) :
     DataRepository {
 
-    override suspend fun getAllPreviews(): List<Movie> =
-        localSource.getAllMoviePreviews()
-            .let {
-                if (it.isNotEmpty()) return it else loadAllPreviews()
-            }
+    private lateinit var genres: Map<Long, Genre>
 
-    override suspend fun loadAllPreviews(): List<Movie> {
-        var jsonMovies = listOf<JsonMovie>()
-        var genres = mapOf<Long, Genre>()
+    override suspend fun getMovies(page: Int): Pair<Int, List<Movie>> {
+        lateinit var moviesResponse: MoviesResponse
         coroutineScope {
             launch {
-                jsonMovies = apiSource.getPopularMovies().results
+                moviesResponse = apiSource.getPopularMovies(page)
             }
             launch {
-                genres = apiSource.getGenres().genres.associateBy { genre -> genre.id }
+                if (!::genres.isInitialized)
+                    genres = apiSource.getGenres().genres.associateBy { genre -> genre.id }
             }
             launch {
-                val configuration = apiSource.getConfiguration()
-                myPreference.imageUrl = "${configuration.images.secureBaseURL}w342"
+                if (page == 1) {
+                    val configuration = apiSource.getConfiguration()
+                    myPreference.imageUrl = "${configuration.images.secureBaseURL}w342"
+                }
             }
         }
-        val result = jsonMovies.map { jsonMovie ->
+        val result = moviesResponse.results.map { jsonMovie ->
             Movie(
                 id = jsonMovie.id,
                 title = jsonMovie.title,
@@ -58,7 +56,7 @@ class DataRepositoryImpl @Inject constructor(
             )
         }
         localSource.cacheMoviePreviews(result)
-        return result
+        return Pair(moviesResponse.totalPages, result)
     }
 
     override suspend fun getCast(id: Long): List<Actor> {

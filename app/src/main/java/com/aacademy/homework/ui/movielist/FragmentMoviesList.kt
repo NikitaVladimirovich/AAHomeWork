@@ -7,6 +7,7 @@ import android.view.View.VISIBLE
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.aacademy.homework.R
 import com.aacademy.homework.databinding.FragmentMoviesListBinding
 import com.aacademy.homework.extensions.hideLoading
@@ -65,6 +66,15 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
                 setHasFixedSize(true)
                 adapter = movieAdapter
                 itemAnimator = MovieItemAnimator()
+
+                addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                        super.onScrolled(recyclerView, dx, dy)
+                        if (manager.itemCount - (manager.findLastVisibleItemPosition() + 1) < 20) {
+                            viewModel.loadMovies()
+                        }
+                    }
+                })
             }
             ItemTouchHelper(DragManageAdapter(moveCallback = viewModel::swapItems)).attachToRecyclerView(rvMovies)
             swipeRefresh.setOnRefreshListener {

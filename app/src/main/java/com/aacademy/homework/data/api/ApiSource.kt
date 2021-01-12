@@ -9,7 +9,7 @@ interface ApiSource {
 
     suspend fun getConfiguration(): Configuration
 
-    suspend fun getPopularMovies(): MoviesResponse
+    suspend fun getPopularMovies(page: Int): MoviesResponse
 
     suspend fun getGenres(): GenresResponse
 

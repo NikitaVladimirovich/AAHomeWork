@@ -27,17 +27,44 @@ class MoviesListViewModel @ViewModelInject constructor(
         _movies.postValue(Resource.error(throwable.message ?: ""))
     }
 
+    private var moviesList: MutableList<Movie>
+    private var currentPage = 1
+    private var isLoading = false
+    private var isLastPageLoaded = false
+
     init {
-        viewModelScope.launch(dispatcher + moviesExceptionHandler) {
-            _movies.postValue(Resource.loading())
-            _movies.postValue(Resource.success(dataRepository.getAllPreviews()))
-        }
+        moviesList = mutableListOf()
+        loadMovies()
     }
 
     fun refreshMoviesPreviews() {
+        currentPage = 1
+        isLoading = false
+        isLastPageLoaded = false
+        loadMovies()
+    }
+
+    fun loadMovies() {
         viewModelScope.launch(dispatcher + moviesExceptionHandler) {
-            _movies.postValue(Resource.loading())
-            _movies.postValue(Resource.success(dataRepository.loadAllPreviews()))
+            if (!isLoading && !isLastPageLoaded) {
+                isLoading = true
+                if (moviesList.isNullOrEmpty()) {
+                    _movies.postValue(Resource.loading(null))
+                }
+                val movies = dataRepository.getMovies(currentPage)
+
+                if (currentPage == 1) {
+                    moviesList = movies.second.toMutableList()
+                } else {
+                    moviesList.addAll(movies.second)
+                }
+                currentPage++
+                _movies.postValue(
+                    Resource.success(moviesList)
+                )
+                isLastPageLoaded = currentPage > movies.first
+                isLoading = false
+            }
         }
     }
 

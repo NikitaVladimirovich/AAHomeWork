@@ -12,7 +12,7 @@ class ApiSourceImpl @Inject constructor(private val moviesService: MovieDBServic
 
     override suspend fun getConfiguration(): Configuration = moviesService.getConfiguration()
 
-    override suspend fun getPopularMovies(): MoviesResponse = moviesService.getPopularMovies()
+    override suspend fun getPopularMovies(page: Int): MoviesResponse = moviesService.getPopularMovies(page)
 
     override suspend fun getGenres(): GenresResponse = moviesService.getGenres()
 

@@ -40,7 +40,7 @@ class MoviesListViewModelTest {
     fun setup() {
         MockKAnnotations.init(this)
         every { moviesObserverMockito.onChanged(any()) } answers {}
-        coEvery { dataRepository.getAllPreviews() } returns emptyList()
+        coEvery { dataRepository.getMovies(any()) } returns Pair(1, emptyList())
         viewModel = MoviesListViewModel(dataRepository, TestCoroutineDispatcher())
         viewModel.movies.observeForever(moviesObserverMockito)
     }
@@ -60,7 +60,7 @@ class MoviesListViewModelTest {
     @Test
     fun `should return error when repository throw exception`() {
         val message = "Test"
-        coEvery { dataRepository.loadAllPreviews() } throws Exception(message)
+        coEvery { dataRepository.getMovies(any()) } throws Exception(message)
 
         viewModel.refreshMoviesPreviews()
         verifyOrder {
@@ -71,11 +71,10 @@ class MoviesListViewModelTest {
 
     @Test
     fun `should return success when repository return data`() {
-        coEvery { dataRepository.loadAllPreviews() } returns emptyList()
+        coEvery { dataRepository.getMovies() } returns Pair(1, emptyList())
 
         viewModel.refreshMoviesPreviews()
         verifyOrder {
-            moviesObserverMockito.onChanged(Resource.success(emptyList()))
             moviesObserverMockito.onChanged(Resource.loading())
             moviesObserverMockito.onChanged(Resource.success(emptyList()))
         }

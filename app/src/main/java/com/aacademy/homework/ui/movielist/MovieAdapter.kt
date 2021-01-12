@@ -4,8 +4,6 @@ import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.aacademy.homework.R
 import com.aacademy.homework.R.string
@@ -23,19 +21,11 @@ class MovieAdapter(
     private val likeStateChangeListener: (Long, Boolean) -> Unit
 ) : RecyclerView.Adapter<MovieViewHolder>() {
 
-    private val diffCallback = object : DiffUtil.ItemCallback<Movie>() {
-        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean =
-            oldItem.id == newItem.id
-
-        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean =
-            oldItem.hashCode() == newItem.hashCode()
-    }
-
-    private val differ = AsyncListDiffer(this, diffCallback)
-
-    var movies: List<Movie>
-        get() = differ.currentList
-        set(value) = differ.submitList(value)
+    var movies: List<Movie> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder =
         MovieViewHolder(

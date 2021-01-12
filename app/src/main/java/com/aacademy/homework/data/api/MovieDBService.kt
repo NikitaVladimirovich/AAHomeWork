@@ -6,6 +6,7 @@ import com.aacademy.homework.data.api.model.GenresResponse
 import com.aacademy.homework.data.api.model.MoviesResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface MovieDBService {
 
@@ -13,15 +14,10 @@ interface MovieDBService {
     suspend fun getConfiguration(): Configuration
 
     @GET("movie/popular")
-    suspend fun getPopularMovies(): MoviesResponse
+    suspend fun getPopularMovies(@Query("page") page: Int): MoviesResponse
 
     @GET("genre/movie/list")
     suspend fun getGenres(): GenresResponse
-
-//    @GET("movie/{movie_id}")
-//    suspend fun getDetails(
-//        @Path("movie_id") movieId: Int
-//    ): DetailsResponse
 
     @GET("movie/{movie_id}/credits")
     suspend fun getActors(
