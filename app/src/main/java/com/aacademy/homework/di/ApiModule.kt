@@ -4,7 +4,6 @@ import android.content.Context
 import com.aacademy.homework.BuildConfig
 import com.aacademy.homework.data.api.ApiKeyQueryInterceptor
 import com.aacademy.homework.data.api.MovieDBService
-import com.aacademy.homework.data.api.NetworkInterceptor
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -46,10 +45,10 @@ object ApiModule {
     fun provideOkHttpClient(cache: Cache): OkHttpClient {
         return OkHttpClient.Builder()
             .apply {
-                cache(cache)
+//                cache(cache)
                 addInterceptor(HttpLoggingInterceptor().setLevel(if (BuildConfig.DEBUG) Level.BODY else Level.NONE))
                 addInterceptor(ApiKeyQueryInterceptor())
-                addNetworkInterceptor(NetworkInterceptor())
+//                addNetworkInterceptor(NetworkInterceptor())
             }
             .build()
     }

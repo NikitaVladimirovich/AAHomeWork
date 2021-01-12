@@ -14,6 +14,10 @@ object AppDependencies {
     private const val swipeToRefresh =
         "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.swipetorefresh_version}"
 
+    // RatingBar
+    private const val ratingBar =
+        "me.zhanghai.android.materialratingbar:library:${Versions.rating_bar_version}"
+
     // Glide
     private const val glide = "com.github.bumptech.glide:glide:${Versions.glide_version}"
     private const val glideCompiler = "com.github.bumptech.glide:compiler:${Versions.glide_version}"
@@ -89,6 +93,7 @@ object AppDependencies {
         add(constraintLayout)
         add(material)
         add(swipeToRefresh)
+        add(ratingBar)
         add(glide)
         add(room)
         add(roomKtx)

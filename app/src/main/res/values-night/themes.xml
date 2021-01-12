@@ -27,5 +27,6 @@
         <item name="colorMovieMaskStart">@color/colorMovieMaskStart</item>
         <item name="colorMovieMaskEnd">@color/colorMovieMaskEnd</item>
         <item name="colorProgressTint">@color/colorProgressTint</item>
+        <item name="colorNoSelected">@color/colorNoSelected</item>
     </style>
 </resources>

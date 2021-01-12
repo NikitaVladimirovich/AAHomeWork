@@ -43,9 +43,12 @@
         <item name="android:textColor">?attr/colorText</item>
     </style>
 
-    <style name="RatingBar" parent="">
-        <item name="android:progressDrawable">@drawable/ratingbar_selector</item>
-        <item name="android:stepSize">0.5</item>
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="android:progressTint">?attr/colorAccentPink</item>
+        <item name="android:progressBackgroundTint">?attr/colorNoSelected</item>
+        <item name="android:max">5</item>
+        <item name="android:stepSize">0.2</item>
+        <item name="android:isIndicator">true</item>
     </style>
 
     <style name="LikeCheckBox" parent="">

@@ -101,37 +101,27 @@
             app:layout_constraintRight_toRightOf="@id/guideVerticalRight"
             tools:text="Action, Adventure, Fantasy" />
 
-        <com.aacademy.homework.ui.views.RatingBarSvg
+        <me.zhanghai.android.materialratingbar.MaterialRatingBar
             android:id="@+id/rbRating"
-            style="@style/RatingBar"
+            style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/space2x"
-            android:indeterminate="false"
-            android:isIndicator="true"
-            android:numStars="5"
-            app:drawableHeight="@dimen/space2x"
-            app:drawableWidth="@dimen/space2x"
-            app:innerPadding="@dimen/space0.5x"
-            app:layout_constraintBottom_toBottomOf="@+id/tvReviews"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintHorizontal_chainStyle="packed"
+            android:layout_height="@dimen/space3x"
+            android:theme="@style/RatingBar"
+            app:layout_constraintBottom_toBottomOf="@+id/ivCover"
             app:layout_constraintLeft_toLeftOf="@id/guideVerticalLeft"
-            app:layout_constraintRight_toLeftOf="@+id/tvReviews"
-            app:layout_constraintTop_toTopOf="@+id/tvReviews"
-            tools:rating="2" />
+            tools:rating="4.5" />
 
         <TextView
             android:id="@+id/tvReviews"
             style="@style/CardMovieReview"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/space3x"
-            android:layout_marginBottom="@dimen/space2x"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space2x"
-            android:layout_marginTop="@dimen/space"
             android:textAllCaps="true"
-            app:layout_constraintBottom_toBottomOf="@+id/ivCover"
+            app:layout_constraintBottom_toBottomOf="@+id/rbRating"
             app:layout_constraintLeft_toRightOf="@+id/rbRating"
             app:layout_constraintRight_toRightOf="@id/guideVerticalRight"
+            app:layout_constraintTop_toTopOf="@+id/rbRating"
             tools:text="125 reviews" />
 
         <LinearLayout

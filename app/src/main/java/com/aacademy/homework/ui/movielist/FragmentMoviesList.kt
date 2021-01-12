@@ -67,14 +67,16 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
                 adapter = movieAdapter
                 itemAnimator = MovieItemAnimator()
 
-                addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                        super.onScrolled(recyclerView, dx, dy)
-                        if (manager.itemCount - (manager.findLastVisibleItemPosition() + 1) < 20) {
-                            viewModel.loadMovies()
+                addOnScrollListener(
+                    object : RecyclerView.OnScrollListener() {
+                        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                            super.onScrolled(recyclerView, dx, dy)
+                            if (manager.itemCount - (manager.findLastVisibleItemPosition() + 1) < 20) {
+                                viewModel.loadMovies()
+                            }
                         }
                     }
-                })
+                )
             }
             ItemTouchHelper(DragManageAdapter(moveCallback = viewModel::swapItems)).attachToRecyclerView(rvMovies)
             swipeRefresh.setOnRefreshListener {

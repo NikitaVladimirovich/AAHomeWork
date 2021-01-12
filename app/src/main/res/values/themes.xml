@@ -27,6 +27,7 @@
         <item name="colorMovieMaskStart">@color/colorMovieMaskStartLight</item>
         <item name="colorMovieMaskEnd">@color/colorMovieMaskEnd</item>
         <item name="colorProgressTint">@color/colorProgressTintLight</item>
+        <item name="colorNoSelected">@color/colorNoSelectedLight</item>
     </style>
 
     <style name="Theme.AAHomeWork.Launcher">
