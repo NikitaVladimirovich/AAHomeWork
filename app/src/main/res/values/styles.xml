@@ -155,4 +155,14 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
+
+
+    <style name="MovieSearchView" parent="Widget.AppCompat.SearchView">
+        <!-- Query Text Color -->
+        <item name="android:textColorPrimary">?attr/colorText</item>
+        <!-- Hint Color -->
+        <item name="android:textColorHint">?attr/colorText</item>
+        <!-- Icon Color -->
+        <item name="android:tint">?attr/colorText</item>
+    </style>
 </resources>

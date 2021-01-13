@@ -1,15 +1,19 @@
 package com.aacademy.homework.ui.movielist
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.aacademy.homework.R
 import com.aacademy.homework.databinding.FragmentMoviesListBinding
+import com.aacademy.homework.extensions.hideKeyboard
 import com.aacademy.homework.extensions.hideLoading
 import com.aacademy.homework.extensions.showLoading
 import com.aacademy.homework.extensions.startCircularReveal
@@ -31,6 +35,11 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
     private lateinit var movieAdapter: MovieAdapter
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (arguments != null) {
@@ -44,6 +53,22 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
         initViews()
         subscribe()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        val searchItem = menu.findItem(R.id.action_search)
+        val searchView = searchItem?.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                viewModel.searchMovies(newText)
+                return true
+            }
+        })
     }
 
     private fun initViews() {
@@ -71,6 +96,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
                     object : RecyclerView.OnScrollListener() {
                         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                             super.onScrolled(recyclerView, dx, dy)
+                            recyclerView.hideKeyboard()
                             if (manager.itemCount - (manager.findLastVisibleItemPosition() + 1) < 20) {
                                 viewModel.loadMovies()
                             }

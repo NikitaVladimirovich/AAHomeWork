@@ -2,10 +2,12 @@ package com.aacademy.homework.extensions
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.content.Context
 import android.view.View
 import android.view.View.OnLayoutChangeListener
 import android.view.ViewAnimationUtils
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.inputmethod.InputMethodManager
 
 fun View.startCircularReveal(posX: Int, posY: Int, radius: Float) {
     addOnLayoutChangeListener(
@@ -42,4 +44,9 @@ fun View.startCircularReveal(posX: Int, posY: Int, radius: Float) {
             }
         }
     )
+}
+
+fun View.hideKeyboard() {
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(windowToken, 0)
 }

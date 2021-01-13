@@ -45,7 +45,8 @@ class FragmentMoviesDetails @Inject constructor() : Fragment(R.layout.fragment_m
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.findItem(R.id.theme).isVisible = false
+        menu.findItem(R.id.action_theme).isVisible = false
+        menu.findItem(R.id.action_search).isVisible = false
         super.onCreateOptionsMenu(menu, inflater)
     }
 

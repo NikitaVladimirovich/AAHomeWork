@@ -16,6 +16,9 @@ interface MovieDBService {
     @GET("movie/popular")
     suspend fun getPopularMovies(@Query("page") page: Int): MoviesResponse
 
+    @GET("search/movie")
+    suspend fun getMovies(@Query("query") query: String, @Query("page") page: Int): MoviesResponse
+
     @GET("genre/movie/list")
     suspend fun getGenres(): GenresResponse
 

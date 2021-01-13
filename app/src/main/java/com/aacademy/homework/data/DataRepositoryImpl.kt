@@ -22,11 +22,12 @@ class DataRepositoryImpl @Inject constructor(
 
     private lateinit var genres: Map<Long, Genre>
 
-    override suspend fun getMovies(page: Int): Pair<Int, List<Movie>> {
+    override suspend fun getMovies(query: String?, page: Int): Pair<Int, List<Movie>> {
         lateinit var moviesResponse: MoviesResponse
         coroutineScope {
             launch {
-                moviesResponse = apiSource.getPopularMovies(page)
+                moviesResponse =
+                    if (query.isNullOrEmpty()) apiSource.getPopularMovies(page) else apiSource.getMovies(query, page)
             }
             launch {
                 if (!::genres.isInitialized)

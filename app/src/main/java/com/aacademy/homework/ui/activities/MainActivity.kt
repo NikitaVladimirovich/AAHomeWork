@@ -74,10 +74,10 @@ class MainActivity : AppCompatActivity() {
             android.R.id.home -> {
                 onBackPressed()
             }
-            id.theme -> {
+            id.action_theme -> {
                 if (SystemClock.elapsedRealtime() - lastTimeOptionsItemSelected > 1000) {
                     lastTimeOptionsItemSelected = SystemClock.elapsedRealtime()
-                    changeTheme(findViewById(id.theme))
+                    changeTheme(findViewById(id.action_theme))
                 }
             }
         }

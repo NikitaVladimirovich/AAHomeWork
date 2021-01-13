@@ -13,10 +13,7 @@ interface ApiSource {
 
     suspend fun getGenres(): GenresResponse
 
-//    @GET("movie/{movie_id}")
-//    suspend fun getDetails(
-//        @Path("movie_id") movieId: Int
-//    ): DetailsResponse
+    suspend fun getMovies(query: String, page: Int): MoviesResponse
 
     suspend fun getActors(
         movieId: Long
