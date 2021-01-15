@@ -9,6 +9,7 @@ import android.view.View.VISIBLE
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.aacademy.homework.R
@@ -18,6 +19,7 @@ import com.aacademy.homework.extensions.hideLoading
 import com.aacademy.homework.extensions.showLoading
 import com.aacademy.homework.extensions.startCircularReveal
 import com.aacademy.homework.extensions.viewBinding
+import com.aacademy.homework.foundations.DebouncedQueryTextListener
 import com.aacademy.homework.foundations.Status.ERROR
 import com.aacademy.homework.foundations.Status.LOADING
 import com.aacademy.homework.foundations.Status.SUCCESS
@@ -59,16 +61,13 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
         super.onCreateOptionsMenu(menu, inflater)
         val searchItem = menu.findItem(R.id.action_search)
         val searchView = searchItem?.actionView as SearchView
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                viewModel.searchMovies(newText)
-                return true
-            }
-        })
+        searchView.setOnQueryTextListener(
+            DebouncedQueryTextListener(
+                viewModel.viewModelScope,
+                500,
+                viewModel::searchMovies
+            )
+        )
     }
 
     private fun initViews() {
