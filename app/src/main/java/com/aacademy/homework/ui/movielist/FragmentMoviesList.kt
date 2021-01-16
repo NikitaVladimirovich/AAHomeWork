@@ -61,6 +61,11 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
         super.onCreateOptionsMenu(menu, inflater)
         val searchItem = menu.findItem(R.id.action_search)
         val searchView = searchItem?.actionView as SearchView
+        if (viewModel.currentQuery.isNotEmpty()) {
+            searchItem.expandActionView()
+            searchView.setQuery(viewModel.currentQuery, true)
+            searchView.clearFocus()
+        }
         searchView.setOnQueryTextListener(
             DebouncedQueryTextListener(
                 viewModel.viewModelScope,

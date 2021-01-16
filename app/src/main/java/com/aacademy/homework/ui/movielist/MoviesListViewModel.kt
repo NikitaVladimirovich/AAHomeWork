@@ -31,6 +31,7 @@ class MoviesListViewModel @ViewModelInject constructor(
     private var currentPage = 1
     private var isLoading = false
     private var isLastPageLoaded = false
+    var currentQuery = ""
 
     init {
         moviesList = mutableListOf()
@@ -48,17 +49,18 @@ class MoviesListViewModel @ViewModelInject constructor(
         currentPage = 1
         isLoading = false
         isLastPageLoaded = false
-        loadMovies(query)
+        currentQuery = query ?: ""
+        loadMovies()
     }
 
-    fun loadMovies(query: String? = null) {
+    fun loadMovies() {
         viewModelScope.launch(dispatcher + moviesExceptionHandler) {
             if (!isLoading && !isLastPageLoaded) {
                 isLoading = true
                 if (moviesList.isNullOrEmpty()) {
                     _movies.postValue(Resource.loading(null))
                 }
-                val movies = dataRepository.getMovies(query, currentPage)
+                val movies = dataRepository.getMovies(currentQuery, currentPage)
 
                 if (currentPage == 1) {
                     moviesList = movies.second.toMutableList()
