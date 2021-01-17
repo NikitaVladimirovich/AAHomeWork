@@ -9,7 +9,7 @@ object ApiConfig {
     val apiKey: String
         get() = try {
             apiProperties().getProperty(API_KEY)
-        } catch (e: Exception) {
+        } catch (e: Error) {
             System.getenv()[API_KEY]!!
         }
 
