@@ -7,14 +7,10 @@ object ApiConfig {
     private const val API_KEY = "API_KEY"
 
     val apiKey: String
-        get() = try {
-            apiProperties().getProperty(API_KEY)
-        } catch (e: Error) {
-            System.getenv()[API_KEY]!!
-        }
+        get() = apiProperties().getProperty(API_KEY)
 
     private fun apiProperties(): Properties {
-        val filename = "api.properties"
+        val filename = "local.properties"
         val file = File(filename)
         if (!file.exists()) {
             throw Error(
