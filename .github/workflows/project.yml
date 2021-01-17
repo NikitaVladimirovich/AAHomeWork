@@ -13,11 +13,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - uses: secrethub/actions/env-export@v0.2.1
-          env:
-            API_KEY: ${{ secrets.API_KEY }}
       - name: Run Unit tests
         run: bash ./gradlew test --stacktrace
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
 
   lint:
     name: Lint Tests
@@ -25,10 +24,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - uses: secrethub/actions/env-export@v0.2.1
-          env:
-            API_KEY: ${{ secrets.API_KEY }}
       - name: Run ktlint
         run: bash ./gradlew :app:ktlintDebugCheck
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
       - name: Run lint
         run: bash ./gradlew :app:lintDebug
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
