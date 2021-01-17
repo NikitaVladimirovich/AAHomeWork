@@ -21,7 +21,7 @@ android {
 
         testInstrumentationRunner = AppConfig.androidTestInstrumentation
 
-        buildConfigField("String", "API_KEY", ApiConfig.apiKey)
+        buildConfigField("String", "API_KEY", System.getenv()["API_KEY"]!!)
     }
 
     buildTypes {
