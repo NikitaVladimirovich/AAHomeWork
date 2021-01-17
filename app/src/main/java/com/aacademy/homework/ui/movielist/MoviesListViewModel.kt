@@ -10,10 +10,18 @@ import com.aacademy.homework.data.model.Movie
 import com.aacademy.homework.foundations.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.Collections
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class MoviesListViewModel @ViewModelInject constructor(
     private val dataRepository: DataRepository,
     private val dispatcher: CoroutineDispatcher
@@ -24,44 +32,44 @@ class MoviesListViewModel @ViewModelInject constructor(
 
     private val moviesExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         Timber.e(throwable)
-        _movies.postValue(Resource.error(throwable.message ?: ""))
+        if (currentPage == 1)
+            _movies.postValue(Resource.error(throwable.message ?: ""))
+        isLoading = false
     }
 
-    private var moviesList: MutableList<Movie>
+    private var moviesList: MutableList<Movie> = mutableListOf()
     private var currentPage = 1
     private var isLoading = false
     private var isLastPageLoaded = false
-    var currentQuery = ""
+
+    val queryFlow = MutableStateFlow("")
+    var currentJob: Job? = null
 
     init {
-        moviesList = mutableListOf()
-        loadMovies()
+        viewModelScope.launch {
+            queryFlow
+                .debounce(500)
+                .collect {
+                    loadFirstPage()
+                }
+        }
     }
 
-    fun refreshMoviesPreviews() {
+    fun loadFirstPage() {
+        currentJob?.cancel()
         currentPage = 1
         isLoading = false
         isLastPageLoaded = false
-        loadMovies()
-    }
-
-    fun searchMovies(query: String?) {
-        currentPage = 1
-        isLoading = false
-        isLastPageLoaded = false
-        currentQuery = query ?: ""
         loadMovies()
     }
 
     fun loadMovies() {
-        viewModelScope.launch(dispatcher + moviesExceptionHandler) {
-            if (!isLoading && !isLastPageLoaded) {
+        if (!isLoading && !isLastPageLoaded) {
+            currentJob = viewModelScope.launch(dispatcher + moviesExceptionHandler) {
                 isLoading = true
-                if (moviesList.isNullOrEmpty()) {
+                if (currentPage == 1)
                     _movies.postValue(Resource.loading(null))
-                }
-                val movies = dataRepository.getMovies(currentQuery, currentPage)
-
+                val movies = dataRepository.getMovies(queryFlow.value, currentPage)
                 if (currentPage == 1) {
                     moviesList = movies.second.toMutableList()
                 } else {
