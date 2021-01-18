@@ -28,11 +28,15 @@ import com.aacademy.homework.ui.moviedetail.FragmentMoviesDetails
 import com.aacademy.homework.ui.movielist.FragmentMoviesList
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.math.sqrt
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
@@ -46,7 +50,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_AAHomeWork)
         super.onCreate(savedInstanceState)
-        delegate.localNightMode = prefs.appTheme
         setContentView(binding.root)
 
         savedInstanceState ?: supportFragmentManager.open {
@@ -109,7 +112,7 @@ class MainActivity : AppCompatActivity() {
             val location = IntArray(2)
             view.getLocationOnScreen(location)
 
-            delegate.localNightMode = when (delegate.localNightMode) {
+            delegate.localNightMode = when (prefs.appTheme) {
                 MODE_NIGHT_YES -> MODE_NIGHT_NO
                 else -> MODE_NIGHT_YES
             }
