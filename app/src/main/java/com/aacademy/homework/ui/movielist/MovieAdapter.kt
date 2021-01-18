@@ -36,15 +36,11 @@ class MovieAdapter(
             )
         )
 
-    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.bind(movies[position])
-    }
+    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) = holder.bind(movies[position])
 
     override fun getItemCount(): Int = movies.size
 
-    override fun getItemId(position: Int): Long {
-        return movies[position].id
-    }
+    override fun getItemId(position: Int): Long = movies[position].id
 
     inner class MovieViewHolder(private val binding: LayoutMovieItemBinding) : LikeViewHolder(binding) {
 
