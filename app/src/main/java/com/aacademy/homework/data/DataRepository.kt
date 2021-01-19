@@ -2,10 +2,11 @@ package com.aacademy.homework.data
 
 import com.aacademy.homework.data.model.Actor
 import com.aacademy.homework.data.model.Movie
+import kotlinx.coroutines.flow.Flow
 
 interface DataRepository {
 
-    suspend fun getMovies(query: String? = null, page: Int = 1): Pair<Int, List<Movie>>
+    fun getMovies(query: String? = null, page: Int = 1): Flow<Triple<Boolean, Int, List<Movie>>>
 
     suspend fun getCast(id: Long): List<Actor>
 

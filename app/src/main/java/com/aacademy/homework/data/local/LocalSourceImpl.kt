@@ -6,14 +6,14 @@ import javax.inject.Inject
 
 class LocalSourceImpl @Inject constructor(private val database: AppDatabase) : LocalSource {
 
-    override suspend fun getAllMoviePreviews(): List<Movie> =
-        database.moviePreviewDao().getAllMovies()
+    override suspend fun getPopularMovies(): List<Movie> =
+        database.movieDao().getAllMovies()
 
     override suspend fun setMovieLiked(id: Long, isLiked: Boolean) =
-        database.moviePreviewDao().setMovieLiked(id, isLiked)
+        database.movieDao().setMovieLiked(id, isLiked)
 
-    override suspend fun cacheMoviePreviews(movies: List<Movie>) {
-        database.moviePreviewDao().clearMoviesPreviews()
-        database.moviePreviewDao().insert(movies)
+    override suspend fun cachePopularMovies(movies: List<Movie>) {
+        database.movieDao().clearMovies()
+        database.movieDao().insert(movies)
     }
 }

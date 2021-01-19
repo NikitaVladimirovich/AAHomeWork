@@ -16,6 +16,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.Collections
@@ -69,18 +70,24 @@ class MoviesListViewModel @ViewModelInject constructor(
                 isLoading = true
                 if (currentPage == 1)
                     _movies.postValue(Resource.loading(null))
-                val movies = dataRepository.getMovies(queryFlow.value, currentPage)
-                if (currentPage == 1) {
-                    moviesList = movies.second.toMutableList()
-                } else {
-                    moviesList.addAll(movies.second)
-                }
-                currentPage++
-                _movies.postValue(
-                    Resource.success(moviesList)
-                )
-                isLastPageLoaded = currentPage > movies.first
-                isLoading = false
+                dataRepository
+                    .getMovies(queryFlow.value, currentPage)
+                    .flowOn(dispatcher)
+                    .collect { movies ->
+                        if (currentPage == 1) {
+                            moviesList = movies.third.toMutableList()
+                        } else {
+                            moviesList.addAll(movies.third)
+                        }
+                        _movies.postValue(
+                            Resource.success(moviesList)
+                        )
+                        if (!movies.first) {
+                            currentPage++
+                            isLastPageLoaded = currentPage > movies.second
+                            isLoading = false
+                        }
+                    }
             }
         }
     }

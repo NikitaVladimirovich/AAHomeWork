@@ -8,6 +8,8 @@ import com.aacademy.homework.data.model.Genre
 import com.aacademy.homework.data.model.Movie
 import com.aacademy.homework.data.preferences.MyPreference
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Inject
@@ -22,12 +24,22 @@ class DataRepositoryImpl @Inject constructor(
 
     private lateinit var genres: Map<Long, Genre>
 
-    override suspend fun getMovies(query: String?, page: Int): Pair<Int, List<Movie>> {
-        lateinit var moviesResponse: MoviesResponse
+    override fun getMovies(query: String?, page: Int): Flow<Triple<Boolean, Int, List<Movie>>> = flow {
+        if (page == 1 && query.isNullOrEmpty()) {
+            val localMovies = localSource.getPopularMovies()
+            if (localMovies.isNotEmpty())
+                emit(Triple(true, 1, localMovies))
+        }
+
+        lateinit
+        var moviesResponse: MoviesResponse
         coroutineScope {
             launch {
                 moviesResponse =
-                    if (query.isNullOrEmpty()) apiSource.getPopularMovies(page) else apiSource.getMovies(query, page)
+                    if (query.isNullOrEmpty())
+                        apiSource.getPopularMovies(page)
+                    else
+                        apiSource.getMovies(query, page)
             }
             launch {
                 if (!::genres.isInitialized)
@@ -56,8 +68,9 @@ class DataRepositoryImpl @Inject constructor(
                 }
             )
         }
-        localSource.cacheMoviePreviews(result)
-        return Pair(moviesResponse.totalPages, result)
+        if (page == 1 && query.isNullOrEmpty())
+            localSource.cachePopularMovies(result)
+        emit(Triple(false, moviesResponse.totalPages, result))
     }
 
     override suspend fun getCast(id: Long): List<Actor> {

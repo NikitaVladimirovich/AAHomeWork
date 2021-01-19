@@ -7,9 +7,9 @@ import com.aacademy.homework.data.model.Movie
 @Database(
     entities = [Movie::class],
     exportSchema = false,
-    version = 5
+    version = 6
 )
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun moviePreviewDao(): MovieDao
+    abstract fun movieDao(): MovieDao
 }

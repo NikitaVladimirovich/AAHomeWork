@@ -28,5 +28,5 @@ interface MovieDao {
     suspend fun insert(movie: Movie)
 
     @Query("DELETE FROM movie")
-    suspend fun clearMoviesPreviews()
+    suspend fun clearMovies()
 }

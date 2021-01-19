@@ -13,6 +13,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.verifyOrder
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
@@ -42,7 +43,7 @@ class MoviesListViewModelTest {
     fun setup() {
         MockKAnnotations.init(this)
         every { moviesObserverMockito.onChanged(any()) } answers {}
-        coEvery { dataRepository.getMovies(any()) } returns Pair(1, emptyList())
+        coEvery { dataRepository.getMovies(any()) } returns flow { emit(Triple(true, 1, emptyList<Movie>())) }
         viewModel = MoviesListViewModel(dataRepository, TestCoroutineDispatcher())
         viewModel.movies.observeForever(moviesObserverMockito)
     }
@@ -73,7 +74,7 @@ class MoviesListViewModelTest {
 
     @Test
     fun `should return success when repository return data`() = coroutineScope.dispatcher.runBlockingTest {
-        coEvery { dataRepository.getMovies() } returns Pair(1, emptyList())
+        coEvery { dataRepository.getMovies() } returns flow { emit(Triple(true, 1, emptyList<Movie>())) }
 
         viewModel.loadFirstPage()
         verifyOrder {
