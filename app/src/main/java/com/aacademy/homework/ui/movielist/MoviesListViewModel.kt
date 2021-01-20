@@ -75,16 +75,16 @@ class MoviesListViewModel @ViewModelInject constructor(
                     .flowOn(dispatcher)
                     .collect { movies ->
                         if (currentPage == 1) {
-                            moviesList = movies.third.toMutableList()
+                            moviesList = movies.second.toMutableList()
                         } else {
-                            moviesList.addAll(movies.third)
+                            moviesList.addAll(movies.second)
                         }
                         _movies.postValue(
                             Resource.success(moviesList)
                         )
-                        if (!movies.first) {
+                        if (movies.first != 0) {
                             currentPage++
-                            isLastPageLoaded = currentPage > movies.second
+                            isLastPageLoaded = currentPage > movies.first
                             isLoading = false
                         }
                     }

@@ -24,11 +24,11 @@ class DataRepositoryImpl @Inject constructor(
 
     private lateinit var genres: Map<Long, Genre>
 
-    override fun getMovies(query: String?, page: Int): Flow<Triple<Boolean, Int, List<Movie>>> = flow {
+    override fun getMovies(query: String?, page: Int): Flow<Pair<Int, List<Movie>>> = flow {
         if (page == 1 && query.isNullOrEmpty()) {
             val localMovies = localSource.getPopularMovies()
             if (localMovies.isNotEmpty())
-                emit(Triple(true, 1, localMovies))
+                emit(Pair(0, localMovies))
         }
 
         lateinit
@@ -70,7 +70,7 @@ class DataRepositoryImpl @Inject constructor(
         }
         if (page == 1 && query.isNullOrEmpty())
             localSource.cachePopularMovies(result)
-        emit(Triple(false, moviesResponse.totalPages, result))
+        emit(Pair(moviesResponse.totalPages, result))
     }
 
     override suspend fun getCast(id: Long): List<Actor> {

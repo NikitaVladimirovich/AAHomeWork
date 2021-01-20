@@ -10,6 +10,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockkClass
 import io.mockk.verifyOrder
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -43,7 +44,7 @@ class MoviesListViewModelTest {
     fun setup() {
         MockKAnnotations.init(this)
         every { moviesObserverMockito.onChanged(any()) } answers {}
-        coEvery { dataRepository.getMovies(any()) } returns flow { emit(Triple(true, 1, emptyList<Movie>())) }
+//        coEvery { dataRepository.getMovies(any()) } returns flow { emit(Pair(1, emptyList<Movie>())) }
         viewModel = MoviesListViewModel(dataRepository, TestCoroutineDispatcher())
         viewModel.movies.observeForever(moviesObserverMockito)
     }
@@ -74,7 +75,7 @@ class MoviesListViewModelTest {
 
     @Test
     fun `should return success when repository return data`() = coroutineScope.dispatcher.runBlockingTest {
-        coEvery { dataRepository.getMovies() } returns flow { emit(Triple(true, 1, emptyList<Movie>())) }
+        coEvery { dataRepository.getMovies(any()) } returns flow { emit(Pair(1, emptyList<Movie>())) }
 
         viewModel.loadFirstPage()
         verifyOrder {
@@ -82,4 +83,39 @@ class MoviesListViewModelTest {
             moviesObserverMockito.onChanged(Resource.success(emptyList()))
         }
     }
+
+    @Test
+    fun `should return separated success when repository return several data`() =
+        coroutineScope.dispatcher.runBlockingTest {
+            val local = listOf(mockkClass(Movie::class))
+            val remote = listOf(mockkClass(Movie::class))
+            coEvery { dataRepository.getMovies(any()) } returns flow {
+                emit(Pair(0, local))
+                emit(Pair(1, remote))
+            }
+
+            viewModel.loadFirstPage()
+            verifyOrder {
+                moviesObserverMockito.onChanged(Resource.loading())
+                moviesObserverMockito.onChanged(Resource.success(local))
+                moviesObserverMockito.onChanged(Resource.success(remote))
+            }
+        }
+
+    @Test
+    fun `should return united success when repository return several data`() =
+        coroutineScope.dispatcher.runBlockingTest {
+            val first = listOf(mockkClass(Movie::class))
+            val second = listOf(mockkClass(Movie::class))
+            coEvery { dataRepository.getMovies(any()) } returns flow {
+                emit(Pair(1, first))
+                emit(Pair(2, second))
+            }
+
+            viewModel.loadFirstPage()
+            verifyOrder {
+                moviesObserverMockito.onChanged(Resource.loading())
+                moviesObserverMockito.onChanged(Resource.success(first + second))
+            }
+        }
 }
