@@ -73,17 +73,15 @@ class DataRepositoryImpl @Inject constructor(
         emit(Pair(moviesResponse.totalPages, result))
     }
 
-    override suspend fun getCast(id: Long): List<Actor> {
-        var actors = emptyList<Actor>()
-        coroutineScope {
-            launch {
-                actors = apiSource.getActors(id).cast
-            }
-        }
-        return actors
+    override suspend fun getCast(movieId: Long): Flow<List<Actor>> = flow {
+        emit(localSource.getActors(movieId))
+        val actors = apiSource.getActors(movieId).cast
+        actors.forEach { it.movieId = movieId }
+        localSource.cacheActors(actors)
+        emit(actors)
     }
 
-    override suspend fun setMovieLiked(id: Long, isLiked: Boolean) {
-        localSource.setMovieLiked(id, isLiked)
+    override suspend fun setMovieLiked(movieId: Long, isLiked: Boolean) {
+        localSource.setMovieLiked(movieId, isLiked)
     }
 }

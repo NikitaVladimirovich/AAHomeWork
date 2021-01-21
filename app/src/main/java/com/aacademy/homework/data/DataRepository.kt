@@ -8,7 +8,7 @@ interface DataRepository {
 
     fun getMovies(query: String? = null, page: Int = 1): Flow<Pair<Int, List<Movie>>>
 
-    suspend fun getCast(id: Long): List<Actor>
+    suspend fun getCast(movieId: Long): Flow<List<Actor>>
 
-    suspend fun setMovieLiked(id: Long, isLiked: Boolean)
+    suspend fun setMovieLiked(movieId: Long, isLiked: Boolean)
 }

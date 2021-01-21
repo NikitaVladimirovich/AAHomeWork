@@ -14,6 +14,8 @@ import com.aacademy.homework.foundations.Resource
 import com.aacademy.homework.ui.moviedetail.FragmentMoviesDetails.Companion.MOVIE_PREVIEW_ARGUMENT
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -40,7 +42,9 @@ class MovieDetailViewModel @ViewModelInject constructor(
     fun reloadData() {
         viewModelScope.launch(dispatcher + detailExceptionHandler) {
             _cast.postValue(Resource.loading())
-            _cast.postValue(Resource.success(dataRepository.getCast(movie.id)))
+            dataRepository.getCast(movie.id).flowOn(dispatcher).collect {
+                _cast.postValue(Resource.success(it))
+            }
         }
     }
 }

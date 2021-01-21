@@ -18,9 +18,9 @@ interface MovieDao {
     suspend fun setMovieLiked(id: Long, isLiked: Boolean)
 
     @Transaction
-    suspend fun insert(moviePreviewsWithTags: List<Movie>) {
-        for (moviePreview in moviePreviewsWithTags) {
-            insert(moviePreview)
+    suspend fun insert(movies: List<Movie>) {
+        for (movie in movies) {
+            insert(movie)
         }
     }
 

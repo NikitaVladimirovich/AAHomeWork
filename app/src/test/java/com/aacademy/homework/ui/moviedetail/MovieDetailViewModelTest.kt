@@ -17,7 +17,9 @@ import io.mockk.mockkClass
 import io.mockk.verify
 import io.mockk.verifyOrder
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -68,7 +70,7 @@ class MovieDetailViewModelTest {
     }
 
     @Test
-    fun `should return error when repository throw exception`() {
+    fun `should return error when repository throw exception`() = coroutineScope.dispatcher.runBlockingTest {
         val message = "Test"
         coEvery { dataRepository.getCast(any()) } throws Exception(message)
 
@@ -80,9 +82,9 @@ class MovieDetailViewModelTest {
     }
 
     @Test
-    fun `should return success when repository return data`() {
+    fun `should return success when repository return data`() = coroutineScope.dispatcher.runBlockingTest {
         val data = emptyList<Actor>()
-        coEvery { dataRepository.getCast(any()) } returns data
+        coEvery { dataRepository.getCast(any()) } returns flow { emit(data) }
 
         viewModel.reloadData()
         verifyOrder {
