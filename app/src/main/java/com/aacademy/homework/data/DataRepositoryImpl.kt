@@ -63,6 +63,7 @@ class DataRepositoryImpl @Inject constructor(
                 runtime = 0,
                 reviews = jsonMovie.voteCount,
                 overview = jsonMovie.overview,
+                popularity = jsonMovie.popularity,
                 genres = jsonMovie.genreIds.map { id ->
                     genres[id] ?: throw IllegalArgumentException("Genre not found")
                 }

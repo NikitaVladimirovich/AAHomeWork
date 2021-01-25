@@ -21,5 +21,6 @@ data class Movie(
     val runtime: Int,
     val genres: List<Genre>,
     val overview: String,
+    val popularity: Float,
     var isLiked: Boolean = false
 ) : Parcelable

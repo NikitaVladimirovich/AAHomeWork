@@ -22,5 +22,7 @@ class JsonMovie(
     @SerialName("adult")
     val adult: Boolean,
     @SerialName("vote_count")
-    val voteCount: Int
+    val voteCount: Int,
+    @SerialName("popularity")
+    val popularity: Float
 )
