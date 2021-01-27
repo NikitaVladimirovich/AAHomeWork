@@ -24,15 +24,14 @@ class DataRepositoryImpl @Inject constructor(
 
     private lateinit var genres: Map<Long, Genre>
 
-    override fun getMovies(query: String?, page: Int): Flow<Pair<Int, List<Movie>>> = flow {
-        if (page == 1 && query.isNullOrEmpty()) {
-            val localMovies = localSource.getPopularMovies()
+    override fun getMovies(query: String, page: Int): Flow<Pair<Int, List<Movie>>> = flow {
+        if (page == 1) {
+            val localMovies = localSource.getPopularMovies(query)
             if (localMovies.isNotEmpty())
                 emit(Pair(0, localMovies))
         }
 
-        lateinit
-        var moviesResponse: MoviesResponse
+        lateinit var moviesResponse: MoviesResponse
         coroutineScope {
             launch {
                 moviesResponse =
@@ -69,8 +68,7 @@ class DataRepositoryImpl @Inject constructor(
                 }
             )
         }
-        if (page == 1 && query.isNullOrEmpty())
-            localSource.cachePopularMovies(result)
+        localSource.cachePopularMovies(result)
         emit(Pair(moviesResponse.totalPages, result))
     }
 

@@ -13,8 +13,11 @@ interface MovieDBService {
     @GET("configuration")
     suspend fun getConfiguration(): Configuration
 
-    @GET("movie/popular")
-    suspend fun getPopularMovies(@Query("page") page: Int): MoviesResponse
+    @GET("discover/movie")
+    suspend fun getPopularMovies(
+        @Query("page") page: Int,
+        @Query("sort_by") sort: String = "popularity.desc"
+    ): MoviesResponse
 
     @GET("search/movie")
     suspend fun getMovies(@Query("query") query: String, @Query("page") page: Int): MoviesResponse

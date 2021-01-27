@@ -5,7 +5,7 @@ import com.aacademy.homework.data.model.Movie
 
 interface LocalSource {
 
-    suspend fun getPopularMovies(): List<Movie>
+    suspend fun getPopularMovies(query: String = ""): List<Movie>
 
     suspend fun setMovieLiked(movieId: Long, isLiked: Boolean)
 

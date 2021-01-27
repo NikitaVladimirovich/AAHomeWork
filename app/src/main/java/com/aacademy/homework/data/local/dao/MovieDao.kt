@@ -11,21 +11,22 @@ import com.aacademy.homework.data.model.Movie
 interface MovieDao {
 
     @Transaction
-    @Query("SELECT * FROM movie ORDER BY popularity DESC")
-    suspend fun getAllMovies(): List<Movie>
+    @Query("SELECT * FROM movie WHERE title LIKE :query ORDER BY popularity DESC LIMIT 20")
+    suspend fun getMovies(query: String = ""): List<Movie>
+
+    @Transaction
+    @Query("SELECT * FROM movie WHERE isLiked = 1")
+    suspend fun getLikedMovies(): List<Movie>
 
     @Query("UPDATE movie SET isLiked = :isLiked WHERE id = :id")
     suspend fun setMovieLiked(id: Long, isLiked: Boolean)
 
     @Transaction
     suspend fun update(movies: List<Movie>) {
-        var oldMovies = getAllMovies()
         val moviesIds = movies.map { it.id }
-        val moviesForDelete = oldMovies.filter { !moviesIds.contains(it.id) }
-        oldMovies = oldMovies.filter { moviesIds.contains(it.id) }
-        moviesForDelete.forEach { deleteOldMovie(it.id) }
+        val likedMovies = getLikedMovies().filter { moviesIds.contains(it.id) }
         for (movie in movies) {
-            oldMovies.firstOrNull { it.id == movie.id }?.let {
+            likedMovies.firstOrNull { it.id == movie.id }?.let {
                 movie.isLiked = it.isLiked
             }
             insert(movie)

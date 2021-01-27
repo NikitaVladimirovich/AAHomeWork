@@ -75,7 +75,8 @@ class MoviesListViewModel @ViewModelInject constructor(
                     .flowOn(dispatcher)
                     .collect { movies ->
                         if (currentPage == 1) {
-                            moviesList = movies.second.toMutableList()
+                            if (movies.first != 0 || movies.second.isNotEmpty())
+                                moviesList = movies.second.toMutableList()
                         } else {
                             moviesList.addAll(movies.second)
                         }

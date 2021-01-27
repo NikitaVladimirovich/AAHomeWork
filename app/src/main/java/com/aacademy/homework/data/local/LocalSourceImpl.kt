@@ -7,8 +7,8 @@ import javax.inject.Inject
 
 class LocalSourceImpl @Inject constructor(private val database: AppDatabase) : LocalSource {
 
-    override suspend fun getPopularMovies(): List<Movie> =
-        database.movieDao().getAllMovies()
+    override suspend fun getPopularMovies(query: String): List<Movie> =
+        database.movieDao().getMovies("%$query%")
 
     override suspend fun setMovieLiked(movieId: Long, isLiked: Boolean) =
         database.movieDao().setMovieLiked(movieId, isLiked)
