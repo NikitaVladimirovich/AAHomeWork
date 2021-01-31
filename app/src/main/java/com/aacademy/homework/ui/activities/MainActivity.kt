@@ -19,7 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import com.aacademy.homework.R
 import com.aacademy.homework.R.anim
 import com.aacademy.homework.R.id
-import com.aacademy.homework.data.model.MoviePreviewWithGenres
+import com.aacademy.homework.data.model.Movie
 import com.aacademy.homework.data.preferences.MyPreference
 import com.aacademy.homework.databinding.ActivityMainBinding
 import com.aacademy.homework.extensions.open
@@ -28,11 +28,15 @@ import com.aacademy.homework.ui.moviedetail.FragmentMoviesDetails
 import com.aacademy.homework.ui.movielist.FragmentMoviesList
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.math.sqrt
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
@@ -44,8 +48,8 @@ class MainActivity : AppCompatActivity() {
     private var detailsFragmentOpened = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Theme_AAHomeWork)
         super.onCreate(savedInstanceState)
-        delegate.localNightMode = prefs.appTheme
         setContentView(binding.root)
 
         savedInstanceState ?: supportFragmentManager.open {
@@ -73,10 +77,10 @@ class MainActivity : AppCompatActivity() {
             android.R.id.home -> {
                 onBackPressed()
             }
-            id.theme -> {
+            id.action_theme -> {
                 if (SystemClock.elapsedRealtime() - lastTimeOptionsItemSelected > 1000) {
                     lastTimeOptionsItemSelected = SystemClock.elapsedRealtime()
-                    changeTheme(findViewById(id.theme))
+                    changeTheme(findViewById(id.action_theme))
                 }
             }
         }
@@ -108,7 +112,7 @@ class MainActivity : AppCompatActivity() {
             val location = IntArray(2)
             view.getLocationOnScreen(location)
 
-            delegate.localNightMode = when (delegate.localNightMode) {
+            delegate.localNightMode = when (prefs.appTheme) {
                 MODE_NIGHT_YES -> MODE_NIGHT_NO
                 else -> MODE_NIGHT_YES
             }
@@ -138,7 +142,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun openMovieDetail(moviePreview: MoviePreviewWithGenres) {
+    fun openMovieDetail(movie: Movie) {
         supportFragmentManager.open {
             setCustomAnimations(
                 anim.fade_in,
@@ -146,7 +150,7 @@ class MainActivity : AppCompatActivity() {
                 anim.fade_in,
                 anim.fade_out
             )
-            add(id.flContainer, FragmentMoviesDetails.newInstance(moviePreview), FRAGMENT_TAG)
+            add(id.flContainer, FragmentMoviesDetails.newInstance(movie), FRAGMENT_TAG)
             addToBackStack(null)
         }
     }

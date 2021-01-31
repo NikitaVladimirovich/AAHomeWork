@@ -40,7 +40,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="ContentDescription"
-                    tools:srcCompat="@drawable/orig" />
+                    tools:srcCompat="@drawable/film_poster_placeholder" />
 
                 <View
                     android:layout_width="match_parent"
@@ -109,29 +109,20 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Action, Adventure, Fantasy" />
 
-            <com.aacademy.homework.ui.views.RatingBarSvg
+            <me.zhanghai.android.materialratingbar.MaterialRatingBar
                 android:id="@+id/rbRating"
                 style="@style/RatingBar"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/space3x"
-                android:indeterminate="false"
-                android:isIndicator="true"
-                android:numStars="5"
-                app:drawableHeight="@dimen/space3x"
-                app:drawableWidth="@dimen/space3x"
-                app:innerPadding="@dimen/space"
-                app:layout_constraintBottom_toBottomOf="@+id/tvReviews"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintHorizontal_chainStyle="packed"
+                android:layout_height="@dimen/space4x"
                 app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
-                app:layout_constraintRight_toLeftOf="@+id/tvReviews"
                 app:layout_constraintTop_toTopOf="@+id/tvReviews"
+                app:layout_constraintBottom_toBottomOf="@+id/tvReviews"
                 tools:rating="3" />
 
             <TextView
                 android:id="@+id/tvReviews"
                 style="@style/DetailMovieReviews"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space2x"
                 android:layout_marginTop="@dimen/space"

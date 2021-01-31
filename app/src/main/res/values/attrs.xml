@@ -23,4 +23,5 @@
     <attr name="colorMovieMaskStart" format="reference" />
     <attr name="colorMovieMaskEnd" format="reference" />
     <attr name="colorProgressTint" format="reference" />
+    <attr name="colorNoSelected" format="reference" />
 </resources>

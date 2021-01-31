@@ -21,9 +21,10 @@ class AutofitRecyclerView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.ratingBarStyle,
-    private var minItemWidth: Int = 0,
-    private var manager: GridLayoutManager? = null
+    private var minItemWidth: Int = 0
 ) : RecyclerView(context, attrs, defStyleAttr) {
+
+    lateinit var manager: GridLayoutManager
 
     init {
         attrs?.let { init(it) }
@@ -42,7 +43,7 @@ class AutofitRecyclerView @JvmOverloads constructor(
         super.onMeasure(widthSpec, heightSpec)
         if (minItemWidth > 0) {
             val spanCount = max(1, measuredWidth / minItemWidth)
-            manager!!.spanCount = spanCount
+            manager.spanCount = spanCount
         }
     }
 }

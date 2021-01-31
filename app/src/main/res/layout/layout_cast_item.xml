@@ -13,7 +13,7 @@
         android:layout_height="@dimen/castPhotoSize"
         android:scaleType="centerCrop"
         app:shapeAppearanceOverlay="@style/CastCard.ImageAppearance"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@drawable/actor_photo_placeholder" />
 
     <TextView
         android:id="@+id/tvNameCast"

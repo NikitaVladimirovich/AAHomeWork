@@ -1,15 +1,17 @@
 package com.aacademy.homework.data.model
 
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@Entity(primaryKeys = ["id", "movieId"])
 @Serializable
-@Entity
 data class Actor(
-    @PrimaryKey val id: Long,
+    @SerialName("id")
+    val id: Long,
+    @SerialName("name")
     val name: String,
     @SerialName("profile_path")
-    val picture: String
+    val profilePath: String?,
+    var movieId: Long = 0
 )

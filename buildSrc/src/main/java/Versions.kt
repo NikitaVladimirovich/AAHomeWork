@@ -24,9 +24,14 @@ object Versions {
     const val hilt_version = "2.30.1-alpha"
     const val hilt_compiler_version = "1.0.0-alpha02"
     const val swipetorefresh_version = "1.0.0"
+    const val rating_bar_version = "1.4.0"
 
     //Test
-    const val junit = "4.13.1"
-    const val extJunit = "1.1.2"
-    const val espresso = "3.3.0"
+    const val junit_version = "4.13.1"
+    const val extJunit_version = "1.1.2"
+    const val espresso_version = "3.3.0"
+    const val coroutines_test_version = "1.4.2"
+    const val core_testing_version = "2.1.0"
+    const val mockito_core_version = "3.6.28"
+    const val mockk_version = "1.10.3-jdk8"
 }

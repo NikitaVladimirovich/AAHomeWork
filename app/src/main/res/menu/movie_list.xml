@@ -3,9 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/theme"
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search"
+        android:title="@string/search"
+        app:actionLayout="@layout/layout_search_view"
+        app:showAsAction="ifRoom|collapseActionView" />
+
+    <item
+        android:id="@+id/action_theme"
         android:icon="@drawable/ic_theme"
         android:title="@string/theme"
-        app:iconTint="?attr/colorAccentPink"
         app:showAsAction="ifRoom" />
 </menu>

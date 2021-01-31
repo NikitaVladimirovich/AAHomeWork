@@ -1,14 +1,21 @@
 package com.aacademy.homework.ui.movielist
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.aacademy.homework.R
 import com.aacademy.homework.databinding.FragmentMoviesListBinding
+import com.aacademy.homework.extensions.hideKeyboard
 import com.aacademy.homework.extensions.hideLoading
 import com.aacademy.homework.extensions.showLoading
 import com.aacademy.homework.extensions.startCircularReveal
@@ -20,7 +27,12 @@ import com.aacademy.homework.ui.activities.MainActivity
 import com.aacademy.homework.ui.views.DragManageAdapter
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.launch
 
+@ExperimentalCoroutinesApi
+@FlowPreview
 @AndroidEntryPoint
 class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
@@ -29,6 +41,11 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
     private val viewModel: MoviesListViewModel by viewModels()
 
     private lateinit var movieAdapter: MovieAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,6 +60,31 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
         initViews()
         subscribe()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        val searchItem = menu.findItem(R.id.action_search)
+        val searchView = searchItem?.actionView as SearchView
+        if (viewModel.queryFlow.value.isNotEmpty()) {
+            searchItem.expandActionView()
+            searchView.setQuery(viewModel.queryFlow.value, true)
+            searchView.clearFocus()
+        }
+
+        searchView.setOnQueryTextListener(
+            object : OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    lifecycleScope.launch { viewModel.queryFlow.value = (query ?: "") }
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    lifecycleScope.launch { viewModel.queryFlow.value = newText ?: "" }
+                    return false
+                }
+            }
+        )
     }
 
     private fun initViews() {
@@ -65,31 +107,46 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
                 setHasFixedSize(true)
                 adapter = movieAdapter
                 itemAnimator = MovieItemAnimator()
+
+                addOnScrollListener(
+                    object : RecyclerView.OnScrollListener() {
+                        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                            super.onScrolled(recyclerView, dx, dy)
+                            recyclerView.hideKeyboard()
+                            if (manager.itemCount - (manager.findLastVisibleItemPosition() + 1) < 20) {
+                                viewModel.loadMovies()
+                            }
+                        }
+                    }
+                )
             }
             ItemTouchHelper(DragManageAdapter(moveCallback = viewModel::swapItems)).attachToRecyclerView(rvMovies)
             swipeRefresh.setOnRefreshListener {
-                movieAdapter.moviePreviews = emptyList()
-                viewModel.refreshMoviesPreviews()
+                movieAdapter.movies = emptyList()
+                viewModel.loadFirstPage()
             }
-            errorView.reloadListener = { viewModel.refreshMoviesPreviews() }
+            errorView.reloadListener = { viewModel.loadFirstPage() }
         }
     }
 
     private fun subscribe() {
-        viewModel.moviesPreview.observe(
+        viewModel.movies.observe(
             viewLifecycleOwner,
             { resource ->
                 when (resource.status) {
                     SUCCESS -> {
                         hideLoading()
                         binding.swipeRefresh.isRefreshing = false
-                        movieAdapter.moviePreviews = resource.data!!
+                        movieAdapter.movies = resource.data!!
+                        binding.rvMovies.visibility = VISIBLE
                         if (resource.data.isNullOrEmpty())
                             binding.emptyView.visibility = VISIBLE
                     }
                     ERROR -> {
                         hideLoading()
+                        binding.swipeRefresh.isRefreshing = false
                         binding.errorView.visibility = VISIBLE
+                        binding.rvMovies.visibility = GONE
                     }
                     LOADING -> {
                         binding.emptyView.visibility = GONE

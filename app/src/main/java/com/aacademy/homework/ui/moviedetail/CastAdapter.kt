@@ -3,6 +3,7 @@ package com.aacademy.homework.ui.moviedetail
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.aacademy.homework.R
 import com.aacademy.homework.data.model.Actor
 import com.aacademy.homework.databinding.LayoutCastItemBinding
 import com.aacademy.homework.extensions.loadImage
@@ -20,20 +21,18 @@ class CastAdapter(val glide: RequestManager) : RecyclerView.Adapter<CastViewHold
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CastViewHolder =
         CastViewHolder(LayoutCastItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
-    override fun onBindViewHolder(holder: CastViewHolder, position: Int) {
-        holder.bind(actors[position])
-    }
+    override fun onBindViewHolder(holder: CastViewHolder, position: Int) = holder.bind(actors[position])
 
     override fun getItemCount(): Int = actors.size
-    override fun getItemId(position: Int): Long {
-        return actors[position].id
-    }
+
+    override fun getItemId(position: Int): Long = actors[position].id
 
     inner class CastViewHolder(private val binding: LayoutCastItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(actor: Actor) {
             binding.tvNameCast.text = actor.name
-            glide.loadImage(actor.picture)
+            glide.loadImage(actor.profilePath ?: "")
+                .placeholder(R.drawable.actor_photo_placeholder)
                 .into(binding.ivPhotoCast)
         }
     }

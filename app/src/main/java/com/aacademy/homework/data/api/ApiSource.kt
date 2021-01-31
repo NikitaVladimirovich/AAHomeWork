@@ -1,14 +1,21 @@
 package com.aacademy.homework.data.api
 
-import com.aacademy.homework.data.api.model.JsonMovie
-import com.aacademy.homework.data.model.Actor
-import com.aacademy.homework.data.model.Genre
+import com.aacademy.homework.data.api.model.ActorsResponse
+import com.aacademy.homework.data.api.model.Configuration
+import com.aacademy.homework.data.api.model.GenresResponse
+import com.aacademy.homework.data.api.model.MoviesResponse
 
 interface ApiSource {
 
-    suspend fun getMovies(): List<JsonMovie>
+    suspend fun getConfiguration(): Configuration
 
-    suspend fun getGenres(): List<Genre>
+    suspend fun getPopularMovies(page: Int): MoviesResponse
 
-    suspend fun getActors(): List<Actor>
+    suspend fun getGenres(): GenresResponse
+
+    suspend fun getMovies(query: String, page: Int): MoviesResponse
+
+    suspend fun getActors(
+        movieId: Long
+    ): ActorsResponse
 }
