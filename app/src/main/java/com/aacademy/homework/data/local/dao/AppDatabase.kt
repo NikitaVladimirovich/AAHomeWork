@@ -8,7 +8,7 @@ import com.aacademy.homework.data.model.Movie
 @Database(
     entities = [Movie::class, Actor::class],
     exportSchema = false,
-    version = 9
+    version = 1
 )
 abstract class AppDatabase : RoomDatabase() {
 

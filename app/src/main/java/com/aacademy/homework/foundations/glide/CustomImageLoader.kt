@@ -9,7 +9,7 @@ import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import com.bumptech.glide.load.model.stream.BaseGlideUrlLoader
 import java.io.InputStream
 
-class CustomImageLoader(urlLoader: ModelLoader<GlideUrl?, InputStream?>?, private val baseUrl: MyPreference) :
+class CustomImageLoader(urlLoader: ModelLoader<GlideUrl?, InputStream?>?, private val myPreference: MyPreference) :
     BaseGlideUrlLoader<String>(urlLoader) {
 
     override fun handles(model: String): Boolean {
@@ -17,13 +17,13 @@ class CustomImageLoader(urlLoader: ModelLoader<GlideUrl?, InputStream?>?, privat
     }
 
     override fun getUrl(model: String, width: Int, height: Int, options: Options): String {
-        return baseUrl.imageUrl + model
+        return myPreference.imageUrl + model
     }
 
-    class Factory(private val baseUrl: MyPreference) : ModelLoaderFactory<String, InputStream> {
+    class Factory(private val myPreference: MyPreference) : ModelLoaderFactory<String, InputStream> {
 
         override fun build(multiFactory: MultiModelLoaderFactory): ModelLoader<String, InputStream> {
-            return CustomImageLoader(multiFactory.build(GlideUrl::class.java, InputStream::class.java), baseUrl)
+            return CustomImageLoader(multiFactory.build(GlideUrl::class.java, InputStream::class.java), myPreference)
         }
 
         override fun teardown() {}
