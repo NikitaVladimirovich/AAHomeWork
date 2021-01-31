@@ -1,15 +1,14 @@
 package com.aacademy.homework.data
 
-import com.aacademy.homework.data.model.MovieDetail
-import com.aacademy.homework.data.model.MoviePreview
+import com.aacademy.homework.data.model.Actor
+import com.aacademy.homework.data.model.Movie
+import kotlinx.coroutines.flow.Flow
 
 interface DataRepository {
 
-    suspend fun getAllPreviews(): List<MoviePreview>
+    fun getMovies(query: String = "", page: Int = 1): Flow<Pair<Int, List<Movie>>>
 
-    suspend fun loadAllPreviews(): List<MoviePreview>
+    suspend fun getCast(movieId: Long): Flow<List<Actor>>
 
-    suspend fun getMovieDetail(id: Long): MovieDetail
-
-    suspend fun setMovieLiked(id: Long, isLiked: Boolean)
+    suspend fun setMovieLiked(movieId: Long, isLiked: Boolean)
 }

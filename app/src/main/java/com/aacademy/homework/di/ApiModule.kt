@@ -1,15 +1,12 @@
 package com.aacademy.homework.di
 
-import android.content.Context
 import com.aacademy.homework.BuildConfig
-import com.aacademy.homework.data.api.MoviesService
-import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestManager
+import com.aacademy.homework.data.api.ApiKeyQueryInterceptor
+import com.aacademy.homework.data.api.MovieDBService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -28,22 +25,26 @@ object ApiModule {
 
     @Singleton
     @Provides
-    fun provideMoviesService(
+    fun provideMoviesDBService(
         okHttpClient: OkHttpClient,
         converterFactory: Converter.Factory
-    ): MoviesService {
-        return Retrofit.Builder().baseUrl("https://gist.githubusercontent.com/NikitaVladimirovich/")
+    ): MovieDBService {
+        return Retrofit.Builder()
+            .baseUrl("https://api.themoviedb.org/3/")
             .addConverterFactory(converterFactory)
             .client(okHttpClient)
             .build()
-            .create(MoviesService::class.java)
+            .create(MovieDBService::class.java)
     }
 
     @Singleton
     @Provides
     fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
-            .apply { addInterceptor(HttpLoggingInterceptor().setLevel(if (BuildConfig.DEBUG) Level.BODY else Level.NONE)) }
+            .apply {
+                addInterceptor(HttpLoggingInterceptor().setLevel(if (BuildConfig.DEBUG) Level.BODY else Level.NONE))
+                addInterceptor(ApiKeyQueryInterceptor())
+            }
             .build()
     }
 
@@ -51,10 +52,5 @@ object ApiModule {
     @Provides
     fun provideConverterFactory(): Converter.Factory {
         return Json { ignoreUnknownKeys = true }.asConverterFactory("application/json".toMediaType())
-    }
-
-    @Provides
-    fun provideGlide(@ApplicationContext context: Context): RequestManager {
-        return Glide.with(context)
     }
 }

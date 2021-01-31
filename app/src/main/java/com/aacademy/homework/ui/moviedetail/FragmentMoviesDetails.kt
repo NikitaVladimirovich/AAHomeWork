@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aacademy.homework.R
-import com.aacademy.homework.data.model.MoviePreview
+import com.aacademy.homework.data.model.Movie
 import com.aacademy.homework.databinding.FragmentMoviesDetailsBinding
 import com.aacademy.homework.extensions.hideLoading
 import com.aacademy.homework.extensions.loadImage
@@ -45,7 +45,8 @@ class FragmentMoviesDetails @Inject constructor() : Fragment(R.layout.fragment_m
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.findItem(R.id.theme).isVisible = false
+        menu.findItem(R.id.action_theme).isVisible = false
+        menu.findItem(R.id.action_search).isVisible = false
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -76,9 +77,10 @@ class FragmentMoviesDetails @Inject constructor() : Fragment(R.layout.fragment_m
     }
 
     private fun subscribe() {
-        viewModel.moviePreview.let { moviePreview ->
+        viewModel.movie.let { moviePreview ->
             binding.apply {
                 glide.loadImage(moviePreview.backdrop)
+                    .placeholder(R.drawable.film_poster_placeholder)
                     .into(ivCover)
                 collapsingToolbar.title = moviePreview.title
                 tvAgeLimit.text =
@@ -87,21 +89,21 @@ class FragmentMoviesDetails @Inject constructor() : Fragment(R.layout.fragment_m
                 tvReviews.text =
                     getString(R.string.reviewsFormat).format(moviePreview.reviews)
                 rbRating.rating = moviePreview.rating / 2
+                binding.tvStoryline.text = moviePreview.overview
             }
         }
 
-        viewModel.movieDetail.observe(viewLifecycleOwner) { resource ->
+        viewModel.cast.observe(viewLifecycleOwner) { resource ->
             when (resource.status) {
                 SUCCESS -> {
                     hideLoading()
                     resource.data?.let {
-                        binding.tvStoryline.text = it.overview
                         binding.tvStorylineHeader.visibility = VISIBLE
                         binding.tvStoryline.visibility = VISIBLE
                         binding.rvCast.visibility = VISIBLE
-                        if (it.actors.isNotEmpty()) {
+                        if (it.isNotEmpty()) {
                             binding.tvCast.visibility = VISIBLE
-                            castAdapter.actors = it.actors
+                            castAdapter.actors = it
                         } else
                             binding.tvCast.visibility = GONE
                     }
@@ -126,9 +128,9 @@ class FragmentMoviesDetails @Inject constructor() : Fragment(R.layout.fragment_m
 
         const val MOVIE_PREVIEW_ARGUMENT = "MoviePreview"
 
-        fun newInstance(moviePreview: MoviePreview): FragmentMoviesDetails {
+        fun newInstance(movie: Movie): FragmentMoviesDetails {
             val args = Bundle()
-            args.putParcelable(MOVIE_PREVIEW_ARGUMENT, moviePreview)
+            args.putParcelable(MOVIE_PREVIEW_ARGUMENT, movie)
             val fragment = FragmentMoviesDetails()
             fragment.arguments = args
             return fragment

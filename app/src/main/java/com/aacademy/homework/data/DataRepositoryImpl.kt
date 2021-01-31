@@ -1,83 +1,86 @@
 package com.aacademy.homework.data
 
 import com.aacademy.homework.data.api.ApiSource
-import com.aacademy.homework.data.api.model.JsonMovie
+import com.aacademy.homework.data.api.model.MoviesResponse
 import com.aacademy.homework.data.local.LocalSource
 import com.aacademy.homework.data.model.Actor
 import com.aacademy.homework.data.model.Genre
-import com.aacademy.homework.data.model.MovieDetail
-import com.aacademy.homework.data.model.MoviePreview
+import com.aacademy.homework.data.model.Movie
+import com.aacademy.homework.data.preferences.MyPreference
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Inject
 
 @ExperimentalSerializationApi
-class DataRepositoryImpl @Inject constructor(private val apiSource: ApiSource, private val localSource: LocalSource) :
+class DataRepositoryImpl @Inject constructor(
+    private val apiSource: ApiSource,
+    private val localSource: LocalSource,
+    private val myPreference: MyPreference
+) :
     DataRepository {
 
-    override suspend fun getAllPreviews(): List<MoviePreview> =
-        localSource.getAllMoviePreviews()
-            .let {
-                if (it.isNotEmpty()) return it else loadAllPreviews()
-            }
+    private lateinit var genres: Map<Long, Genre>
 
-    override suspend fun loadAllPreviews(): List<MoviePreview> {
-        var jsonMovies = listOf<JsonMovie>()
-        var genres = mapOf<Long, Genre>()
+    override fun getMovies(query: String, page: Int): Flow<Pair<Int, List<Movie>>> = flow {
+        if (page == 1) {
+            val localMovies = localSource.getPopularMovies(query)
+            if (localMovies.isNotEmpty())
+                emit(Pair(0, localMovies))
+        }
+
+        lateinit var moviesResponse: MoviesResponse
         coroutineScope {
             launch {
-                jsonMovies = apiSource.getMovies()
+                moviesResponse =
+                    if (query.isNullOrEmpty())
+                        apiSource.getPopularMovies(page)
+                    else
+                        apiSource.getMovies(query, page)
             }
             launch {
-                genres = apiSource.getGenres().associateBy { genre -> genre.id }
+                if (!::genres.isInitialized)
+                    genres = apiSource.getGenres().genres.associateBy { genre -> genre.id }
+            }
+            launch {
+                if (page == 1) {
+                    val configuration = apiSource.getConfiguration()
+                    myPreference.imageUrl = "${configuration.images.secureBaseURL}w342"
+                }
             }
         }
-        val result = jsonMovies.map { jsonMovie ->
-            MoviePreview(
+        val result = moviesResponse.results.map { jsonMovie ->
+            Movie(
                 id = jsonMovie.id,
                 title = jsonMovie.title,
-                poster = jsonMovie.posterPicture,
-                backdrop = jsonMovie.backdropPicture,
+                poster = jsonMovie.posterPicture.orEmpty(),
+                backdrop = jsonMovie.backdropPicture.orEmpty(),
                 rating = jsonMovie.ratings,
                 ageLimit = if (jsonMovie.adult) 16 else 13,
-                runtime = jsonMovie.runtime,
+                runtime = 0,
                 reviews = jsonMovie.voteCount,
+                overview = jsonMovie.overview,
+                popularity = jsonMovie.popularity,
                 genres = jsonMovie.genreIds.map { id ->
                     genres[id] ?: throw IllegalArgumentException("Genre not found")
                 }
             )
         }
-        localSource.cacheMoviePreviews(result)
-        return result
+        localSource.cachePopularMovies(result)
+        emit(Pair(moviesResponse.totalPages, result))
     }
 
-    override suspend fun getMovieDetail(id: Long): MovieDetail = localSource.getMovieDetail(id)
-        .let {
-            if (it.isNotEmpty()) it.first() else {
-                lateinit var jsonMovie: JsonMovie
-                var actors = mapOf<Long, Actor>()
-                coroutineScope {
-                    launch {
-                        jsonMovie = apiSource.getMovies().first { movie -> movie.id == id }
-                    }
-                    launch {
-                        actors = apiSource.getActors().associateBy { actor -> actor.id }
-                    }
-                }
-                val result = MovieDetail(
-                    id = jsonMovie.id,
-                    overview = jsonMovie.overview,
-                    actors = jsonMovie.actorsIds.map { id ->
-                        actors[id] ?: throw IllegalArgumentException("Actor not found")
-                    }
-                )
-                localSource.cacheMovieDetail(result)
-                return result
-            }
-        }
+    override suspend fun getCast(movieId: Long): Flow<List<Actor>> = flow {
+        emit(localSource.getActors(movieId))
+        val actors = apiSource.getActors(movieId).cast
+        actors.forEach { it.movieId = movieId }
+        localSource.cacheActors(actors)
+        emit(actors)
+    }
 
-    override suspend fun setMovieLiked(id: Long, isLiked: Boolean) {
-        localSource.setMovieLiked(id, isLiked)
+    override suspend fun setMovieLiked(movieId: Long, isLiked: Boolean) {
+        localSource.setMovieLiked(movieId, isLiked)
     }
 }

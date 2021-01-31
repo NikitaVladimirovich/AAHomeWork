@@ -8,12 +8,14 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aacademy.homework.data.DataRepository
-import com.aacademy.homework.data.model.MovieDetail
-import com.aacademy.homework.data.model.MoviePreview
+import com.aacademy.homework.data.model.Actor
+import com.aacademy.homework.data.model.Movie
 import com.aacademy.homework.foundations.Resource
 import com.aacademy.homework.ui.moviedetail.FragmentMoviesDetails.Companion.MOVIE_PREVIEW_ARGUMENT
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -23,14 +25,14 @@ class MovieDetailViewModel @ViewModelInject constructor(
     private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    val moviePreview: MoviePreview = savedStateHandle.get(MOVIE_PREVIEW_ARGUMENT)!!
+    val movie: Movie = savedStateHandle.get(MOVIE_PREVIEW_ARGUMENT)!!
 
-    private val _movieDetail = MutableLiveData<Resource<MovieDetail>>()
-    val movieDetail: LiveData<Resource<MovieDetail>> = _movieDetail
+    private val _cast = MutableLiveData<Resource<List<Actor>>>()
+    val cast: LiveData<Resource<List<Actor>>> = _cast
 
     private val detailExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         Timber.e(throwable)
-        _movieDetail.postValue(Resource.error(throwable.message ?: ""))
+        _cast.postValue(Resource.error(throwable.message ?: ""))
     }
 
     init {
@@ -39,8 +41,10 @@ class MovieDetailViewModel @ViewModelInject constructor(
 
     fun reloadData() {
         viewModelScope.launch(dispatcher + detailExceptionHandler) {
-            _movieDetail.postValue(Resource.loading())
-            _movieDetail.postValue(Resource.success(dataRepository.getMovieDetail(moviePreview.id)))
+            _cast.postValue(Resource.loading())
+            dataRepository.getCast(movie.id).flowOn(dispatcher).collect {
+                _cast.postValue(Resource.success(it))
+            }
         }
     }
 }
