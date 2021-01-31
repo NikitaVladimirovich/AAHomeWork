@@ -44,7 +44,7 @@
             android:layout_height="match_parent"
             android:animateLayoutChanges="true">
 
-            <com.aacademy.homework.ui.views.AutofitRecyclerView android:id="@+id/rvMovies"
+            <com.aacademy.homework.ui.views.AutofitRecyclerView android:id="@+id/rv_movies"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

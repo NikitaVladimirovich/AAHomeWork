@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         savedInstanceState ?: supportFragmentManager.open {
-            add(id.flContainer, FragmentMoviesList.newInstance(), FRAGMENT_TAG)
+            add(id.container, FragmentMoviesList.newInstance(), FRAGMENT_TAG)
         }
     }
 
@@ -103,11 +103,11 @@ class MainActivity : AppCompatActivity() {
     private fun changeTheme(view: View) {
         if (detailsFragmentOpened) return
         lifecycleScope.launch(Dispatchers.IO) {
-            val w = binding.flContainer.measuredWidth
-            val h = binding.flContainer.measuredHeight
+            val w = binding.container.measuredWidth
+            val h = binding.container.measuredHeight
             val bitmap = Bitmap.createBitmap(w, h, ARGB_8888)
             val canvas = Canvas(bitmap)
-            binding.flContainer.draw(canvas)
+            binding.container.draw(canvas)
 
             val location = IntArray(2)
             view.getLocationOnScreen(location)
@@ -150,7 +150,7 @@ class MainActivity : AppCompatActivity() {
                 anim.fade_in,
                 anim.fade_out
             )
-            add(id.flContainer, FragmentMoviesDetails.newInstance(movie), FRAGMENT_TAG)
+            add(id.container, FragmentMoviesDetails.newInstance(movie), FRAGMENT_TAG)
             addToBackStack(null)
         }
     }

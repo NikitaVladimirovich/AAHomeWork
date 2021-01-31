@@ -16,6 +16,6 @@ class ErrorView @JvmOverloads constructor(
     var reloadListener: (() -> Unit)? = null
 
     init {
-        binding.reload.setOnClickListener { reloadListener?.invoke() }
+        binding.btnReload.setOnClickListener { reloadListener?.invoke() }
     }
 }
