@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import com.aacademy.homework.databinding.LayoutErrorBinding
+import com.aacademy.homework.extensions.setSafeOnClickListener
 
 class ErrorView @JvmOverloads constructor(
     context: Context,
@@ -16,6 +17,6 @@ class ErrorView @JvmOverloads constructor(
     var reloadListener: (() -> Unit)? = null
 
     init {
-        binding.btnReload.setOnClickListener { reloadListener?.invoke() }
+        binding.btnReload.setSafeOnClickListener { reloadListener?.invoke() }
     }
 }

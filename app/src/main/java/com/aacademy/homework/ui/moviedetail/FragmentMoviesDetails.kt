@@ -1,11 +1,10 @@
 package com.aacademy.homework.ui.moviedetail
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,8 +21,12 @@ import com.aacademy.homework.foundations.Status.SUCCESS
 import com.aacademy.homework.ui.activities.MainActivity
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
+@FlowPreview
 @AndroidEntryPoint
 class FragmentMoviesDetails @Inject constructor() : Fragment(R.layout.fragment_movies_details) {
 
@@ -33,35 +36,15 @@ class FragmentMoviesDetails @Inject constructor() : Fragment(R.layout.fragment_m
     private val glide by lazy { Glide.with(this) }
     private val castAdapter by lazy { CastAdapter(glide) }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
         subscribe()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.findItem(R.id.action_theme).isVisible = false
-        menu.findItem(R.id.action_search).isVisible = false
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
     private fun initViews() {
         binding.apply {
-            (activity as MainActivity).let {
-                it.setSupportActionBar(toolbar)
-                it.supportActionBar?.apply {
-                    setDisplayHomeAsUpEnabled(true)
-                    setDisplayShowHomeEnabled(true)
-                }
-            }
-
-            toolbar.menu.clear()
-
+            initToolbar(toolbar)
             castAdapter.setHasStableIds(true)
             rvCast.apply {
                 layoutManager = LinearLayoutManager(
@@ -73,6 +56,16 @@ class FragmentMoviesDetails @Inject constructor() : Fragment(R.layout.fragment_m
                 adapter = castAdapter
             }
             binding.errorView.reloadListener = { viewModel.reloadData() }
+        }
+    }
+
+    private fun initToolbar(toolbar: Toolbar) {
+        (activity as MainActivity).let {
+            it.setSupportActionBar(toolbar)
+            it.supportActionBar?.apply {
+                setDisplayHomeAsUpEnabled(true)
+                setDisplayShowHomeEnabled(true)
+            }
         }
     }
 

@@ -1,13 +1,12 @@
 package com.aacademy.homework.ui.movielist
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -17,6 +16,7 @@ import com.aacademy.homework.R
 import com.aacademy.homework.databinding.FragmentMoviesListBinding
 import com.aacademy.homework.extensions.hideKeyboard
 import com.aacademy.homework.extensions.hideLoading
+import com.aacademy.homework.extensions.setSafeOnClickListener
 import com.aacademy.homework.extensions.showLoading
 import com.aacademy.homework.extensions.startCircularReveal
 import com.aacademy.homework.extensions.viewBinding
@@ -42,11 +42,6 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
     private lateinit var movieAdapter: MovieAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (arguments != null) {
@@ -62,37 +57,13 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
         subscribe()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        val searchItem = menu.findItem(R.id.action_search)
-        val searchView = searchItem?.actionView as SearchView
-        if (viewModel.queryFlow.value.isNotEmpty()) {
-            searchItem.expandActionView()
-            searchView.setQuery(viewModel.queryFlow.value, true)
-            searchView.clearFocus()
-        }
-
-        searchView.setOnQueryTextListener(
-            object : OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    lifecycleScope.launch { viewModel.queryFlow.value = (query ?: "") }
-                    return false
-                }
-
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    lifecycleScope.launch { viewModel.queryFlow.value = newText ?: "" }
-                    return false
-                }
-            }
-        )
-    }
-
     private fun initViews() {
         movieAdapter =
             MovieAdapter(
                 Glide.with(this),
                 resources,
                 {
+                    view?.hideKeyboard()
                     (activity as MainActivity).openMovieDetail(it)
                 },
                 { id, isLiked ->
@@ -101,8 +72,8 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
             ).apply { setHasStableIds(true) }
 
         binding.apply {
-            (activity as MainActivity).setSupportActionBar(toolbar)
-            toolbar.inflateMenu(R.menu.movie_list)
+            initToolbar(toolbar)
+
             rvMovies.apply {
                 setHasFixedSize(true)
                 adapter = movieAdapter
@@ -126,6 +97,37 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
                 viewModel.loadFirstPage()
             }
             errorView.reloadListener = { viewModel.loadFirstPage() }
+        }
+    }
+
+    private fun initToolbar(toolbar: Toolbar) {
+        toolbar.inflateMenu(R.menu.movie_list)
+        val menu = toolbar.menu
+        val searchItem = menu.findItem(R.id.action_search)
+        val searchView = searchItem?.actionView as SearchView
+        if (viewModel.queryFlow.value.isNotEmpty()) {
+            searchItem.expandActionView()
+            searchView.setQuery(viewModel.queryFlow.value, true)
+            searchView.clearFocus()
+        }
+
+        searchView.setOnQueryTextListener(
+            object : OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    lifecycleScope.launch { viewModel.queryFlow.value = (query ?: "") }
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    if (view?.hasWindowFocus() == true) {
+                        lifecycleScope.launch { viewModel.queryFlow.value = newText ?: "" }
+                    }
+                    return false
+                }
+            }
+        )
+        menu.findItem(R.id.action_theme).setSafeOnClickListener {
+            (activity as MainActivity).changeTheme(view?.findViewById(R.id.action_theme) ?: toolbar)
         }
     }
 

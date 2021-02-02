@@ -10,6 +10,7 @@ import com.aacademy.homework.R.string
 import com.aacademy.homework.data.model.Movie
 import com.aacademy.homework.databinding.LayoutMovieItemBinding
 import com.aacademy.homework.extensions.loadImage
+import com.aacademy.homework.extensions.setSafeOnClickListener
 import com.aacademy.homework.ui.movielist.MovieAdapter.MovieViewHolder
 import com.aacademy.homework.ui.movielist.MovieItemAnimator.LikeViewHolder
 import com.bumptech.glide.RequestManager
@@ -63,10 +64,10 @@ class MovieAdapter(
                 likeStateChangeListener.invoke(movie.id, isChecked)
                 if (isChecked) notifyItemChanged(adapterPosition, MovieItemAnimator.ACTION_FILM_LIKED)
             }
-            binding.llLike.setOnClickListener {
+            binding.llLike.setSafeOnClickListener {
                 binding.cbLike.isChecked = !movie.isLiked
             }
-            binding.root.setOnClickListener { itemClickListener(movie) }
+            binding.root.setSafeOnClickListener { itemClickListener(movie) }
         }
 
         override val ivLike: View
