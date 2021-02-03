@@ -11,23 +11,16 @@ class FakeApiSourceImpl @Inject constructor() : ApiSource {
 
     private val context = InstrumentationRegistry.getInstrumentation().context
 
-    override suspend fun getConfiguration(): Configuration {
-        throw Exception("fuck you")
-    }
+    override suspend fun getConfiguration(): Configuration = loadConfiguration(context)
 
-    override suspend fun getPopularMovies(page: Int): MoviesResponse {
-        return MoviesResponse(1, loadJsonMovies(context), 1, 1)
-    }
+    override suspend fun getPopularMovies(page: Int): MoviesResponse =
+        MoviesResponse(1, loadJsonMovies(context), 1, 1)
 
-    override suspend fun getGenres(): GenresResponse {
-        return GenresResponse(loadGenres(context))
-    }
+    override suspend fun getGenres(): GenresResponse = GenresResponse(loadGenres(context))
 
-    override suspend fun getMovies(query: String, page: Int): MoviesResponse {
-        return MoviesResponse(1, loadJsonMovies(context), 1, 1)
-    }
+    override suspend fun getMovies(query: String, page: Int): MoviesResponse =
+        MoviesResponse(1, loadJsonMovies(context), 1, 1)
 
-    override suspend fun getActors(movieId: Long): ActorsResponse {
-        return ActorsResponse(loadActors(context), movieId.toInt())
-    }
+    override suspend fun getActors(movieId: Long): ActorsResponse =
+        ActorsResponse(loadActors(context), movieId.toInt())
 }

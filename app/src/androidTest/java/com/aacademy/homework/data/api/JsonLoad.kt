@@ -1,6 +1,7 @@
 package com.aacademy.homework.data.api
 
 import android.content.Context
+import com.aacademy.homework.data.api.model.Configuration
 import com.aacademy.homework.data.api.model.JsonMovie
 import com.aacademy.homework.data.model.Actor
 import com.aacademy.homework.data.model.Genre
@@ -28,5 +29,10 @@ suspend fun loadActors(context: Context): List<Actor> = withContext(Dispatchers.
 
 suspend fun loadJsonMovies(context: Context): List<JsonMovie> = withContext(Dispatchers.IO) {
     val data = readAssetFileToString(context, "data.json")
+    jsonFormat.decodeFromString(data)
+}
+
+suspend fun loadConfiguration(context: Context): Configuration = withContext(Dispatchers.IO) {
+    val data = readAssetFileToString(context, "configuration.json")
     jsonFormat.decodeFromString(data)
 }
