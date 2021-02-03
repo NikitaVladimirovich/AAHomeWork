@@ -8,8 +8,6 @@ import com.aacademy.homework.data.model.Genre
 import com.aacademy.homework.data.model.Movie
 import com.aacademy.homework.data.preferences.MyPreference
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Inject
@@ -68,13 +66,14 @@ class DataRepositoryImpl @Inject constructor(
 
     override suspend fun getMoviesFromDB(query: String): List<Movie> = localSource.getPopularMovies(query)
 
-    override suspend fun getCast(movieId: Long): Flow<List<Actor>> = flow {
-        emit(localSource.getActors(movieId))
+    override suspend fun getCastFromAPI(movieId: Long): List<Actor> {
         val actors = apiSource.getActors(movieId).cast
         actors.forEach { it.movieId = movieId }
-        localSource.cacheActors(actors)
-        emit(actors)
+        localSource.cacheActors(movieId, actors)
+        return actors
     }
+
+    override suspend fun getCastFromDB(movieId: Long): List<Actor> = localSource.getActors(movieId)
 
     override suspend fun setMovieLiked(movieId: Long, isLiked: Boolean) {
         localSource.setMovieLiked(movieId, isLiked)

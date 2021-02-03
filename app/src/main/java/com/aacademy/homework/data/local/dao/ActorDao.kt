@@ -24,6 +24,6 @@ interface ActorDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(actor: Actor)
 
-    @Query("DELETE FROM actor")
-    suspend fun clearActors()
+    @Query("DELETE FROM actor WHERE movieId == :movieId")
+    suspend fun clearActors(movieId: Long)
 }

@@ -15,8 +15,6 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -47,9 +45,9 @@ class MovieDetailViewModel @Inject constructor(
     fun reloadData() {
         viewModelScope.launch(dispatcher + detailExceptionHandler) {
             _cast.postValue(Resource.loading())
-            dataRepository.getCast(movie.id).flowOn(dispatcher).collect {
-                _cast.postValue(Resource.success(it))
-            }
+            val dbActors = dataRepository.getCastFromDB(movie.id)
+            if (dbActors.isNotEmpty()) _cast.postValue(Resource.success(dbActors))
+            _cast.postValue(Resource.success(dataRepository.getCastFromAPI(movie.id)))
         }
     }
 }
