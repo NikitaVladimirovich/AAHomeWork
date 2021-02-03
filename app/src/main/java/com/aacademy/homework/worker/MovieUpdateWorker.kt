@@ -22,7 +22,7 @@ class MovieUpdateWorker @AssistedInject constructor(
     override suspend fun doWork(): Result = withContext(dispatcher) {
         try {
             Timber.d("Run update movies")
-            dataRepository.getMovies(page = 1)
+            dataRepository.getMoviesFromAPI(page = 1)
             Result.success()
         } catch (e: Exception) {
             Timber.e(e)

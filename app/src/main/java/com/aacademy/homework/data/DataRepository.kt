@@ -6,7 +6,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface DataRepository {
 
-    fun getMovies(query: String = "", page: Int = 1): Flow<Pair<Int, List<Movie>>>
+    suspend fun getMoviesFromAPI(query: String = "", page: Int = 1): Pair<Int, List<Movie>>
+
+    suspend fun getMoviesFromDB(query: String = ""): List<Movie>
 
     suspend fun getCast(movieId: Long): Flow<List<Actor>>
 

@@ -42,8 +42,6 @@ class MainActivity : AppCompatActivity() {
 
     private val binding by viewBinding(ActivityMainBinding::inflate)
 
-    private var detailsFragmentOpened = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_AAHomeWork)
         super.onCreate(savedInstanceState)
@@ -58,7 +56,6 @@ class MainActivity : AppCompatActivity() {
         if (supportFragmentManager.backStackEntryCount == 0) {
             finishAfterTransition()
         } else {
-            detailsFragmentOpened = false
             super.onBackPressed()
         }
     }
@@ -81,7 +78,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     internal fun changeTheme(view: View) {
-        if (detailsFragmentOpened) return
         lifecycleScope.launch(Dispatchers.IO) {
             val w = binding.container.measuredWidth
             val h = binding.container.measuredHeight

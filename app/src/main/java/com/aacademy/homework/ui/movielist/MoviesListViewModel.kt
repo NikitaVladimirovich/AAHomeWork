@@ -16,7 +16,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.Collections
@@ -72,25 +71,25 @@ class MoviesListViewModel @Inject constructor(
                 isLoading = true
                 if (currentPage == 1)
                     _movies.postValue(Resource.loading(null))
-                dataRepository
-                    .getMovies(queryFlow.value, currentPage)
-                    .flowOn(dispatcher)
-                    .collect { movies ->
-                        if (currentPage == 1) {
-                            if (movies.first != 0 || movies.second.isNotEmpty())
-                                moviesList = movies.second.toMutableList()
-                        } else {
-                            moviesList.addAll(movies.second)
-                        }
-                        _movies.postValue(
-                            Resource.success(moviesList)
-                        )
-                        if (movies.first != 0) {
-                            currentPage++
-                            isLastPageLoaded = currentPage > movies.first
-                            isLoading = false
-                        }
+                if (currentPage == 1) {
+                    val dbMovies = dataRepository.getMoviesFromDB(queryFlow.value)
+                    if (dbMovies.isNotEmpty()) {
+                        _movies.postValue(Resource.success(dbMovies))
                     }
+                }
+                val apiMoviesResponse = dataRepository.getMoviesFromAPI(queryFlow.value, currentPage)
+
+                if (currentPage == 1) {
+                    moviesList = apiMoviesResponse.second.toMutableList()
+                } else {
+                    moviesList.addAll(apiMoviesResponse.second)
+                }
+                _movies.postValue(
+                    Resource.success(moviesList)
+                )
+                currentPage++
+                isLastPageLoaded = currentPage > apiMoviesResponse.first
+                isLoading = false
             }
         }
     }

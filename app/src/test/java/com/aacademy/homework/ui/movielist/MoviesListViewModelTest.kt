@@ -14,7 +14,6 @@ import io.mockk.mockkClass
 import io.mockk.verifyOrder
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
@@ -44,7 +43,6 @@ class MoviesListViewModelTest {
     fun setup() {
         MockKAnnotations.init(this)
         every { moviesObserverMockito.onChanged(any()) } answers {}
-//        coEvery { dataRepository.getMovies(any()) } returns flow { emit(Pair(1, emptyList<Movie>())) }
         viewModel = MoviesListViewModel(dataRepository, TestCoroutineDispatcher())
         viewModel.movies.observeForever(moviesObserverMockito)
     }
@@ -54,17 +52,10 @@ class MoviesListViewModelTest {
         viewModel.movies.removeObserver(moviesObserverMockito)
     }
 
-//    @Test
-//    fun `should return empty data after init`() {
-//        verify {
-//            moviesObserverMockito.onChanged(Resource.success(emptyList()))
-//        }
-//    }
-
     @Test
     fun `should return error when repository throw exception`() = coroutineScope.dispatcher.runBlockingTest {
         val message = "Test"
-        coEvery { dataRepository.getMovies(any()) } throws Exception(message)
+        coEvery { dataRepository.getMoviesFromDB(any()) } throws Exception(message)
 
         viewModel.loadFirstPage()
         verifyOrder {
@@ -74,48 +65,66 @@ class MoviesListViewModelTest {
     }
 
     @Test
-    fun `should return success when repository return data`() = coroutineScope.dispatcher.runBlockingTest {
-        coEvery { dataRepository.getMovies(any()) } returns flow { emit(Pair(1, emptyList<Movie>())) }
+    fun `should return one success when repository return only API data`() =
+        coroutineScope.dispatcher.runBlockingTest {
+            val remote = Pair(1, listOf(mockkClass(Movie::class)))
+            coEvery { dataRepository.getMoviesFromDB(any()) } returns emptyList()
+            coEvery { dataRepository.getMoviesFromAPI(any(), any()) } returns remote
 
-        viewModel.loadFirstPage()
-        verifyOrder {
-            moviesObserverMockito.onChanged(Resource.loading())
-            moviesObserverMockito.onChanged(Resource.success(emptyList()))
+            viewModel.loadFirstPage()
+            verifyOrder {
+                moviesObserverMockito.onChanged(Resource.loading())
+                moviesObserverMockito.onChanged(Resource.success(remote.second))
+            }
         }
-    }
 
     @Test
     fun `should return separated success when repository return several data`() =
         coroutineScope.dispatcher.runBlockingTest {
             val local = listOf(mockkClass(Movie::class))
-            val remote = listOf(mockkClass(Movie::class))
-            coEvery { dataRepository.getMovies(any()) } returns flow {
-                emit(Pair(0, local))
-                emit(Pair(1, remote))
-            }
+            val remote = Pair(1, listOf(mockkClass(Movie::class)))
+            coEvery { dataRepository.getMoviesFromDB(any()) } returns local
+            coEvery { dataRepository.getMoviesFromAPI(any(), any()) } returns remote
 
             viewModel.loadFirstPage()
             verifyOrder {
                 moviesObserverMockito.onChanged(Resource.loading())
                 moviesObserverMockito.onChanged(Resource.success(local))
-                moviesObserverMockito.onChanged(Resource.success(remote))
+                moviesObserverMockito.onChanged(Resource.success(remote.second))
             }
         }
 
     @Test
-    fun `should return united success when repository return several data`() =
+    fun `should return united success when load second page`() =
         coroutineScope.dispatcher.runBlockingTest {
-            val first = listOf(mockkClass(Movie::class))
-            val second = listOf(mockkClass(Movie::class))
-            coEvery { dataRepository.getMovies(any()) } returns flow {
-                emit(Pair(1, first))
-                emit(Pair(2, second))
-            }
+            val first = Pair(2, listOf(mockkClass(Movie::class)))
+            val second = Pair(2, listOf(mockkClass(Movie::class)))
+            val local = listOf(mockkClass(Movie::class))
+            coEvery { dataRepository.getMoviesFromDB(any()) } returns local
+            coEvery { dataRepository.getMoviesFromAPI(any(), 1) } returns first
+            coEvery { dataRepository.getMoviesFromAPI(any(), 2) } returns second
 
             viewModel.loadFirstPage()
+            viewModel.loadMovies()
             verifyOrder {
                 moviesObserverMockito.onChanged(Resource.loading())
-                moviesObserverMockito.onChanged(Resource.success(first + second))
+                moviesObserverMockito.onChanged(Resource.success(local))
+                moviesObserverMockito.onChanged(Resource.success(first.second + second.second))
+            }
+        }
+
+    @Test
+    fun `should not load next page if last page loaded`() =
+        coroutineScope.dispatcher.runBlockingTest {
+            val first = Pair(1, listOf(mockkClass(Movie::class)))
+            coEvery { dataRepository.getMoviesFromDB(any()) } returns emptyList()
+            coEvery { dataRepository.getMoviesFromAPI(any(), 1) } returns first
+
+            viewModel.loadFirstPage()
+            viewModel.loadMovies()
+            verifyOrder {
+                moviesObserverMockito.onChanged(Resource.loading())
+                moviesObserverMockito.onChanged(Resource.success(first.second))
             }
         }
 }

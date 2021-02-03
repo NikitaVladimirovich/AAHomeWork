@@ -11,9 +11,12 @@ object MovieUpdateWorkerRepository {
     const val WORK_NAME = "${BuildConfig.APPLICATION_ID}.MovieUpdateWorker"
 
     private val constraints =
-        Constraints.Builder().setRequiresCharging(true).setRequiredNetworkType(NetworkType.CONNECTED).build()
+        Constraints.Builder()
+            .setRequiresCharging(true)
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
 
-    val request = PeriodicWorkRequestBuilder<MovieUpdateWorker>(8, TimeUnit.SECONDS)
+    val request = PeriodicWorkRequestBuilder<MovieUpdateWorker>(8, TimeUnit.HOURS)
         .setConstraints(constraints)
         .build()
 }
