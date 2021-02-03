@@ -19,6 +19,8 @@ jobs:
         run: echo API_KEY=\"$API_KEY\" > ./local.properties
       - name: Run Unit tests
         run: bash ./gradlew test --stacktrace
+      - name: Run UI tests
+        uses: vgaidarji/android-github-actions-emulator@v1.0.1
 
   lint:
     name: Lint Tests

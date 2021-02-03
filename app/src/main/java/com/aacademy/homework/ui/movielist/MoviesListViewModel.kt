@@ -1,6 +1,5 @@
 package com.aacademy.homework.ui.movielist
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.aacademy.homework.data.DataRepository
 import com.aacademy.homework.data.model.Movie
 import com.aacademy.homework.foundations.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -20,10 +20,12 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.Collections
+import javax.inject.Inject
 
 @FlowPreview
 @ExperimentalCoroutinesApi
-class MoviesListViewModel @ViewModelInject constructor(
+@HiltViewModel
+class MoviesListViewModel @Inject constructor(
     private val dataRepository: DataRepository,
     private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {

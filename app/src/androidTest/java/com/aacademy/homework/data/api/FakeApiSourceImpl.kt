@@ -1,17 +1,33 @@
 package com.aacademy.homework.data.api
 
-import android.content.Context
-import com.aacademy.homework.data.api.model.JsonMovie
-import com.aacademy.homework.data.model.Actor
-import com.aacademy.homework.data.model.Genre
-import dagger.hilt.android.qualifiers.ApplicationContext
+import androidx.test.platform.app.InstrumentationRegistry
+import com.aacademy.homework.data.api.model.ActorsResponse
+import com.aacademy.homework.data.api.model.Configuration
+import com.aacademy.homework.data.api.model.GenresResponse
+import com.aacademy.homework.data.api.model.MoviesResponse
 import javax.inject.Inject
 
-class FakeApiSourceImpl @Inject constructor(@ApplicationContext val context: Context) : ApiSource {
+class FakeApiSourceImpl @Inject constructor() : ApiSource {
 
-    override suspend fun getMovies(): List<JsonMovie> = loadJsonMovies(context)
+    private val context = InstrumentationRegistry.getInstrumentation().context
 
-    override suspend fun getGenres(): List<Genre> = loadGenres(context)
+    override suspend fun getConfiguration(): Configuration {
+        throw Exception("fuck you")
+    }
 
-    override suspend fun getActors(): List<Actor> = loadActors(context)
+    override suspend fun getPopularMovies(page: Int): MoviesResponse {
+        return MoviesResponse(1, loadJsonMovies(context), 1, 1)
+    }
+
+    override suspend fun getGenres(): GenresResponse {
+        return GenresResponse(loadGenres(context))
+    }
+
+    override suspend fun getMovies(query: String, page: Int): MoviesResponse {
+        return MoviesResponse(1, loadJsonMovies(context), 1, 1)
+    }
+
+    override suspend fun getActors(movieId: Long): ActorsResponse {
+        return ActorsResponse(loadActors(context), movieId.toInt())
+    }
 }

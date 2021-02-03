@@ -12,6 +12,11 @@ android {
     compileSdkVersion(AppConfig.compileSdk)
     buildToolsVersion(AppConfig.buildToolsVersion)
 
+    packagingOptions {
+        exclude("META-INF/AL2.0")
+        exclude("META-INF/LGPL2.1")
+    }
+
     defaultConfig {
         applicationId = "com.aacademy.homework"
         minSdkVersion(AppConfig.minSdk)
@@ -61,6 +66,8 @@ dependencies {
     // Test libs
     testImplementation(AppDependencies.testLibraries)
     androidTestImplementation(AppDependencies.androidTestLibraries)
+    kaptAndroidTest(AppDependencies.kaptAndroidTestLibraries)
+    kaptTest(AppDependencies.kaptTestLibraries)
 }
 
 kapt {
