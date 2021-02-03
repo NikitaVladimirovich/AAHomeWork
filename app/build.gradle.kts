@@ -6,6 +6,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization")
     id("org.jlleitschuh.gradle.ktlint").version("9.4.1")
     id("dagger.hilt.android.plugin")
+    jacoco
 }
 
 android {
@@ -33,6 +34,9 @@ android {
         getByName("release") {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+        }
+        getByName("debug") {
+            isTestCoverageEnabled = true
         }
     }
 
