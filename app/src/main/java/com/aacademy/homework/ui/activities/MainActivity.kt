@@ -1,5 +1,6 @@
 package com.aacademy.homework.ui.activities
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Bitmap.Config.ARGB_8888
 import android.graphics.Canvas
@@ -49,6 +50,22 @@ class MainActivity : AppCompatActivity() {
 
         savedInstanceState ?: supportFragmentManager.open {
             add(id.container, FragmentMoviesList.newInstance(), FRAGMENT_TAG)
+            intent?.let(::handleIntent)
+        }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        intent?.let(::handleIntent)
+    }
+
+    private fun handleIntent(intent: Intent) {
+        when (intent.action) {
+            Intent.ACTION_VIEW -> {
+                intent.data?.lastPathSegment?.toLongOrNull()?.let {
+                    intent.extras?.let(::openMovieDetail)
+                }
+            }
         }
     }
 
@@ -127,6 +144,19 @@ class MainActivity : AppCompatActivity() {
                 anim.fade_out
             )
             add(id.container, FragmentMoviesDetails.newInstance(movie), FRAGMENT_TAG)
+            addToBackStack(null)
+        }
+    }
+
+    fun openMovieDetail(arguments: Bundle) {
+        supportFragmentManager.open {
+            setCustomAnimations(
+                anim.fade_in,
+                anim.fade_out,
+                anim.fade_in,
+                anim.fade_out
+            )
+            add(id.container, FragmentMoviesDetails.newInstance(arguments), FRAGMENT_TAG)
             addToBackStack(null)
         }
     }

@@ -16,11 +16,24 @@
         <activity
             android:name=".ui.activities.MainActivity"
             android:configChanges="uiMode"
+            android:launchMode="singleTop"
             android:theme="@style/Theme.AAHomeWork.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="aacademy.com"
+                    android:pathPattern="/movies/.*"
+                    android:scheme="app" />
             </intent-filter>
         </activity>
 

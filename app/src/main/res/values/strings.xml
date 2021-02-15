@@ -13,4 +13,7 @@
     <string name="theme">Theme</string>
     <string name="screenshot">screenshot</string>
     <string name="search">Search</string>
+    <string name="channel_new_movie">New movie</string>
+    <string name="channel_new_movie_description">New movie found</string>
+    <string name="new_movie_content_text">Pay attention to the new movie</string>
 </resources>

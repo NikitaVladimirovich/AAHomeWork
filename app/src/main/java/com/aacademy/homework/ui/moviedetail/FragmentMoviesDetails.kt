@@ -119,13 +119,19 @@ class FragmentMoviesDetails @Inject constructor() : Fragment(R.layout.fragment_m
 
     companion object {
 
-        const val MOVIE_PREVIEW_ARGUMENT = "MoviePreview"
+        const val MOVIE_ARGUMENT = "Movie"
 
         fun newInstance(movie: Movie): FragmentMoviesDetails {
             val args = Bundle()
-            args.putParcelable(MOVIE_PREVIEW_ARGUMENT, movie)
+            args.putParcelable(MOVIE_ARGUMENT, movie)
             val fragment = FragmentMoviesDetails()
             fragment.arguments = args
+            return fragment
+        }
+
+        fun newInstance(arguments: Bundle): FragmentMoviesDetails {
+            val fragment = FragmentMoviesDetails()
+            fragment.arguments = arguments
             return fragment
         }
     }
