@@ -1,5 +1,7 @@
 package com.aacademy.homework.ui.moviedetail
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.provider.CalendarContract
@@ -27,7 +29,7 @@ import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import java.util.Date
+import java.util.Calendar
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -62,14 +64,53 @@ class FragmentMoviesDetails @Inject constructor() : Fragment(R.layout.fragment_m
             }
             errorView.reloadListener = { viewModel.reloadData() }
             fabCalendar.setSafeOnClickListener {
-                val intent = Intent(Intent.ACTION_INSERT)
-                    .setData(CalendarContract.Events.CONTENT_URI)
-                    .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, Date().time)
-                    .putExtra(CalendarContract.Events.TITLE, viewModel.movie.title)
-                    .putExtra(CalendarContract.Events.DESCRIPTION, viewModel.movie.overview)
-                    .putExtra(CalendarContract.Events.EVENT_LOCATION, getString(string.cinema))
-                    .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
-                startActivity(intent)
+                val calendar = Calendar.getInstance()
+                context?.let {
+                    val datePickerDialog = DatePickerDialog(
+                        it,
+                        R.style.DateTimePickerDialog,
+                        { _, year, month, dayOfMonth ->
+                            val timePickerDialog =
+                                TimePickerDialog(
+                                    context,
+                                    R.style.DateTimePickerDialog,
+                                    { _, hourOfDay, minute ->
+                                        val selectedDate = Calendar.getInstance()
+                                        selectedDate.set(Calendar.YEAR, year)
+                                        selectedDate.set(Calendar.MONTH, month)
+                                        selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                                        selectedDate.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                                        selectedDate.set(Calendar.MINUTE, minute)
+                                        val intent = Intent(Intent.ACTION_INSERT)
+                                            .setData(CalendarContract.Events.CONTENT_URI)
+                                            .putExtra(
+                                                CalendarContract.EXTRA_EVENT_BEGIN_TIME,
+                                                selectedDate.timeInMillis
+                                            )
+                                            .putExtra(CalendarContract.Events.TITLE, viewModel.movie.title)
+                                            .putExtra(CalendarContract.Events.DESCRIPTION, viewModel.movie.overview)
+                                            .putExtra(
+                                                CalendarContract.Events.EVENT_LOCATION,
+                                                getString(string.cinema)
+                                            )
+                                            .putExtra(
+                                                CalendarContract.Events.AVAILABILITY,
+                                                CalendarContract.Events.AVAILABILITY_BUSY
+                                            )
+                                        startActivity(intent)
+                                    },
+                                    calendar[Calendar.HOUR_OF_DAY],
+                                    calendar[Calendar.MINUTE],
+                                    true
+                                )
+                            timePickerDialog.show()
+                        },
+                        calendar[Calendar.YEAR],
+                        calendar[Calendar.MONTH],
+                        calendar[Calendar.DAY_OF_MONTH]
+                    )
+                    datePickerDialog.show()
+                }
             }
         }
     }

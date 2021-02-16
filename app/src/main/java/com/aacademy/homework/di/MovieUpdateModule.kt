@@ -35,7 +35,7 @@ object MovieUpdateModule {
     @Singleton
     @Provides
     fun providePeriodicWorkRequest(constraints: Constraints): PeriodicWorkRequest =
-        PeriodicWorkRequestBuilder<MovieUpdateWorker>(15, TimeUnit.MINUTES)
+        PeriodicWorkRequestBuilder<MovieUpdateWorker>(8, TimeUnit.HOURS)
             .setConstraints(constraints)
             .build()
 
