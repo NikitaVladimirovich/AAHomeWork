@@ -7,6 +7,7 @@ import android.view.View.VISIBLE
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -26,6 +27,7 @@ import com.aacademy.homework.foundations.Status.SUCCESS
 import com.aacademy.homework.ui.activities.MainActivity
 import com.aacademy.homework.ui.views.DragManageAdapter
 import com.bumptech.glide.Glide
+import com.google.android.material.transition.MaterialElevationScale
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -62,9 +64,15 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
             MovieAdapter(
                 Glide.with(this),
                 resources,
-                {
-                    view?.hideKeyboard()
-                    (activity as MainActivity).openMovieDetail(it)
+                { sharedView, movie ->
+                    sharedView.hideKeyboard()
+                    exitTransition = MaterialElevationScale(false).apply {
+                        duration = 300L
+                    }
+                    reenterTransition = MaterialElevationScale(true).apply {
+                        duration = 300L
+                    }
+                    (activity as MainActivity).openMovieDetail(sharedView, movie)
                 },
                 { id, isLiked ->
                     viewModel.setMovieLiked(id, isLiked)
@@ -72,6 +80,9 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
             ).apply { setHasStableIds(true) }
 
         binding.apply {
+            postponeEnterTransition()
+            root.doOnPreDraw { startPostponedEnterTransition() }
+
             initToolbar(toolbar)
 
             rvMovies.apply {

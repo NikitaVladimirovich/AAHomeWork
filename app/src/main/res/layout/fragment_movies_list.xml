@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="?attr/colorBackground"
     android:fitsSystemWindows="false"
+    android:transitionGroup="true"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout

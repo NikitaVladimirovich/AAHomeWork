@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.aacademy.homework.R
 import com.aacademy.homework.R.id
 import com.aacademy.homework.data.model.Movie
@@ -70,7 +71,7 @@ class MainActivity : AppCompatActivity() {
             findNavController(
                 this@MainActivity,
                 id.nav_host_fragment
-            ).popBackStack()
+            ).navigateUp()
         }
     }
 
@@ -135,12 +136,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun openMovieDetail(movie: Movie) {
+    fun openMovieDetail(sharedView: View, movie: Movie) {
+        val action = FragmentMoviesListDirections.actionFragmentMoviesListToFragmentMoviesDetails(movie)
+        val extras = FragmentNavigatorExtras(sharedView to getString(R.string.movie_card_detail_transition_name))
         findNavController(
             this@MainActivity,
             id.nav_host_fragment
         ).navigate(
-            FragmentMoviesListDirections.actionFragmentMoviesListToFragmentMoviesDetails(movie)
+            action,
+            extras
         )
     }
 

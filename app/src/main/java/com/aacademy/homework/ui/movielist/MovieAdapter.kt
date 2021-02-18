@@ -18,7 +18,7 @@ import com.bumptech.glide.RequestManager
 class MovieAdapter(
     private val glide: RequestManager,
     private val resources: Resources,
-    private val itemClickListener: (Movie) -> Unit,
+    private val itemClickListener: (View, Movie) -> Unit,
     private val likeStateChangeListener: (Long, Boolean) -> Unit
 ) : RecyclerView.Adapter<MovieViewHolder>() {
 
@@ -67,7 +67,8 @@ class MovieAdapter(
             binding.llLike.setSafeOnClickListener {
                 binding.cbLike.isChecked = !movie.isLiked
             }
-            binding.root.setSafeOnClickListener { itemClickListener(movie) }
+            binding.root.transitionName = binding.root.context.getString(string.movie_card_transition_name, movie.id)
+            binding.root.setSafeOnClickListener { itemClickListener(binding.root, movie) }
         }
 
         override val ivLike: View
