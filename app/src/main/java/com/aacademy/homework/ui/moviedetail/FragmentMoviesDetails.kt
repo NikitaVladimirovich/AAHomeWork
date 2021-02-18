@@ -14,7 +14,6 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aacademy.homework.R
 import com.aacademy.homework.R.string
-import com.aacademy.homework.data.model.Movie
 import com.aacademy.homework.databinding.FragmentMoviesDetailsBinding
 import com.aacademy.homework.extensions.hideLoading
 import com.aacademy.homework.extensions.loadImage
@@ -176,14 +175,6 @@ class FragmentMoviesDetails @Inject constructor() : Fragment(R.layout.fragment_m
     companion object {
 
         const val MOVIE_ARGUMENT = "Movie"
-
-        fun newInstance(movie: Movie): FragmentMoviesDetails {
-            val args = Bundle()
-            args.putParcelable(MOVIE_ARGUMENT, movie)
-            val fragment = FragmentMoviesDetails()
-            fragment.arguments = args
-            return fragment
-        }
 
         fun newInstance(arguments: Bundle): FragmentMoviesDetails {
             val fragment = FragmentMoviesDetails()
