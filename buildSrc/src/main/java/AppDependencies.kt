@@ -90,69 +90,69 @@ object AppDependencies {
     private const val hilt_test = "com.google.dagger:hilt-android-testing:${Versions.hilt_version}"
     private const val workTest = "androidx.work:work-testing:${Versions.work_manager_version}"
 
-    val appLibraries = arrayListOf<String>().apply {
-        add(kotlinStdLib)
-        add(coreKtx)
-        add(appcompat)
-        add(constraintLayout)
-        add(material)
-        add(swipeToRefresh)
-        add(ratingBar)
-        add(glide)
-        add(room)
-        add(roomKtx)
-        add(coroutinesAndroid)
-        add(livedata)
-        add(viewmodel)
-        add(lifecycleJava8)
-        add(fragmentKtx)
-        add(leakcanary)
-        add(serialization)
-        add(timber)
-        add(preferenceKtx)
-        add(retrofit2)
-        add(converterSerialization)
-        add(okhttp3)
-        add(okhttp3_logging_interceptor)
-        add(hiltAndroid)
-        add(hiltLifecycleViewModel)
-        add(hiltWorker)
-        add(workManager)
-    }
+    val appLibraries = arrayListOf(
+        kotlinStdLib,
+        coreKtx,
+        appcompat,
+        constraintLayout,
+        material,
+        swipeToRefresh,
+        ratingBar,
+        glide,
+        room,
+        roomKtx,
+        coroutinesAndroid,
+        livedata,
+        viewmodel,
+        lifecycleJava8,
+        fragmentKtx,
+        leakcanary,
+        serialization,
+        timber,
+        preferenceKtx,
+        retrofit2,
+        converterSerialization,
+        okhttp3,
+        okhttp3_logging_interceptor,
+        hiltAndroid,
+        hiltLifecycleViewModel,
+        hiltWorker,
+        workManager
+    )
 
-    val kaptLibraries = arrayListOf<String>().apply {
-        add(roomCompiler)
-        add(glideCompiler)
-        add(hiltAndroidCompiler)
-        add(hiltCompiler)
-    }
+    val kaptLibraries = arrayListOf(
+        roomCompiler,
+        glideCompiler,
+        hiltAndroidCompiler,
+        hiltCompiler
+    )
 
-    val kaptTestLibraries = arrayListOf<String>().apply {
-        add(hiltAndroidCompiler)
-        add(hiltCompiler)
-    }
+    val kaptTestLibraries = arrayListOf(
+        hiltAndroidCompiler,
+        hiltCompiler
+    )
 
-    val kaptAndroidTestLibraries = arrayListOf<String>().apply {
-        add(hiltAndroidCompiler)
-        add(hiltCompiler)
-    }
+    val kaptAndroidTestLibraries = arrayListOf(
+        hiltAndroidCompiler,
+        hiltCompiler
+    )
 
-    val androidTestLibraries = arrayListOf<String>().apply {
-        add(extJUnit)
-        add(espressoCore)
-        add(hilt_test)
-        add(coroutines_test)
-        add(workTest)
-    }
+    val androidTestLibraries = arrayListOf(
+        extJUnit,
+        espressoCore,
+        hilt_test,
+        coroutines_test,
+        workTest
+    )
 
-    val testLibraries = arrayListOf<String>().apply {
-        add(junit)
-        add(coroutines_test)
-        add(core_testing)
-        add(mockito_core)
-        add(mockk)
-        add(hilt_test)
-    }
+    val testLibraries = arrayListOf(
+        junit,
+        coroutines_test,
+        core_testing,
+        mockito_core,
+        mockk,
+        hilt_test
+    )
 }
 
 // util functions for adding the different type dependencies from build.gradle file
