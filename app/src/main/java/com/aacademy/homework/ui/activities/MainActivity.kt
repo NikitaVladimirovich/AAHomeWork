@@ -4,8 +4,6 @@ import android.graphics.Bitmap
 import android.graphics.Bitmap.Config.ARGB_8888
 import android.graphics.Canvas
 import android.os.Bundle
-import android.os.SystemClock
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
@@ -14,7 +12,6 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
-import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
 import com.aacademy.homework.R
 import com.aacademy.homework.R.anim
@@ -45,8 +42,6 @@ class MainActivity : AppCompatActivity() {
 
     private val binding by viewBinding(ActivityMainBinding::inflate)
 
-    private var detailsFragmentOpened = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_AAHomeWork)
         super.onCreate(savedInstanceState)
@@ -61,35 +56,17 @@ class MainActivity : AppCompatActivity() {
         if (supportFragmentManager.backStackEntryCount == 0) {
             finishAfterTransition()
         } else {
-            detailsFragmentOpened = false
             super.onBackPressed()
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.movie_list, menu)
-        return true
-    }
-
-    private var lastTimeOptionsItemSelected: Long = 0
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
                 onBackPressed()
             }
-            id.action_theme -> {
-                if (SystemClock.elapsedRealtime() - lastTimeOptionsItemSelected > 1000) {
-                    lastTimeOptionsItemSelected = SystemClock.elapsedRealtime()
-                    changeTheme(findViewById(id.action_theme))
-                }
-            }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun setSupportActionBar(toolbar: Toolbar?) {
-        super.setSupportActionBar(toolbar)
-        title = ""
     }
 
     fun showLoading() {
@@ -100,8 +77,7 @@ class MainActivity : AppCompatActivity() {
         binding.progressView.visibility = GONE
     }
 
-    private fun changeTheme(view: View) {
-        if (detailsFragmentOpened) return
+    internal fun changeTheme(view: View) {
         lifecycleScope.launch(Dispatchers.IO) {
             val w = binding.container.measuredWidth
             val h = binding.container.measuredHeight

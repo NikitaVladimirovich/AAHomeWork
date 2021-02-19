@@ -9,7 +9,7 @@ on:
 jobs:
   test:
     name: Tests
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
       - uses: actions/checkout@v1
@@ -19,6 +19,11 @@ jobs:
         run: echo API_KEY=\"$API_KEY\" > ./local.properties
       - name: Run Unit tests
         run: bash ./gradlew test --stacktrace
+      - name: Run UI tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          script: ./gradlew connectedCheck
 
   lint:
     name: Lint Tests

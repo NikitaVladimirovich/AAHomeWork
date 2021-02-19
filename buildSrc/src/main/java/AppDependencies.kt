@@ -30,6 +30,7 @@ object AppDependencies {
     // Coroutines
     private const val coroutinesAndroid =
         "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines_version}"
+    private const val workManager = "androidx.work:work-runtime-ktx:${Versions.work_manager_version}"
 
     // Coroutine Lifecycle Scopes
     private const val livedata =
@@ -72,9 +73,10 @@ object AppDependencies {
     private const val hiltAndroidCompiler =
         "com.google.dagger:hilt-android-compiler:${Versions.hilt_version}"
     private const val hiltLifecycleViewModel =
-        "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.hilt_compiler_version}"
+        "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.hilt_extensions_version}"
+    private const val hiltWorker = "androidx.hilt:hilt-work:${Versions.hilt_extensions_version}"
     private const val hiltCompiler =
-        "androidx.hilt:hilt-compiler:${Versions.hilt_compiler_version}"
+        "androidx.hilt:hilt-compiler:${Versions.hilt_extensions_version}"
 
     // Test libs
     private const val junit = "junit:junit:${Versions.junit_version}"
@@ -85,54 +87,72 @@ object AppDependencies {
     private const val core_testing = "androidx.arch.core:core-testing:${Versions.core_testing_version}"
     private const val mockito_core = "org.mockito:mockito-core:${Versions.mockito_core_version}"
     private const val mockk = "io.mockk:mockk:${Versions.mockk_version}"
+    private const val hilt_test = "com.google.dagger:hilt-android-testing:${Versions.hilt_version}"
+    private const val workTest = "androidx.work:work-testing:${Versions.work_manager_version}"
 
-    val appLibraries = arrayListOf<String>().apply {
-        add(kotlinStdLib)
-        add(coreKtx)
-        add(appcompat)
-        add(constraintLayout)
-        add(material)
-        add(swipeToRefresh)
-        add(ratingBar)
-        add(glide)
-        add(room)
-        add(roomKtx)
-        add(coroutinesAndroid)
-        add(livedata)
-        add(viewmodel)
-        add(lifecycleJava8)
-        add(fragmentKtx)
-        add(leakcanary)
-        add(serialization)
-        add(timber)
-        add(preferenceKtx)
-        add(retrofit2)
-        add(converterSerialization)
-        add(okhttp3)
-        add(okhttp3_logging_interceptor)
-        add(hiltAndroid)
-        add(hiltLifecycleViewModel)
-    }
+    val appLibraries = arrayListOf(
+        kotlinStdLib,
+        coreKtx,
+        appcompat,
+        constraintLayout,
+        material,
+        swipeToRefresh,
+        ratingBar,
+        glide,
+        room,
+        roomKtx,
+        coroutinesAndroid,
+        livedata,
+        viewmodel,
+        lifecycleJava8,
+        fragmentKtx,
+        leakcanary,
+        serialization,
+        timber,
+        preferenceKtx,
+        retrofit2,
+        converterSerialization,
+        okhttp3,
+        okhttp3_logging_interceptor,
+        hiltAndroid,
+        hiltLifecycleViewModel,
+        hiltWorker,
+        workManager
+    )
 
-    val kaptLibraries = arrayListOf<String>().apply {
-        add(roomCompiler)
-        add(glideCompiler)
-        add(hiltAndroidCompiler)
-        add(hiltCompiler)
-    }
+    val kaptLibraries = arrayListOf(
+        roomCompiler,
+        glideCompiler,
+        hiltAndroidCompiler,
+        hiltCompiler
+    )
 
-    val androidTestLibraries = arrayListOf<String>().apply {
-        add(extJUnit)
-        add(espressoCore)
-    }
+    val kaptTestLibraries = arrayListOf(
+        hiltAndroidCompiler,
+        hiltCompiler
+    )
 
-    val testLibraries = arrayListOf<String>().apply {
-        add(junit)
-        add(coroutines_test)
-        add(core_testing)
-        add(mockito_core)
-        add(mockk)
-    }
+    val kaptAndroidTestLibraries = arrayListOf(
+        hiltAndroidCompiler,
+        hiltCompiler
+    )
+
+    val androidTestLibraries = arrayListOf(
+        extJUnit,
+        espressoCore,
+        hilt_test,
+        coroutines_test,
+        workTest
+    )
+
+    val testLibraries = arrayListOf(
+        junit,
+        coroutines_test,
+        core_testing,
+        mockito_core,
+        mockk,
+        hilt_test
+    )
 }
 
 // util functions for adding the different type dependencies from build.gradle file
@@ -157,5 +177,17 @@ fun DependencyHandler.androidTestImplementation(list: List<String>) {
 fun DependencyHandler.testImplementation(list: List<String>) {
     list.forEach { dependency ->
         add("testImplementation", dependency)
+    }
+}
+
+fun DependencyHandler.kaptAndroidTest(list: List<String>) {
+    list.forEach { dependency ->
+        add("kaptAndroidTest", dependency)
+    }
+}
+
+fun DependencyHandler.kaptTest(list: List<String>) {
+    list.forEach { dependency ->
+        add("kaptTest", dependency)
     }
 }

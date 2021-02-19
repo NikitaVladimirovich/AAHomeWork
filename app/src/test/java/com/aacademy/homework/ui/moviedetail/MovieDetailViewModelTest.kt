@@ -17,7 +17,7 @@ import io.mockk.mockkClass
 import io.mockk.verify
 import io.mockk.verifyOrder
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
@@ -25,6 +25,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
+@FlowPreview
 @ExperimentalCoroutinesApi
 class MovieDetailViewModelTest {
 
@@ -52,7 +53,7 @@ class MovieDetailViewModelTest {
         val moviePreview = mockkClass(Movie::class)
         every { moviePreview.id } returns 0
         savedStateHandle.set(MOVIE_PREVIEW_ARGUMENT, moviePreview)
-        coEvery { dataRepository.getCast(any()) } throws Exception()
+        coEvery { dataRepository.getCastFromDB(any()) } throws Exception()
         viewModel = MovieDetailViewModel(dataRepository, savedStateHandle, TestCoroutineDispatcher())
         viewModel.cast.observeForever(moviesObserverMockito)
     }
@@ -70,26 +71,61 @@ class MovieDetailViewModelTest {
     }
 
     @Test
-    fun `should return error when repository throw exception`() = coroutineScope.dispatcher.runBlockingTest {
-        val message = "Test"
-        coEvery { dataRepository.getCast(any()) } throws Exception(message)
+    fun `should return error when repository throw exception when db load`() =
+        coroutineScope.dispatcher.runBlockingTest {
+            val message = "Test"
+            coEvery { dataRepository.getCastFromDB(any()) } throws Exception(message)
 
-        viewModel.reloadData()
-        verifyOrder {
-            moviesObserverMockito.onChanged(Resource.loading())
-            moviesObserverMockito.onChanged(Resource.error(message))
+            viewModel.reloadData()
+            verifyOrder {
+                moviesObserverMockito.onChanged(Resource.loading())
+                moviesObserverMockito.onChanged(Resource.error(message))
+            }
         }
-    }
 
     @Test
-    fun `should return success when repository return data`() = coroutineScope.dispatcher.runBlockingTest {
-        val data = emptyList<Actor>()
-        coEvery { dataRepository.getCast(any()) } returns flow { emit(data) }
+    fun `should return error when repository throw exception when api load`() =
+        coroutineScope.dispatcher.runBlockingTest {
+            val message = "Test"
+            coEvery { dataRepository.getCastFromDB(any()) } returns emptyList()
+            coEvery { dataRepository.getCastFromAPI(any()) } throws Exception(message)
 
-        viewModel.reloadData()
-        verifyOrder {
-            moviesObserverMockito.onChanged(Resource.loading())
-            moviesObserverMockito.onChanged(Resource.success(data))
+            viewModel.reloadData()
+            verifyOrder {
+                moviesObserverMockito.onChanged(Resource.loading())
+                moviesObserverMockito.onChanged(Resource.error(message))
+            }
         }
-    }
+
+    @Test
+    fun `should return separated success when repository return data from db and api`() =
+        coroutineScope.dispatcher.runBlockingTest {
+            val local = listOf(mockkClass(Actor::class))
+            val remote = listOf(mockkClass(Actor::class))
+
+            coEvery { dataRepository.getCastFromDB(any()) } returns local
+            coEvery { dataRepository.getCastFromAPI(any()) } returns remote
+
+            viewModel.reloadData()
+            verifyOrder {
+                moviesObserverMockito.onChanged(Resource.loading())
+                moviesObserverMockito.onChanged(Resource.success(local))
+                moviesObserverMockito.onChanged(Resource.success(remote))
+            }
+        }
+
+    @Test
+    fun `should return success when db empty and repository return data from api`() =
+        coroutineScope.dispatcher.runBlockingTest {
+            val remote = listOf(mockkClass(Actor::class))
+
+            coEvery { dataRepository.getCastFromDB(any()) } returns emptyList()
+            coEvery { dataRepository.getCastFromAPI(any()) } returns remote
+
+            viewModel.reloadData()
+            verifyOrder {
+                moviesObserverMockito.onChanged(Resource.loading())
+                moviesObserverMockito.onChanged(Resource.success(remote))
+            }
+        }
 }

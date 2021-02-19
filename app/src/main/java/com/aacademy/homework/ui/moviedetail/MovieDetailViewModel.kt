@@ -1,7 +1,5 @@
 package com.aacademy.homework.ui.moviedetail
 
-import androidx.hilt.Assisted
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -12,16 +10,21 @@ import com.aacademy.homework.data.model.Actor
 import com.aacademy.homework.data.model.Movie
 import com.aacademy.homework.foundations.Resource
 import com.aacademy.homework.ui.moviedetail.FragmentMoviesDetails.Companion.MOVIE_PREVIEW_ARGUMENT
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
-class MovieDetailViewModel @ViewModelInject constructor(
+@FlowPreview
+@ExperimentalCoroutinesApi
+@HiltViewModel
+class MovieDetailViewModel @Inject constructor(
     private val dataRepository: DataRepository,
-    @Assisted private val savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
     private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
@@ -42,9 +45,9 @@ class MovieDetailViewModel @ViewModelInject constructor(
     fun reloadData() {
         viewModelScope.launch(dispatcher + detailExceptionHandler) {
             _cast.postValue(Resource.loading())
-            dataRepository.getCast(movie.id).flowOn(dispatcher).collect {
-                _cast.postValue(Resource.success(it))
-            }
+            val dbActors = dataRepository.getCastFromDB(movie.id)
+            if (dbActors.isNotEmpty()) _cast.postValue(Resource.success(dbActors))
+            _cast.postValue(Resource.success(dataRepository.getCastFromAPI(movie.id)))
         }
     }
 }

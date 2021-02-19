@@ -13,5 +13,5 @@ interface LocalSource {
 
     suspend fun getActors(movieId: Long): List<Actor>
 
-    suspend fun cacheActors(actors: List<Actor>)
+    suspend fun cacheActors(movieId: Long, actors: List<Actor>)
 }
