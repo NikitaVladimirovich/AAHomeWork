@@ -3,6 +3,7 @@ package com.aacademy.homework.ui.moviedetail
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.provider.CalendarContract
@@ -31,6 +32,7 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -55,14 +57,12 @@ class FragmentMoviesDetails @Inject constructor() : Fragment(R.layout.fragment_m
         super.onCreate(savedInstanceState)
 
         sharedElementEnterTransition = MaterialContainerTransform().apply {
-            // Scope the transition to a view in the hierarchy so we know it will be added under
-            // the bottom app bar but over the elevation scale of the exiting HomeFragment.
             drawingViewId = R.id.nav_host_fragment
             duration = 300L
-//            scrimColor = Color.TRANSPARENT
-//            context?.let {
-//                setAllContainerColors(MaterialColors.getColor(it, R.attr.colorBackground, Color.TRANSPARENT))
-//            }
+            scrimColor = Color.TRANSPARENT
+            context?.let {
+                setAllContainerColors(MaterialColors.getColor(it, R.attr.colorBackground, Color.RED))
+            }
         }
     }
 
