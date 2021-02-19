@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.util.Collections
 import javax.inject.Inject
 
 @FlowPreview
@@ -102,20 +101,5 @@ class MoviesListViewModel @Inject constructor(
                 Timber.e(thr)
             }
         }
-    }
-
-    fun swapItems(fromPosition: Int, toPosition: Int) {
-        val newMovies = movies.value!!.data!!.toMutableList()
-        if (fromPosition < toPosition) {
-            for (i in fromPosition until toPosition) {
-                Collections.swap(newMovies, i, i + 1)
-            }
-        } else {
-            for (i in fromPosition downTo (toPosition + 1)) {
-                Collections.swap(newMovies, i, i - 1)
-            }
-        }
-
-        _movies.postValue(Resource.success(newMovies))
     }
 }
