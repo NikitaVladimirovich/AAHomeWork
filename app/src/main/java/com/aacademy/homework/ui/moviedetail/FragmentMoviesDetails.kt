@@ -207,7 +207,8 @@ class FragmentMoviesDetails @Inject constructor() : Fragment(R.layout.fragment_m
         year: Int,
         month: Int,
         dayOfMonth: Int,
-        hourOfDay: Int, minute: Int
+        hourOfDay: Int,
+        minute: Int
     ) {
         val selectedDate = Calendar.getInstance()
         selectedDate.set(Calendar.YEAR, year)
