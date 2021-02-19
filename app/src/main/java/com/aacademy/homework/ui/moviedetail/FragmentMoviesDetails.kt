@@ -65,55 +65,7 @@ class FragmentMoviesDetails @Inject constructor() : Fragment(R.layout.fragment_m
                 adapter = castAdapter
             }
             errorView.reloadListener = { viewModel.reloadData() }
-            fabCalendar.setSafeOnClickListener {
-                val calendar = Calendar.getInstance()
-                context?.let {
-                    val datePickerDialog = DatePickerDialog(
-                        it,
-                        R.style.DateTimePickerDialog,
-                        { _, year, month, dayOfMonth ->
-                            val timePickerDialog =
-                                TimePickerDialog(
-                                    context,
-                                    R.style.DateTimePickerDialog,
-                                    { _, hourOfDay, minute ->
-                                        val selectedDate = Calendar.getInstance()
-                                        selectedDate.set(Calendar.YEAR, year)
-                                        selectedDate.set(Calendar.MONTH, month)
-                                        selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                                        selectedDate.set(Calendar.HOUR_OF_DAY, hourOfDay)
-                                        selectedDate.set(Calendar.MINUTE, minute)
-                                        val intent = Intent(Intent.ACTION_INSERT)
-                                            .setData(CalendarContract.Events.CONTENT_URI)
-                                            .putExtra(
-                                                CalendarContract.EXTRA_EVENT_BEGIN_TIME,
-                                                selectedDate.timeInMillis
-                                            )
-                                            .putExtra(CalendarContract.Events.TITLE, viewModel.movie.title)
-                                            .putExtra(CalendarContract.Events.DESCRIPTION, viewModel.movie.overview)
-                                            .putExtra(
-                                                CalendarContract.Events.EVENT_LOCATION,
-                                                getString(string.cinema)
-                                            )
-                                            .putExtra(
-                                                CalendarContract.Events.AVAILABILITY,
-                                                CalendarContract.Events.AVAILABILITY_BUSY
-                                            )
-                                        startActivity(intent)
-                                    },
-                                    calendar[Calendar.HOUR_OF_DAY],
-                                    calendar[Calendar.MINUTE],
-                                    true
-                                )
-                            timePickerDialog.show()
-                        },
-                        calendar[Calendar.YEAR],
-                        calendar[Calendar.MONTH],
-                        calendar[Calendar.DAY_OF_MONTH]
-                    )
-                    datePickerDialog.show()
-                }
-            }
+            fabCalendar.setSafeOnClickListener(::addMovieToCalendar)
         }
     }
 
@@ -133,10 +85,10 @@ class FragmentMoviesDetails @Inject constructor() : Fragment(R.layout.fragment_m
                     .into(ivCover)
                 collapsingToolbar.title = moviePreview.title
                 tvAgeLimit.text =
-                    getString(R.string.ageLimitFormat).format(moviePreview.ageLimit)
+                    getString(string.ageLimitFormat).format(moviePreview.ageLimit)
                 tvTags.text = moviePreview.genres.joinToString(", ") { it.name }
                 tvReviews.text =
-                    getString(R.string.reviewsFormat).format(moviePreview.reviews)
+                    getString(string.reviewsFormat).format(moviePreview.reviews)
                 rbRating.rating = moviePreview.rating / 2
                 binding.tvStoryline.text = moviePreview.overview
             }
@@ -168,6 +120,85 @@ class FragmentMoviesDetails @Inject constructor() : Fragment(R.layout.fragment_m
                 LOADING -> {
                     binding.errorView.visibility = GONE
                     showLoading()
+                }
+            }
+        }
+    }
+
+    private fun openDatePicker(
+        year: Int,
+        month: Int,
+        dayOfMonth: Int,
+        dateSelectListener: (View, Int, Int, Int) -> Unit
+    ) {
+        val datePickerDialog = DatePickerDialog(
+            mainActivity,
+            R.style.DateTimePickerDialog,
+            dateSelectListener,
+            year,
+            month,
+            dayOfMonth
+        )
+        datePickerDialog.show()
+    }
+
+    private fun openTimePicker(hourOfDay: Int, minute: Int, timeSelectListener: (View, Int, Int) -> Unit) {
+        val timePickerDialog =
+            TimePickerDialog(
+                mainActivity,
+                R.style.DateTimePickerDialog,
+                timeSelectListener,
+                hourOfDay,
+                minute,
+                true
+            )
+        timePickerDialog.show()
+    }
+
+    private fun openCalendar(
+        year: Int,
+        month: Int,
+        dayOfMonth: Int,
+        hourOfDay: Int, minute: Int
+    ) {
+        val selectedDate = Calendar.getInstance()
+        selectedDate.set(Calendar.YEAR, year)
+        selectedDate.set(Calendar.MONTH, month)
+        selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+        selectedDate.set(Calendar.HOUR_OF_DAY, hourOfDay)
+        selectedDate.set(Calendar.MINUTE, minute)
+        val intent = Intent(Intent.ACTION_INSERT)
+            .setData(CalendarContract.Events.CONTENT_URI)
+            .putExtra(
+                CalendarContract.EXTRA_EVENT_BEGIN_TIME,
+                selectedDate.timeInMillis
+            )
+            .putExtra(CalendarContract.Events.TITLE, viewModel.movie.title)
+            .putExtra(CalendarContract.Events.DESCRIPTION, viewModel.movie.overview)
+            .putExtra(
+                CalendarContract.Events.EVENT_LOCATION,
+                getString(string.cinema)
+            )
+            .putExtra(
+                CalendarContract.Events.AVAILABILITY,
+                CalendarContract.Events.AVAILABILITY_BUSY
+            )
+        startActivity(intent)
+    }
+
+    private fun addMovieToCalendar() {
+        val calendar = Calendar.getInstance()
+        context?.let {
+            openDatePicker(
+                calendar[Calendar.YEAR],
+                calendar[Calendar.MONTH],
+                calendar[Calendar.DAY_OF_MONTH]
+            ) { _, year, month, dayOfMonth ->
+                openTimePicker(
+                    calendar[Calendar.HOUR_OF_DAY],
+                    calendar[Calendar.MINUTE]
+                ) { _, hourOfDay, minute ->
+                    openCalendar(year, month, dayOfMonth, hourOfDay, minute)
                 }
             }
         }
