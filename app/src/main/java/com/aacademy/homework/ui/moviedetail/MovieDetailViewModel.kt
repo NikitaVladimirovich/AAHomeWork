@@ -9,7 +9,7 @@ import com.aacademy.homework.data.DataRepository
 import com.aacademy.homework.data.model.Actor
 import com.aacademy.homework.data.model.Movie
 import com.aacademy.homework.foundations.Resource
-import com.aacademy.homework.ui.moviedetail.FragmentMoviesDetails.Companion.MOVIE_PREVIEW_ARGUMENT
+import com.aacademy.homework.ui.moviedetail.FragmentMoviesDetails.Companion.MOVIE_ARGUMENT
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -28,7 +28,7 @@ class MovieDetailViewModel @Inject constructor(
     private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    val movie: Movie = savedStateHandle.get(MOVIE_PREVIEW_ARGUMENT)!!
+    val movie: Movie = savedStateHandle.get(MOVIE_ARGUMENT)!!
 
     private val _cast = MutableLiveData<Resource<List<Actor>>>()
     val cast: LiveData<Resource<List<Actor>>> = _cast

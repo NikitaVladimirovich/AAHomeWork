@@ -8,7 +8,7 @@ import com.aacademy.homework.data.DataRepository
 import com.aacademy.homework.data.model.Actor
 import com.aacademy.homework.data.model.Movie
 import com.aacademy.homework.foundations.Resource
-import com.aacademy.homework.ui.moviedetail.FragmentMoviesDetails.Companion.MOVIE_PREVIEW_ARGUMENT
+import com.aacademy.homework.ui.moviedetail.FragmentMoviesDetails.Companion.MOVIE_ARGUMENT
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
@@ -52,7 +52,7 @@ class MovieDetailViewModelTest {
         savedStateHandle = SavedStateHandle()
         val moviePreview = mockkClass(Movie::class)
         every { moviePreview.id } returns 0
-        savedStateHandle.set(MOVIE_PREVIEW_ARGUMENT, moviePreview)
+        savedStateHandle.set(MOVIE_ARGUMENT, moviePreview)
         coEvery { dataRepository.getCastFromDB(any()) } throws Exception()
         viewModel = MovieDetailViewModel(dataRepository, savedStateHandle, TestCoroutineDispatcher())
         viewModel.cast.observeForever(moviesObserverMockito)

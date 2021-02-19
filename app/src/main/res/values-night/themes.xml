@@ -29,4 +29,16 @@
         <item name="colorProgressTint">@color/colorProgressTint</item>
         <item name="colorNoSelected">@color/colorNoSelected</item>
     </style>
+
+    <style name="DateTimePickerDialog" parent="Theme.MaterialComponents.DayNight.Dialog">
+        <item name="android:windowBackground">@color/colorBackground</item>
+        <item name="colorPrimary">@color/colorBackground</item>
+        <item name="colorPrimaryDark">@color/colorReviewsText</item>
+        <item name="colorAccent">@color/colorAccentPink</item>
+        <item name="android:buttonBarButtonStyle">@style/DateTimePickerDialog.buttonBarButtonStyle</item>
+    </style>
+
+    <style name="DateTimePickerDialog.buttonBarButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/colorAccentPink</item>
+    </style>
 </resources>

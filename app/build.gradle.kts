@@ -6,7 +6,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization")
     id("org.jlleitschuh.gradle.ktlint").version("9.4.1")
     id("dagger.hilt.android.plugin")
-    jacoco
+    id("jacoco-custom")
 }
 
 android {

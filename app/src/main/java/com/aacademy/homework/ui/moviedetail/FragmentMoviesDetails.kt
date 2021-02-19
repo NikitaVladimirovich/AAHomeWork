@@ -1,6 +1,10 @@
 package com.aacademy.homework.ui.moviedetail
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
+import android.content.Intent
 import android.os.Bundle
+import android.provider.CalendarContract
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -9,10 +13,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aacademy.homework.R
+import com.aacademy.homework.R.string
 import com.aacademy.homework.data.model.Movie
 import com.aacademy.homework.databinding.FragmentMoviesDetailsBinding
 import com.aacademy.homework.extensions.hideLoading
 import com.aacademy.homework.extensions.loadImage
+import com.aacademy.homework.extensions.setSafeOnClickListener
 import com.aacademy.homework.extensions.showLoading
 import com.aacademy.homework.extensions.viewBinding
 import com.aacademy.homework.foundations.Status.ERROR
@@ -23,6 +29,7 @@ import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import java.util.Calendar
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -57,7 +64,8 @@ class FragmentMoviesDetails @Inject constructor() : Fragment(R.layout.fragment_m
                 setHasFixedSize(true)
                 adapter = castAdapter
             }
-            binding.errorView.reloadListener = { viewModel.reloadData() }
+            errorView.reloadListener = { viewModel.reloadData() }
+            fabCalendar.setSafeOnClickListener(::addMovieToCalendar)
         }
     }
 
@@ -77,10 +85,10 @@ class FragmentMoviesDetails @Inject constructor() : Fragment(R.layout.fragment_m
                     .into(ivCover)
                 collapsingToolbar.title = moviePreview.title
                 tvAgeLimit.text =
-                    getString(R.string.ageLimitFormat).format(moviePreview.ageLimit)
+                    getString(string.ageLimitFormat).format(moviePreview.ageLimit)
                 tvTags.text = moviePreview.genres.joinToString(", ") { it.name }
                 tvReviews.text =
-                    getString(R.string.reviewsFormat).format(moviePreview.reviews)
+                    getString(string.reviewsFormat).format(moviePreview.reviews)
                 rbRating.rating = moviePreview.rating / 2
                 binding.tvStoryline.text = moviePreview.overview
             }
@@ -117,15 +125,100 @@ class FragmentMoviesDetails @Inject constructor() : Fragment(R.layout.fragment_m
         }
     }
 
+    private fun openDatePicker(
+        year: Int,
+        month: Int,
+        dayOfMonth: Int,
+        dateSelectListener: (View, Int, Int, Int) -> Unit
+    ) {
+        val datePickerDialog = DatePickerDialog(
+            mainActivity,
+            R.style.DateTimePickerDialog,
+            dateSelectListener,
+            year,
+            month,
+            dayOfMonth
+        )
+        datePickerDialog.show()
+    }
+
+    private fun openTimePicker(hourOfDay: Int, minute: Int, timeSelectListener: (View, Int, Int) -> Unit) {
+        val timePickerDialog =
+            TimePickerDialog(
+                mainActivity,
+                R.style.DateTimePickerDialog,
+                timeSelectListener,
+                hourOfDay,
+                minute,
+                true
+            )
+        timePickerDialog.show()
+    }
+
+    private fun openCalendar(
+        year: Int,
+        month: Int,
+        dayOfMonth: Int,
+        hourOfDay: Int, minute: Int
+    ) {
+        val selectedDate = Calendar.getInstance()
+        selectedDate.set(Calendar.YEAR, year)
+        selectedDate.set(Calendar.MONTH, month)
+        selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+        selectedDate.set(Calendar.HOUR_OF_DAY, hourOfDay)
+        selectedDate.set(Calendar.MINUTE, minute)
+        val intent = Intent(Intent.ACTION_INSERT)
+            .setData(CalendarContract.Events.CONTENT_URI)
+            .putExtra(
+                CalendarContract.EXTRA_EVENT_BEGIN_TIME,
+                selectedDate.timeInMillis
+            )
+            .putExtra(CalendarContract.Events.TITLE, viewModel.movie.title)
+            .putExtra(CalendarContract.Events.DESCRIPTION, viewModel.movie.overview)
+            .putExtra(
+                CalendarContract.Events.EVENT_LOCATION,
+                getString(string.cinema)
+            )
+            .putExtra(
+                CalendarContract.Events.AVAILABILITY,
+                CalendarContract.Events.AVAILABILITY_BUSY
+            )
+        startActivity(intent)
+    }
+
+    private fun addMovieToCalendar() {
+        val calendar = Calendar.getInstance()
+        context?.let {
+            openDatePicker(
+                calendar[Calendar.YEAR],
+                calendar[Calendar.MONTH],
+                calendar[Calendar.DAY_OF_MONTH]
+            ) { _, year, month, dayOfMonth ->
+                openTimePicker(
+                    calendar[Calendar.HOUR_OF_DAY],
+                    calendar[Calendar.MINUTE]
+                ) { _, hourOfDay, minute ->
+                    openCalendar(year, month, dayOfMonth, hourOfDay, minute)
+                }
+            }
+        }
+    }
+
     companion object {
 
-        const val MOVIE_PREVIEW_ARGUMENT = "MoviePreview"
+        const val MOVIE_ARGUMENT = "Movie"
 
         fun newInstance(movie: Movie): FragmentMoviesDetails {
             val args = Bundle()
-            args.putParcelable(MOVIE_PREVIEW_ARGUMENT, movie)
+            args.putParcelable(MOVIE_ARGUMENT, movie)
             val fragment = FragmentMoviesDetails()
             fragment.arguments = args
+            return fragment
+        }
+
+        fun newInstance(arguments: Bundle): FragmentMoviesDetails {
+            val fragment = FragmentMoviesDetails()
+            fragment.arguments = arguments
             return fragment
         }
     }

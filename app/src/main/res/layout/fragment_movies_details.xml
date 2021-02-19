@@ -10,6 +10,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/appbarlayout"
         android:background="?attr/colorBackground"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
@@ -86,18 +87,6 @@
                 app:layout_constraintGuide_end="@dimen/space4x" />
 
             <TextView
-                android:id="@+id/tv_age_limit"
-                style="@style/AgeLimit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space"
-                android:background="@drawable/age_limit_rectangle"
-                android:gravity="center"
-                app:layout_constraintRight_toLeftOf="@+id/guide_vertical_right"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="13+" />
-
-            <TextView
                 android:id="@+id/tv_tags"
                 style="@style/DetailMovieTag"
                 android:layout_width="0dp"
@@ -133,6 +122,18 @@
                 tools:text="125 reviews" />
 
             <TextView
+                android:id="@+id/tv_age_limit"
+                style="@style/AgeLimit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space"
+                android:background="@drawable/age_limit_rectangle"
+                android:gravity="center"
+                app:layout_constraintLeft_toRightOf="@+id/guide_vertical_left"
+                app:layout_constraintTop_toBottomOf="@+id/tv_reviews"
+                tools:text="13+" />
+
+            <TextView
                 android:id="@+id/tv_storyline_header"
                 style="@style/DetailMovieSectionTitle"
                 android:layout_width="0dp"
@@ -141,7 +142,7 @@
                 android:text="@string/storylineTitle"
                 app:layout_constraintLeft_toRightOf="@+id/guide_vertical_left"
                 app:layout_constraintRight_toLeftOf="@+id/guide_vertical_right"
-                app:layout_constraintTop_toBottomOf="@+id/tv_reviews" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_age_limit" />
 
             <TextView
                 android:id="@+id/tv_storyline"
@@ -191,10 +192,23 @@
             <com.aacademy.homework.ui.views.ErrorView
                 android:id="@+id/error_view"
                 android:layout_width="match_parent"
-                android:visibility="gone"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tv_storyline_header" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_calendar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/space4x"
+        android:src="@drawable/ic_calendar"
+        app:backgroundTint="@color/colorAccentPink"
+        app:layout_anchor="@id/appbarlayout"
+        app:layout_anchorGravity="bottom|right|end"
+        app:tint="@android:color/white" />
+
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
