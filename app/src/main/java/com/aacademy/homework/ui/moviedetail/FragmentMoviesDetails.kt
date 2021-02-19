@@ -40,6 +40,8 @@ class FragmentMoviesDetails @Inject constructor() : Fragment(R.layout.fragment_m
     private val binding by viewBinding(FragmentMoviesDetailsBinding::bind)
     private val viewModel: MovieDetailViewModel by viewModels()
 
+    private val mainActivity by lazy { activity as MainActivity }
+
     private val glide by lazy { Glide.with(this) }
     private val castAdapter by lazy { CastAdapter(glide) }
 
@@ -116,12 +118,10 @@ class FragmentMoviesDetails @Inject constructor() : Fragment(R.layout.fragment_m
     }
 
     private fun initToolbar(toolbar: Toolbar) {
-        (activity as MainActivity).let {
-            it.setSupportActionBar(toolbar)
-            it.supportActionBar?.apply {
-                setDisplayHomeAsUpEnabled(true)
-                setDisplayShowHomeEnabled(true)
-            }
+        mainActivity.setSupportActionBar(toolbar)
+        mainActivity.supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
         }
     }
 

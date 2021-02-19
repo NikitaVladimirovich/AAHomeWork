@@ -10,7 +10,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.aacademy.homework.R
 import com.aacademy.homework.databinding.FragmentMoviesListBinding
@@ -24,7 +23,6 @@ import com.aacademy.homework.foundations.Status.ERROR
 import com.aacademy.homework.foundations.Status.LOADING
 import com.aacademy.homework.foundations.Status.SUCCESS
 import com.aacademy.homework.ui.activities.MainActivity
-import com.aacademy.homework.ui.views.DragManageAdapter
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -42,13 +40,15 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
     private lateinit var movieAdapter: MovieAdapter
 
+    private val mainActivity by lazy { activity as MainActivity }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (arguments != null) {
+        arguments?.let {
             view.startCircularReveal(
-                arguments?.getInt(POSITION_X)!!,
-                arguments?.getInt(POSITION_Y)!!,
-                arguments?.getFloat(RADIUS)!!
+                it.getInt(POSITION_X),
+                it.getInt(POSITION_Y),
+                it.getFloat(RADIUS)
             )
             arguments = null
         }
@@ -64,7 +64,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
                 resources,
                 {
                     view?.hideKeyboard()
-                    (activity as MainActivity).openMovieDetail(it)
+                    mainActivity.openMovieDetail(it)
                 },
                 { id, isLiked ->
                     viewModel.setMovieLiked(id, isLiked)
@@ -91,7 +91,6 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
                     }
                 )
             }
-            ItemTouchHelper(DragManageAdapter(moveCallback = viewModel::swapItems)).attachToRecyclerView(rvMovies)
             swipeRefresh.setOnRefreshListener {
                 movieAdapter.movies = emptyList()
                 viewModel.loadFirstPage()
@@ -127,7 +126,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
             }
         )
         menu.findItem(R.id.action_theme).setSafeOnClickListener {
-            (activity as MainActivity).changeTheme(view?.findViewById(R.id.action_theme) ?: toolbar)
+            mainActivity.changeTheme(view?.findViewById(R.id.action_theme) ?: toolbar)
         }
     }
 
