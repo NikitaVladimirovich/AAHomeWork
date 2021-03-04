@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:transitionName="@string/movie_card_detail_transition_name"
     android:background="?attr/colorBackground"
     android:fitsSystemWindows="true">
 

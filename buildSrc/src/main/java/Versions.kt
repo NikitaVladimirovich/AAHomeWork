@@ -26,6 +26,7 @@ object Versions {
     const val swipetorefresh_version = "1.0.0"
     const val rating_bar_version = "1.4.0"
     const val work_manager_version = "2.5.0"
+    const val nav_version = "2.3.3"
 
     //Test
     const val junit_version = "4.13.1"

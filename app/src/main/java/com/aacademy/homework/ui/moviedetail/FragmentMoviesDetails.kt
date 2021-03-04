@@ -3,6 +3,8 @@ package com.aacademy.homework.ui.moviedetail
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.provider.CalendarContract
 import android.view.View
@@ -14,7 +16,6 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aacademy.homework.R
 import com.aacademy.homework.R.string
-import com.aacademy.homework.data.model.Movie
 import com.aacademy.homework.databinding.FragmentMoviesDetailsBinding
 import com.aacademy.homework.extensions.hideLoading
 import com.aacademy.homework.extensions.loadImage
@@ -26,6 +27,13 @@ import com.aacademy.homework.foundations.Status.LOADING
 import com.aacademy.homework.foundations.Status.SUCCESS
 import com.aacademy.homework.ui.activities.MainActivity
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
+import com.google.android.material.color.MaterialColors
+import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -45,6 +53,19 @@ class FragmentMoviesDetails @Inject constructor() : Fragment(R.layout.fragment_m
     private val glide by lazy { Glide.with(this) }
     private val castAdapter by lazy { CastAdapter(glide) }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            drawingViewId = R.id.nav_host_fragment
+            duration = 300L
+            scrimColor = Color.TRANSPARENT
+            context?.let {
+                setAllContainerColors(MaterialColors.getColor(it, R.attr.colorBackground, Color.RED))
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
@@ -53,6 +74,7 @@ class FragmentMoviesDetails @Inject constructor() : Fragment(R.layout.fragment_m
 
     private fun initViews() {
         binding.apply {
+            postponeEnterTransition()
             initToolbar(toolbar)
             castAdapter.setHasStableIds(true)
             rvCast.apply {
@@ -82,6 +104,32 @@ class FragmentMoviesDetails @Inject constructor() : Fragment(R.layout.fragment_m
             binding.apply {
                 glide.loadImage(moviePreview.backdrop)
                     .placeholder(R.drawable.film_poster_placeholder)
+                    .listener(
+                        object : RequestListener<Drawable> {
+                            override fun onLoadFailed(
+                                e: GlideException?,
+                                model: Any?,
+                                target: Target<Drawable>?,
+                                isFirstResource: Boolean
+                            ): Boolean {
+                                startPostponedEnterTransition()
+                                return false
+                            }
+
+                            override fun onResourceReady(
+                                resource: Drawable?,
+                                model: Any?,
+                                target: Target<Drawable>?,
+                                dataSource: DataSource?,
+                                isFirstResource: Boolean
+                            ): Boolean {
+                                startPostponedEnterTransition()
+                                return false
+                            }
+                        }
+                    ).apply(
+                        RequestOptions().dontTransform()
+                    )
                     .into(ivCover)
                 collapsingToolbar.title = moviePreview.title
                 tvAgeLimit.text =
@@ -159,7 +207,8 @@ class FragmentMoviesDetails @Inject constructor() : Fragment(R.layout.fragment_m
         year: Int,
         month: Int,
         dayOfMonth: Int,
-        hourOfDay: Int, minute: Int
+        hourOfDay: Int,
+        minute: Int
     ) {
         val selectedDate = Calendar.getInstance()
         selectedDate.set(Calendar.YEAR, year)
@@ -207,14 +256,6 @@ class FragmentMoviesDetails @Inject constructor() : Fragment(R.layout.fragment_m
     companion object {
 
         const val MOVIE_ARGUMENT = "Movie"
-
-        fun newInstance(movie: Movie): FragmentMoviesDetails {
-            val args = Bundle()
-            args.putParcelable(MOVIE_ARGUMENT, movie)
-            val fragment = FragmentMoviesDetails()
-            fragment.arguments = args
-            return fragment
-        }
 
         fun newInstance(arguments: Bundle): FragmentMoviesDetails {
             val fragment = FragmentMoviesDetails()

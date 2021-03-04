@@ -13,6 +13,9 @@ object AppDependencies {
     private const val material = "com.google.android.material:material:${Versions.material_version}"
     private const val swipeToRefresh =
         "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.swipetorefresh_version}"
+    private const val navFragment = "androidx.navigation:navigation-fragment:${Versions.nav_version}"
+    private const val navUI = "androidx.navigation:navigation-ui:${Versions.nav_version}"
+    private const val navFuture = "androidx.navigation:navigation-dynamic-features-fragment:${Versions.nav_version}"
 
     // RatingBar
     private const val ratingBar =
@@ -117,7 +120,10 @@ object AppDependencies {
         hiltAndroid,
         hiltLifecycleViewModel,
         hiltWorker,
-        workManager
+        workManager,
+        navFragment,
+        navUI,
+        navFuture
     )
 
     val kaptLibraries = arrayListOf(

@@ -7,6 +7,7 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint").version("9.4.1")
     id("dagger.hilt.android.plugin")
     id("jacoco-custom")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
