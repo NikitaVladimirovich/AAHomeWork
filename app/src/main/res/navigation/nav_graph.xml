@@ -3,7 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/fragmentMoviesList">
+    app:startDestination="@id/fragmentSplash">
+
+    <fragment
+        android:id="@+id/fragmentSplash"
+        android:name="com.aacademy.homework.ui.splash.FragmentSplash"
+        android:label="FragmentSplash"
+        tools:layout="@layout/fragment_splash">
+        <action
+            android:id="@+id/action_fragmentSplash_to_fragmentMoviesList"
+            app:destination="@id/fragmentMoviesList"
+            app:popUpTo="@id/fragmentSplash"
+            app:popUpToInclusive="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/fragmentMoviesList"
