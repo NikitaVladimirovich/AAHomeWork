@@ -81,6 +81,7 @@ class MoviesListViewModel @Inject constructor(
                 if (currentPage == 1) {
                     moviesList = apiMoviesResponse.second.toMutableList()
                 } else {
+                    moviesList = moviesList.toMutableList()
                     moviesList.addAll(apiMoviesResponse.second)
                 }
                 _movies.postValue(

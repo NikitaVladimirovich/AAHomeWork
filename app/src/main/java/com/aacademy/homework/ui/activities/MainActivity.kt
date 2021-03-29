@@ -157,4 +157,13 @@ class MainActivity : AppCompatActivity() {
             arguments
         )
     }
+
+    fun openMoviesList() {
+        findNavController(
+            this@MainActivity,
+            id.nav_host_fragment
+        ).navigate(
+            id.action_fragmentSplash_to_fragmentMoviesList
+        )
+    }
 }

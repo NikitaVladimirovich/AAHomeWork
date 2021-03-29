@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/image_camera">
+    <target
+        android:name="lens"
+        android:animation="@animator/lens" />
+    <target
+        android:name="left_circle"
+        android:animation="@animator/left_circle" />
+    <target
+        android:name="right_circle"
+        android:animation="@animator/left_circle" />
+</animated-vector>

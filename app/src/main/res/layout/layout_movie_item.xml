@@ -1,166 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/space1.5x"
-    app:cardBackgroundColor="?attr/colorBackground"
-    app:cardCornerRadius="@dimen/movieCardCornerRadius"
-    app:cardElevation="@dimen/space6x"
-    app:contentPadding="@dimen/movieCardStrokeWidth"
-    app:strokeColor="?attr/colorCardStroke"
-    app:strokeWidth="@dimen/movieCardStrokeWidth">
+    android:background="@drawable/movie_card_bg"
+    android:elevation="@dimen/space6x"
+    android:padding="@dimen/movieCardStrokeWidth">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_vertical_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/space2x" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_vertical_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/space2x" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_horizontal_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="@dimen/space2x" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_cover"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/cardCoverHeight"
+        android:layout_marginEnd="@dimen/movieCardStrokeWidth"
+        android:layout_marginStart="@dimen/movieCardStrokeWidth"
+        android:layout_marginTop="@dimen/movieCardStrokeWidth"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/MovieCard.ImageAppearance"
+        tools:ignore="ContentDescription"
+        tools:srcCompat="@drawable/film_poster_placeholder" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/cover_mask"
+        app:layout_constraintBottom_toBottomOf="@id/iv_cover"
+        app:layout_constraintEnd_toEndOf="@id/iv_cover"
+        app:layout_constraintStart_toStartOf="@id/iv_cover"
+        app:layout_constraintTop_toTopOf="@id/iv_cover" />
+
+    <LinearLayout
+        android:id="@+id/ll_like"
+        android:layout_width="@dimen/space8x"
+        android:layout_height="@dimen/space8x"
+        android:layout_marginTop="@dimen/space0.5x"
+        android:padding="@dimen/space2x"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/cb_like"
+            style="@style/LikeCheckBox"
+            android:layout_width="@dimen/space4x"
+            android:layout_height="@dimen/space4x"
+            android:clickable="false"
+            android:enabled="false" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_age_limit"
+        style="@style/AgeLimit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/age_limit_rectangle"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="@id/guide_vertical_left"
+        app:layout_constraintTop_toTopOf="@id/guide_horizontal_top"
+        tools:text="13+" />
+
+    <TextView
+        android:id="@+id/tv_tags"
+        style="@style/CardMovieTag"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/space0.5x"
+        app:layout_constraintBottom_toTopOf="@+id/tv_reviews"
+        app:layout_constraintLeft_toLeftOf="@id/guide_vertical_left"
+        app:layout_constraintRight_toRightOf="@id/guide_vertical_right"
+        tools:text="Action, Adventure, Fantasy" />
+
+    <me.zhanghai.android.materialratingbar.MaterialRatingBar
+        android:id="@+id/rb_rating"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/space3x"
+        android:theme="@style/RatingBar"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_cover"
+        app:layout_constraintLeft_toLeftOf="@id/guide_vertical_left"
+        tools:rating="4.5" />
+
+    <TextView
+        android:id="@+id/tv_reviews"
+        style="@style/CardMovieReview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space2x"
+        android:textAllCaps="true"
+        app:layout_constraintBottom_toBottomOf="@+id/rb_rating"
+        app:layout_constraintLeft_toRightOf="@+id/rb_rating"
+        app:layout_constraintRight_toRightOf="@id/guide_vertical_right"
+        app:layout_constraintTop_toTopOf="@+id/rb_rating"
+        tools:text="125 reviews" />
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guide_vertical_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="@dimen/space2x" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guide_vertical_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_end="@dimen/space2x" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guide_horizontal_top"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="@dimen/space2x" />
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/iv_cover"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/cardCoverHeight"
-            android:layout_marginEnd="@dimen/movieCardStrokeWidth"
-            android:layout_marginStart="@dimen/movieCardStrokeWidth"
-            android:layout_marginTop="@dimen/movieCardStrokeWidth"
-            android:scaleType="centerCrop"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/MovieCard.ImageAppearance"
-            tools:ignore="ContentDescription"
-            tools:srcCompat="@drawable/film_poster_placeholder" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@drawable/cover_mask"
-            app:layout_constraintBottom_toBottomOf="@id/iv_cover"
-            app:layout_constraintEnd_toEndOf="@id/iv_cover"
-            app:layout_constraintStart_toStartOf="@id/iv_cover"
-            app:layout_constraintTop_toTopOf="@id/iv_cover" />
-
-        <LinearLayout
-            android:id="@+id/ll_like"
-            android:layout_width="@dimen/space8x"
-            android:layout_height="@dimen/space8x"
-            android:layout_marginTop="@dimen/space0.5x"
-            android:padding="@dimen/space2x"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/cb_like"
-                style="@style/LikeCheckBox"
-                android:layout_width="@dimen/space4x"
-                android:layout_height="@dimen/space4x"
-                android:clickable="false"
-                android:enabled="false" />
-        </LinearLayout>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/space2x"
+        app:layout_constraintTop_toBottomOf="@+id/iv_cover">
 
         <TextView
-            android:id="@+id/tv_age_limit"
-            style="@style/AgeLimit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/age_limit_rectangle"
-            android:gravity="center"
-            app:layout_constraintStart_toStartOf="@id/guide_vertical_left"
-            app:layout_constraintTop_toTopOf="@id/guide_horizontal_top"
-            tools:text="13+" />
-
-        <TextView
-            android:id="@+id/tv_tags"
-            style="@style/CardMovieTag"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/space0.5x"
-            app:layout_constraintBottom_toTopOf="@+id/tv_reviews"
-            app:layout_constraintLeft_toLeftOf="@id/guide_vertical_left"
-            app:layout_constraintRight_toRightOf="@id/guide_vertical_right"
-            tools:text="Action, Adventure, Fantasy" />
-
-        <me.zhanghai.android.materialratingbar.MaterialRatingBar
-            android:id="@+id/rb_rating"
-            style="?android:attr/ratingBarStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/space3x"
-            android:theme="@style/RatingBar"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_cover"
-            app:layout_constraintLeft_toLeftOf="@id/guide_vertical_left"
-            tools:rating="4.5" />
-
-        <TextView
-            android:id="@+id/tv_reviews"
-            style="@style/CardMovieReview"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space2x"
-            android:textAllCaps="true"
-            app:layout_constraintBottom_toBottomOf="@+id/rb_rating"
-            app:layout_constraintLeft_toRightOf="@+id/rb_rating"
-            app:layout_constraintRight_toRightOf="@id/guide_vertical_right"
-            app:layout_constraintTop_toTopOf="@+id/rb_rating"
-            tools:text="125 reviews" />
-
-        <LinearLayout
+            android:id="@+id/tvName"
+            style="@style/CardMovieName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/space2x"
-            app:layout_constraintTop_toBottomOf="@+id/iv_cover">
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:lines="1"
+            tools:text="Avengers: End Game" />
 
-            <TextView
-                android:id="@+id/tvName"
-                style="@style/CardMovieName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:lines="1"
-                tools:text="Avengers: End Game" />
+        <TextView
+            android:id="@+id/tvMin"
+            style="@style/CardMovieMin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="true"
+            tools:text="137 MIN" />
 
-            <TextView
-                android:id="@+id/tvMin"
-                style="@style/CardMovieMin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAllCaps="true"
-                tools:text="137 MIN" />
+    </LinearLayout>
 
-        </LinearLayout>
+    <ImageView
+        android:id="@+id/ivLike"
+        android:layout_width="@dimen/likeAnimImageSize"
+        android:layout_height="@dimen/likeAnimImageSize"
+        android:contentDescription="@string/likeAnim"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_like_filled" />
 
-        <ImageView
-            android:id="@+id/ivLike"
-            android:layout_width="@dimen/likeAnimImageSize"
-            android:layout_height="@dimen/likeAnimImageSize"
-            android:contentDescription="@string/likeAnim"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_like_filled" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</com.google.android.material.card.MaterialCardView>
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/ripple"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+</androidx.constraintlayout.widget.ConstraintLayout>
