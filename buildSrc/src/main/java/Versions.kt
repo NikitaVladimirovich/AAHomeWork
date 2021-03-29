@@ -21,10 +21,12 @@ object Versions {
     const val retrofit_version = "2.9.0"
     const val serialization_converter_version = "0.8.0"
     const val okhttp3 = "4.9.0"
-    const val hilt_version = "2.30.1-alpha"
-    const val hilt_compiler_version = "1.0.0-alpha02"
+    const val hilt_version = "2.31.2-alpha"
+    const val hilt_extensions_version = "1.0.0-alpha03"
     const val swipetorefresh_version = "1.0.0"
     const val rating_bar_version = "1.4.0"
+    const val work_manager_version = "2.5.0"
+    const val nav_version = "2.3.3"
 
     //Test
     const val junit_version = "4.13.1"

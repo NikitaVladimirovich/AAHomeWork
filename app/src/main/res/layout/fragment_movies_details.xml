@@ -4,18 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:transitionName="@string/movie_card_detail_transition_name"
     android:background="?attr/colorBackground"
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/appbarlayout"
         android:background="?attr/colorBackground"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsingToolbar"
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
@@ -31,7 +33,7 @@
                 android:fitsSystemWindows="true">
 
                 <ImageView
-                    android:id="@+id/ivCover"
+                    android:id="@+id/iv_cover"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/detailCoverHeight"
                     android:fitsSystemWindows="true"
@@ -72,110 +74,110 @@
             android:paddingBottom="@dimen/space4x">
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideVerticalLeft"
+                android:id="@+id/guide_vertical_left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_begin="@dimen/space4x" />
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideVerticalRight"
+                android:id="@+id/guide_vertical_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_end="@dimen/space4x" />
 
             <TextView
-                android:id="@+id/tvAgeLimit"
-                style="@style/AgeLimit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space"
-                android:background="@drawable/age_limit_rectangle"
-                android:gravity="center"
-                app:layout_constraintRight_toLeftOf="@+id/guideVerticalRight"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="13+" />
-
-            <TextView
-                android:id="@+id/tvTags"
+                android:id="@+id/tv_tags"
                 style="@style/DetailMovieTag"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/space"
                 android:layout_marginTop="@dimen/space"
-                app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
-                app:layout_constraintRight_toLeftOf="@+id/tvAgeLimit"
+                app:layout_constraintLeft_toRightOf="@+id/guide_vertical_left"
+                app:layout_constraintRight_toLeftOf="@+id/tv_age_limit"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Action, Adventure, Fantasy" />
 
             <me.zhanghai.android.materialratingbar.MaterialRatingBar
-                android:id="@+id/rbRating"
+                android:id="@+id/rb_rating"
                 style="@style/RatingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/space4x"
-                app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
-                app:layout_constraintTop_toTopOf="@+id/tvReviews"
-                app:layout_constraintBottom_toBottomOf="@+id/tvReviews"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_reviews"
+                app:layout_constraintLeft_toRightOf="@+id/guide_vertical_left"
+                app:layout_constraintTop_toTopOf="@+id/tv_reviews"
                 tools:rating="3" />
 
             <TextView
-                android:id="@+id/tvReviews"
+                android:id="@+id/tv_reviews"
                 style="@style/DetailMovieReviews"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space2x"
                 android:layout_marginTop="@dimen/space"
                 android:textAllCaps="true"
-                app:layout_constraintLeft_toRightOf="@+id/rbRating"
-                app:layout_constraintRight_toLeftOf="@+id/guideVerticalRight"
-                app:layout_constraintTop_toBottomOf="@+id/tvTags"
+                app:layout_constraintLeft_toRightOf="@+id/rb_rating"
+                app:layout_constraintRight_toLeftOf="@+id/guide_vertical_right"
+                app:layout_constraintTop_toBottomOf="@+id/tv_tags"
                 tools:text="125 reviews" />
 
             <TextView
-                android:id="@+id/tvStorylineHeader"
+                android:id="@+id/tv_age_limit"
+                style="@style/AgeLimit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space"
+                android:background="@drawable/age_limit_rectangle"
+                android:gravity="center"
+                app:layout_constraintLeft_toRightOf="@+id/guide_vertical_left"
+                app:layout_constraintTop_toBottomOf="@+id/tv_reviews"
+                tools:text="13+" />
+
+            <TextView
+                android:id="@+id/tv_storyline_header"
                 style="@style/DetailMovieSectionTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space6x"
                 android:text="@string/storylineTitle"
-                app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
-                app:layout_constraintRight_toLeftOf="@+id/guideVerticalRight"
-                app:layout_constraintTop_toBottomOf="@+id/tvReviews" />
+                app:layout_constraintLeft_toRightOf="@+id/guide_vertical_left"
+                app:layout_constraintRight_toLeftOf="@+id/guide_vertical_right"
+                app:layout_constraintTop_toBottomOf="@+id/tv_age_limit" />
 
             <TextView
-                android:id="@+id/tvStoryline"
+                android:id="@+id/tv_storyline"
                 style="@style/DetailMovieStoryline"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space"
                 android:alpha="0.75"
-                app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
-                app:layout_constraintRight_toLeftOf="@+id/guideVerticalRight"
-                app:layout_constraintTop_toBottomOf="@+id/tvStorylineHeader"
+                app:layout_constraintLeft_toRightOf="@+id/guide_vertical_left"
+                app:layout_constraintRight_toLeftOf="@+id/guide_vertical_right"
+                app:layout_constraintTop_toBottomOf="@+id/tv_storyline_header"
                 tools:text="@tools:sample/lorem/random" />
 
             <TextView
-                android:id="@+id/tvCast"
+                android:id="@+id/tv_cast"
                 style="@style/DetailMovieSectionTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space6x"
                 android:text="@string/castTitle"
-                app:layout_constraintLeft_toRightOf="@+id/guideVerticalLeft"
-                app:layout_constraintRight_toLeftOf="@+id/guideVerticalRight"
-                app:layout_constraintTop_toBottomOf="@+id/tvStoryline" />
+                app:layout_constraintLeft_toRightOf="@+id/guide_vertical_left"
+                app:layout_constraintRight_toLeftOf="@+id/guide_vertical_right"
+                app:layout_constraintTop_toBottomOf="@+id/tv_storyline" />
 
             <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/barrierHorizontalCastBottom"
+                android:id="@+id/barrier_horizontal_cast_bottom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
                 app:barrierMargin="@dimen/space2x"
-                app:constraint_referenced_ids="tvCast" />
+                app:constraint_referenced_ids="tv_cast" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvCast"
+                android:id="@+id/rv_cast"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
@@ -184,17 +186,30 @@
                 android:paddingStart="@dimen/space3x"
                 android:paddingTop="@dimen/space2x"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/tvCast"
+                app:layout_constraintTop_toBottomOf="@id/tv_cast"
                 app:spanCount="4"
                 tools:listitem="@layout/layout_cast_item" />
 
             <com.aacademy.homework.ui.views.ErrorView
                 android:id="@+id/error_view"
                 android:layout_width="match_parent"
-                android:visibility="gone"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tvStorylineHeader" />
+                app:layout_constraintTop_toTopOf="@id/tv_storyline_header" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_calendar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/space4x"
+        android:src="@drawable/ic_calendar"
+        app:backgroundTint="@color/colorAccentPink"
+        app:layout_anchor="@id/appbarlayout"
+        app:layout_anchorGravity="bottom|right|end"
+        app:tint="@android:color/white" />
+
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

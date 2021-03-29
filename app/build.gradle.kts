@@ -6,11 +6,18 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization")
     id("org.jlleitschuh.gradle.ktlint").version("9.4.1")
     id("dagger.hilt.android.plugin")
+    id("jacoco-custom")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
     compileSdkVersion(AppConfig.compileSdk)
     buildToolsVersion(AppConfig.buildToolsVersion)
+
+    packagingOptions {
+        exclude("META-INF/AL2.0")
+        exclude("META-INF/LGPL2.1")
+    }
 
     defaultConfig {
         applicationId = "com.aacademy.homework"
@@ -28,6 +35,9 @@ android {
         getByName("release") {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+        }
+        getByName("debug") {
+            isTestCoverageEnabled = true
         }
     }
 
@@ -61,6 +71,8 @@ dependencies {
     // Test libs
     testImplementation(AppDependencies.testLibraries)
     androidTestImplementation(AppDependencies.androidTestLibraries)
+    kaptAndroidTest(AppDependencies.kaptAndroidTestLibraries)
+    kaptTest(AppDependencies.kaptTestLibraries)
 }
 
 kapt {

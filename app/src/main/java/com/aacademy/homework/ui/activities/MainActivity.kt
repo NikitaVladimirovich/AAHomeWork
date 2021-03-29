@@ -1,11 +1,10 @@
 package com.aacademy.homework.ui.activities
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Bitmap.Config.ARGB_8888
 import android.graphics.Canvas
 import android.os.Bundle
-import android.os.SystemClock
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
@@ -14,18 +13,17 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
-import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.aacademy.homework.R
-import com.aacademy.homework.R.anim
 import com.aacademy.homework.R.id
 import com.aacademy.homework.data.model.Movie
 import com.aacademy.homework.data.preferences.MyPreference
 import com.aacademy.homework.databinding.ActivityMainBinding
-import com.aacademy.homework.extensions.open
 import com.aacademy.homework.extensions.viewBinding
-import com.aacademy.homework.ui.moviedetail.FragmentMoviesDetails
 import com.aacademy.homework.ui.movielist.FragmentMoviesList
+import com.aacademy.homework.ui.movielist.FragmentMoviesListDirections
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -45,51 +43,45 @@ class MainActivity : AppCompatActivity() {
 
     private val binding by viewBinding(ActivityMainBinding::inflate)
 
-    private var detailsFragmentOpened = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_AAHomeWork)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+    }
 
-        savedInstanceState ?: supportFragmentManager.open {
-            add(id.flContainer, FragmentMoviesList.newInstance(), FRAGMENT_TAG)
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        intent?.let(::handleIntent)
+    }
+
+    private fun handleIntent(intent: Intent) {
+        when (intent.action) {
+            Intent.ACTION_VIEW -> {
+                intent.data?.lastPathSegment?.toLongOrNull()?.let {
+                    intent.extras?.let(::openMovieDetail)
+                }
+            }
         }
     }
 
     override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount == 0) {
+        if (supportFragmentManager.findFragmentById(id.nav_host_fragment)?.childFragmentManager?.backStackEntryCount == 0) {
             finishAfterTransition()
         } else {
-            detailsFragmentOpened = false
-            super.onBackPressed()
+            findNavController(
+                this@MainActivity,
+                id.nav_host_fragment
+            ).navigateUp()
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.movie_list, menu)
-        return true
-    }
-
-    private var lastTimeOptionsItemSelected: Long = 0
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
                 onBackPressed()
             }
-            id.action_theme -> {
-                if (SystemClock.elapsedRealtime() - lastTimeOptionsItemSelected > 1000) {
-                    lastTimeOptionsItemSelected = SystemClock.elapsedRealtime()
-                    changeTheme(findViewById(id.action_theme))
-                }
-            }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun setSupportActionBar(toolbar: Toolbar?) {
-        super.setSupportActionBar(toolbar)
-        title = ""
     }
 
     fun showLoading() {
@@ -100,14 +92,13 @@ class MainActivity : AppCompatActivity() {
         binding.progressView.visibility = GONE
     }
 
-    private fun changeTheme(view: View) {
-        if (detailsFragmentOpened) return
+    internal fun changeTheme(view: View) {
         lifecycleScope.launch(Dispatchers.IO) {
-            val w = binding.flContainer.measuredWidth
-            val h = binding.flContainer.measuredHeight
+            val w = binding.navHostFragment.measuredWidth
+            val h = binding.navHostFragment.measuredHeight
             val bitmap = Bitmap.createBitmap(w, h, ARGB_8888)
             val canvas = Canvas(bitmap)
-            binding.flContainer.draw(canvas)
+            binding.navHostFragment.draw(canvas)
 
             val location = IntArray(2)
             view.getLocationOnScreen(location)
@@ -125,38 +116,45 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            supportFragmentManager.findFragmentByTag(FRAGMENT_TAG)?.let { fr ->
-                fr.arguments = FragmentMoviesList.createBundle(
-                    location[0] + view.measuredWidth / 2,
-                    location[1] + view.measuredHeight / 2,
-                    sqrt((w * w + h * h).toDouble()).toFloat()
-                )
-                supportFragmentManager
-                    .beginTransaction()
-                    .detach(fr)
-                    .attach(fr)
-                    .commit()
+            supportFragmentManager.findFragmentById(id.nav_host_fragment)?.childFragmentManager?.let { fragmentManager ->
+                fragmentManager.fragments.firstOrNull()
+                    ?.let { fr ->
+                        fr.arguments = FragmentMoviesList.createBundle(
+                            location[0] + view.measuredWidth / 2,
+                            location[1] + view.measuredHeight / 2,
+                            sqrt((w * w + h * h).toDouble()).toFloat()
+                        )
+                        fragmentManager
+                            .beginTransaction()
+                            .detach(fr)
+                            .attach(fr)
+                            .commit()
+                    }
             }
 
             prefs.appTheme = delegate.localNightMode
         }
     }
 
-    fun openMovieDetail(movie: Movie) {
-        supportFragmentManager.open {
-            setCustomAnimations(
-                anim.fade_in,
-                anim.fade_out,
-                anim.fade_in,
-                anim.fade_out
-            )
-            add(id.flContainer, FragmentMoviesDetails.newInstance(movie), FRAGMENT_TAG)
-            addToBackStack(null)
-        }
+    fun openMovieDetail(sharedView: View, movie: Movie) {
+        val action = FragmentMoviesListDirections.actionFragmentMoviesListToFragmentMoviesDetails(movie)
+        val extras = FragmentNavigatorExtras(sharedView to getString(R.string.movie_card_detail_transition_name))
+        findNavController(
+            this@MainActivity,
+            id.nav_host_fragment
+        ).navigate(
+            action,
+            extras
+        )
     }
 
-    companion object {
-
-        private const val FRAGMENT_TAG = "FragmentTag"
+    private fun openMovieDetail(arguments: Bundle) {
+        findNavController(
+            this@MainActivity,
+            id.nav_host_fragment
+        ).navigate(
+            id.action_fragmentMoviesList_to_fragmentMoviesDetails,
+            arguments
+        )
     }
 }

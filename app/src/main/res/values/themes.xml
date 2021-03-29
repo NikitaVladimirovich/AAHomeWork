@@ -33,4 +33,16 @@
     <style name="Theme.AAHomeWork.Launcher">
         <item name="android:windowBackground">@drawable/launch_screen</item>
     </style>
+
+    <style name="DateTimePickerDialog" parent="Theme.MaterialComponents.DayNight.Dialog">
+        <item name="android:windowBackground">@color/colorBackgroundLight</item>
+        <item name="colorPrimary">@color/colorBackgroundLight</item>
+        <item name="colorPrimaryDark">@color/colorReviewsTextLight</item>
+        <item name="colorAccent">@color/colorAccentPink</item>
+        <item name="android:buttonBarButtonStyle">@style/DateTimePickerDialog.buttonBarButtonStyle</item>
+    </style>
+
+    <style name="DateTimePickerDialog.buttonBarButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/colorAccentPink</item>
+    </style>
 </resources>

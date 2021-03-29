@@ -10,14 +10,14 @@
         android:layout_height="0dp"
         android:contentDescription="@string/nothing_found"
         android:src="@drawable/ic_not_found"
-        app:layout_constraintBottom_toTopOf="@+id/text"
+        app:layout_constraintBottom_toTopOf="@+id/tv_message"
         app:layout_constraintDimensionRatio="5:1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
         app:tint="?attr/colorText" />
 
     <TextView
-        android:id="@+id/text"
+        android:id="@+id/tv_message"
         style="@style/NothingFoundText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

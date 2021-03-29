@@ -19,8 +19,8 @@ class LocalSourceImpl @Inject constructor(private val database: AppDatabase) : L
 
     override suspend fun getActors(movieId: Long): List<Actor> = database.actorDao().getActors(movieId)
 
-    override suspend fun cacheActors(actors: List<Actor>) {
-        database.actorDao().clearActors()
+    override suspend fun cacheActors(movieId: Long, actors: List<Actor>) {
+        database.actorDao().clearActors(movieId)
         database.actorDao().insert(actors)
     }
 }

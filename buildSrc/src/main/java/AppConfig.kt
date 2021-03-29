@@ -7,5 +7,5 @@ object AppConfig {
     const val versionName = "1.0.0"
     const val buildToolsVersion = "30.0.2"
 
-    const val androidTestInstrumentation = "androidx.test.runner.AndroidJUnitRunner"
+    const val androidTestInstrumentation = "com.aacademy.homework.CustomTestRunner"
 }
