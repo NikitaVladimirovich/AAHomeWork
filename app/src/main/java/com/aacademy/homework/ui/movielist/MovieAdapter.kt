@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.aacademy.homework.R
 import com.aacademy.homework.R.string
-import com.aacademy.homework.data.model.Movie
 import com.aacademy.homework.databinding.LayoutMovieItemBinding
+import com.aacademy.homework.entities.MovieParcelable
 import com.aacademy.homework.extensions.loadImage
 import com.aacademy.homework.extensions.setSafeOnClickListener
 import com.aacademy.homework.ui.movielist.MovieAdapter.MovieViewHolder
@@ -20,21 +20,21 @@ import com.bumptech.glide.RequestManager
 class MovieAdapter(
     private val glide: RequestManager,
     private val resources: Resources,
-    private val itemClickListener: (View, Movie) -> Unit,
+    private val itemClickListener: (View, MovieParcelable) -> Unit,
     private val likeStateChangeListener: (Long, Boolean) -> Unit
 ) : RecyclerView.Adapter<MovieViewHolder>() {
 
-    private val diffCallback = object : DiffUtil.ItemCallback<Movie>() {
-        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean =
+    private val diffCallback = object : DiffUtil.ItemCallback<MovieParcelable>() {
+        override fun areItemsTheSame(oldItem: MovieParcelable, newItem: MovieParcelable): Boolean =
             oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean =
+        override fun areContentsTheSame(oldItem: MovieParcelable, newItem: MovieParcelable): Boolean =
             oldItem.hashCode() == newItem.hashCode()
     }
 
     private val differ = AsyncListDiffer(this, diffCallback)
 
-    var movies: List<Movie>
+    var movies: List<MovieParcelable>
         get() = differ.currentList
         set(value) = differ.submitList(value)
 
@@ -55,7 +55,7 @@ class MovieAdapter(
 
     inner class MovieViewHolder(private val binding: LayoutMovieItemBinding) : LikeViewHolder(binding) {
 
-        fun bind(movie: Movie) {
+        fun bind(movie: MovieParcelable) {
             binding.tvName.text = movie.title
             glide.loadImage(movie.poster)
                 .placeholder(R.drawable.film_poster_placeholder)

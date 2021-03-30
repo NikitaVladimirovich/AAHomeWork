@@ -27,7 +27,7 @@
             app:destination="@id/fragmentMoviesDetails">
             <argument
                 android:name="Movie"
-                app:argType="com.aacademy.homework.data.model.Movie" />
+                app:argType="com.aacademy.homework.entities.MovieParcelable" />
         </action>
     </fragment>
     <fragment

@@ -4,7 +4,6 @@ plugins {
     kotlin("kapt")
     id("kotlin-parcelize")
     id("org.jetbrains.kotlin.plugin.serialization")
-    id("org.jlleitschuh.gradle.ktlint").version("9.4.1")
     id("dagger.hilt.android.plugin")
     id("jacoco-custom")
     id("androidx.navigation.safeargs.kotlin")
@@ -27,8 +26,6 @@ android {
         versionName = AppConfig.versionName
 
         testInstrumentationRunner = AppConfig.androidTestInstrumentation
-
-        buildConfigField("String", "API_KEY", ApiConfig.apiKey)
     }
 
     buildTypes {
@@ -73,6 +70,9 @@ dependencies {
     androidTestImplementation(AppDependencies.androidTestLibraries)
     kaptAndroidTest(AppDependencies.kaptAndroidTestLibraries)
     kaptTest(AppDependencies.kaptTestLibraries)
+
+    implementation(project(":domain"))
+    implementation(project(":data"))
 }
 
 kapt {

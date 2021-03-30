@@ -1,7 +1,7 @@
 package com.aacademy.homework.foundations.glide
 
 import android.content.Context
-import com.aacademy.homework.di.GlideModuleEntryPoint
+import com.aacademy.data.di.GlideModuleEntryPoint
 import com.aacademy.homework.foundations.glide.CustomImageLoader.Factory
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Registry

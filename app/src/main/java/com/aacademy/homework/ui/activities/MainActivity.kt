@@ -16,11 +16,11 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import com.aacademy.data.preferences.MyPreference
 import com.aacademy.homework.R
 import com.aacademy.homework.R.id
-import com.aacademy.homework.data.model.Movie
-import com.aacademy.homework.data.preferences.MyPreference
 import com.aacademy.homework.databinding.ActivityMainBinding
+import com.aacademy.homework.entities.MovieParcelable
 import com.aacademy.homework.extensions.viewBinding
 import com.aacademy.homework.ui.movielist.FragmentMoviesList
 import com.aacademy.homework.ui.movielist.FragmentMoviesListDirections
@@ -136,7 +136,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun openMovieDetail(sharedView: View, movie: Movie) {
+    fun openMovieDetail(sharedView: View, movie: MovieParcelable) {
         val action = FragmentMoviesListDirections.actionFragmentMoviesListToFragmentMoviesDetails(movie)
         val extras = FragmentNavigatorExtras(sharedView to getString(R.string.movie_card_detail_transition_name))
         findNavController(

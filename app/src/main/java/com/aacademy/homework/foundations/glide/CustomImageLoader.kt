@@ -1,6 +1,6 @@
 package com.aacademy.homework.foundations.glide
 
-import com.aacademy.homework.data.preferences.MyPreference
+import com.aacademy.data.preferences.MyPreference
 import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.ModelLoader

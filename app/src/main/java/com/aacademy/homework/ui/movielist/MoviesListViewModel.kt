@@ -4,9 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aacademy.homework.data.DataRepository
-import com.aacademy.homework.data.model.Movie
+import com.aacademy.domain.usecases.GetApiMoviesUseCase
+import com.aacademy.domain.usecases.GetDbMoviesUseCase
+import com.aacademy.domain.usecases.LikeMovieUseCase
+import com.aacademy.homework.entities.MovieParcelable
 import com.aacademy.homework.foundations.Resource
+import com.aacademy.homework.mappers.MovieParcelableMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -24,12 +27,14 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @HiltViewModel
 class MoviesListViewModel @Inject constructor(
-    private val dataRepository: DataRepository,
+    private val getApiMoviesUseCase: GetApiMoviesUseCase,
+    private val getDbMoviesUseCase: GetDbMoviesUseCase,
+    private val likeMovieUseCase: LikeMovieUseCase,
     private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    private val _movies = MutableLiveData<Resource<List<Movie>>>()
-    val movies: LiveData<Resource<List<Movie>>> = _movies
+    private val _movies = MutableLiveData<Resource<List<MovieParcelable>>>()
+    val movies: LiveData<Resource<List<MovieParcelable>>> = _movies
 
     private val moviesExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         Timber.e(throwable)
@@ -38,7 +43,7 @@ class MoviesListViewModel @Inject constructor(
         isLoading = false
     }
 
-    private var moviesList: MutableList<Movie> = mutableListOf()
+    private var moviesList: MutableList<MovieParcelable> = mutableListOf()
     private var currentPage = 1
     private var isLoading = false
     private var isLastPageLoaded = false
@@ -71,18 +76,19 @@ class MoviesListViewModel @Inject constructor(
                 if (currentPage == 1)
                     _movies.postValue(Resource.loading(null))
                 if (currentPage == 1) {
-                    val dbMovies = dataRepository.getMoviesFromDB(queryFlow.value)
+                    val dbMovies = getDbMoviesUseCase.invoke(queryFlow.value)
                     if (dbMovies.isNotEmpty()) {
-                        _movies.postValue(Resource.success(dbMovies))
+                        _movies.postValue(Resource.success(dbMovies.map(MovieParcelableMapper::toMovieParcelable)))
                     }
                 }
-                val apiMoviesResponse = dataRepository.getMoviesFromAPI(queryFlow.value, currentPage)
+                val apiMoviesResponse = getApiMoviesUseCase.invoke(queryFlow.value, currentPage)
 
                 if (currentPage == 1) {
-                    moviesList = apiMoviesResponse.second.toMutableList()
+                    moviesList =
+                        apiMoviesResponse.second.map(MovieParcelableMapper::toMovieParcelable).toMutableList()
                 } else {
                     moviesList = moviesList.toMutableList()
-                    moviesList.addAll(apiMoviesResponse.second)
+                    moviesList.addAll(apiMoviesResponse.second.map(MovieParcelableMapper::toMovieParcelable))
                 }
                 _movies.postValue(
                     Resource.success(moviesList)
@@ -97,7 +103,7 @@ class MoviesListViewModel @Inject constructor(
     fun setMovieLiked(id: Long, isLiked: Boolean) {
         viewModelScope.launch(dispatcher) {
             try {
-                dataRepository.setMovieLiked(id, isLiked)
+                likeMovieUseCase.invoke(id, isLiked)
             } catch (thr: Throwable) {
                 Timber.e(thr)
             }

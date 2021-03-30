@@ -11,7 +11,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.NotificationManagerCompat.IMPORTANCE_HIGH
 import androidx.core.net.toUri
 import com.aacademy.homework.R
-import com.aacademy.homework.data.model.Movie
+import com.aacademy.homework.entities.MovieParcelable
 import com.aacademy.homework.ui.activities.MainActivity
 import com.aacademy.homework.ui.moviedetail.FragmentMoviesDetails
 import com.bumptech.glide.Glide
@@ -38,7 +38,7 @@ class NewMovieNotifications(private val context: Context) : Notifications {
     }
 
     @WorkerThread
-    override fun showNotification(movie: Movie) {
+    override fun showNotification(movie: MovieParcelable) {
         val contentUri = "app://aacademy.com/movies/${movie.id}".toUri()
 
         val futureTarget = Glide.with(context)

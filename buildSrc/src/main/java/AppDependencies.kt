@@ -81,6 +81,9 @@ object AppDependencies {
     private const val hiltCompiler =
         "androidx.hilt:hilt-compiler:${Versions.hilt_extensions_version}"
 
+    // KTLint
+    const val ktlint = "com.pinterest:ktlint:${Versions.kt_lint_version}"
+
     // Test libs
     private const val junit = "junit:junit:${Versions.junit_version}"
     private const val extJUnit = "androidx.test.ext:junit:${Versions.extJunit_version}"
@@ -126,9 +129,34 @@ object AppDependencies {
         navFuture
     )
 
+    val dataLibraries = arrayListOf(
+        kotlinStdLib,
+        coreKtx,
+        room,
+        roomKtx,
+        coroutinesAndroid,
+        lifecycleJava8,
+        serialization,
+        timber,
+        preferenceKtx,
+        retrofit2,
+        converterSerialization,
+        okhttp3,
+        okhttp3_logging_interceptor,
+        hiltAndroid,
+        hiltLifecycleViewModel,
+        hiltWorker
+    )
+
     val kaptLibraries = arrayListOf(
         roomCompiler,
         glideCompiler,
+        hiltAndroidCompiler,
+        hiltCompiler
+    )
+
+    val dataKaptLibraries = arrayListOf(
+        roomCompiler,
         hiltAndroidCompiler,
         hiltCompiler
     )

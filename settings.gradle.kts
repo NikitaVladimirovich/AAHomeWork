@@ -1,2 +1,2 @@
-include(":app")
+include("data", "domain", "app")
 rootProject.name = "AAHomeWork"

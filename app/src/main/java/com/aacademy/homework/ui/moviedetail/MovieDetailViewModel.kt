@@ -5,10 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aacademy.homework.data.DataRepository
-import com.aacademy.homework.data.model.Actor
-import com.aacademy.homework.data.model.Movie
+import com.aacademy.domain.usecases.GetApiActorsUseCase
+import com.aacademy.domain.usecases.GetDbActorsUseCase
+import com.aacademy.homework.entities.ActorParcelable
+import com.aacademy.homework.entities.MovieParcelable
 import com.aacademy.homework.foundations.Resource
+import com.aacademy.homework.mappers.ActorParcelableMapper
 import com.aacademy.homework.ui.moviedetail.FragmentMoviesDetails.Companion.MOVIE_ARGUMENT
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -23,15 +25,16 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @HiltViewModel
 class MovieDetailViewModel @Inject constructor(
-    private val dataRepository: DataRepository,
+    private val getApiActorsUseCase: GetApiActorsUseCase,
+    private val getDbActorsUseCase: GetDbActorsUseCase,
     savedStateHandle: SavedStateHandle,
     private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    val movie: Movie = savedStateHandle.get(MOVIE_ARGUMENT)!!
+    val movie: MovieParcelable = savedStateHandle.get(MOVIE_ARGUMENT)!!
 
-    private val _cast = MutableLiveData<Resource<List<Actor>>>()
-    val cast: LiveData<Resource<List<Actor>>> = _cast
+    private val _cast = MutableLiveData<Resource<List<ActorParcelable>>>()
+    val cast: LiveData<Resource<List<ActorParcelable>>> = _cast
 
     private val detailExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         Timber.e(throwable)
@@ -45,9 +48,13 @@ class MovieDetailViewModel @Inject constructor(
     fun reloadData() {
         viewModelScope.launch(dispatcher + detailExceptionHandler) {
             _cast.postValue(Resource.loading())
-            val dbActors = dataRepository.getCastFromDB(movie.id)
-            if (dbActors.isNotEmpty()) _cast.postValue(Resource.success(dbActors))
-            _cast.postValue(Resource.success(dataRepository.getCastFromAPI(movie.id)))
+            val dbActors = getDbActorsUseCase.invoke(movie.id)
+            if (dbActors.isNotEmpty()) _cast.postValue(Resource.success(dbActors.map(ActorParcelableMapper::toActorParcelable)))
+            _cast.postValue(
+                Resource.success(
+                    getApiActorsUseCase.invoke(movie.id).map(ActorParcelableMapper::toActorParcelable)
+                )
+            )
         }
     }
 }
